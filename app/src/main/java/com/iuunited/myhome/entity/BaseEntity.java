@@ -14,6 +14,7 @@ import java.io.Serializable;
  */
 public abstract class BaseEntity implements Serializable {
     private int OperateCode;
+    //返回码
     public int getOperateCode() {
         return OperateCode;
     }
