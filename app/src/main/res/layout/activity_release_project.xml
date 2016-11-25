@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    >
+    <include layout="@layout/comment_banner_top"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        >
+        <RadioGroup
+            android:id="@+id/rg_project"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:paddingBottom="0.0dip"
+            android:paddingTop="0.0dip"
+            android:background="#fff"
+            android:gravity="center_vertical"
+            >
+
+            <RadioButton
+                android:id="@+id/rb_project_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/project_one_selector"
+                android:button="@null"
+                android:paddingRight="10dip"
+                android:layout_marginLeft="68dp"
+                />
+
+
+            <RadioButton
+                android:id="@+id/rb_project_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/project_two_selector"
+                android:button="@null"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip"
+                android:checked="false"
+                android:layout_marginLeft="70dp"
+                />
+            <RadioButton
+                android:id="@+id/rb_project_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/project_three_selector"
+                android:button="@null"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip"
+                android:maxWidth="10dp"
+                android:layout_marginLeft="73dp"
+                />
+
+        </RadioGroup>
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="#BBBBBB" />
+    <FrameLayout
+        android:id="@+id/fragment_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff">
+        <com.iuunited.myhome.base.NoSwipeableViewPager
+            android:id="@+id/vp_project"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:flipInterval="30"
+            android:persistentDrawingCache="animation"/>
+    </FrameLayout>
+</LinearLayout>

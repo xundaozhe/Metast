@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="myHomeBlue">#199EFD</color>
+    <color name="textWhite">#fff</color>
+    <color name="textBlack">#333333</color>
+    <!-- 首页底部文字颜色 -->
+    <color name="tab_Color_on">#ff8c00</color>
+    <color name="tab_Color_noon">#aaaaaa</color>
+
+    <color name="lookOver">#7FA0FF</color>
+
+    <color name="light_black">#ff666666</color>
+
+    <color name="ml_gray">#ff9e9e9e</color>
+    <color name="ml_red">#ffff0000</color>
+
+    <color name="item_selector_on">#f3f2fa</color>
+
+    <color name="check_lore_bg">#EDEDF2</color>
+</resources>

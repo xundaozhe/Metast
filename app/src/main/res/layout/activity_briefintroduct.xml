@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <include layout="@layout/comment_banner_top"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#F7F7FC">
+        <ImageView
+            android:id="@+id/iv_aobama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/aobama"
+            />
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_aobama"
+            android:text="Patrick Metast"
+            android:textSize="16sp"
+            android:textColor="#3C3C3B"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_aobama"
+            android:layout_below="@id/tv_name"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:text="专业人员"
+            android:textSize="16sp"
+            android:textColor="#3C3C3B"/>
+    </RelativeLayout>
+    <include layout="@layout/line_ebebeb"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#ffffff">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="综合评分"
+            android:textSize="18sp"
+            android:textColor="#424242"
+            android:layout_marginTop="40dp"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="没有评分"
+            android:textSize="16sp"
+            android:textColor="#424242"
+            android:layout_marginTop="15dp"/>
+        <View
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#939393"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"/>
+    </LinearLayout>
+
+</LinearLayout>

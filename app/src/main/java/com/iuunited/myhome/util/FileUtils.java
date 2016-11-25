@@ -1,0 +1,130 @@
+package com.iuunited.myhome.util;
+
+import android.graphics.Bitmap;
+import android.os.Environment;
+import android.util.Log;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+/**
+ * @author xundaozhe
+ * @version $Rev$
+ * @time 2016/10/27 16:59
+ * @des ${TODO}
+ * @updateAuthor $Author$
+ * @updateDate $Date$
+ * @updateDes $TODO$
+ * Created by xundaozhe on 2016/10/27.
+ */
+public class FileUtils {
+    public static String PARENTPATH = SdcardConfig.ROOT_FOLDER + "";
+    public static String SDPATH = PARENTPATH + "formats/";// 图片存放路径
+    public static String ZIPPATH = PARENTPATH + "zip/";// 压缩后的路径
+    public static String VIDEOPATH = PARENTPATH + "video/";// 视频存放路径
+
+    // 删除zip压缩路径
+    public static void deleteZipDir() {
+        File dir = new File(ZIPPATH);
+        if (dir == null || !dir.exists() || !dir.isDirectory())
+            return;
+        for (File file : dir.listFiles()) {
+            if (file.isFile())
+                file.delete(); // 删除所有文件
+            else if (file.isDirectory())
+                deleteDir(); // 递规的方式删除文件夹
+        }
+        dir.delete();// 删除目录本身
+    }
+
+    // 删除试题视频
+    public static void deleteVideoDir() {
+        File dir = new File(VIDEOPATH);
+        if (dir == null || !dir.exists() || !dir.isDirectory())
+            return;
+        for (File file : dir.listFiles()) {
+            if (file.isFile())
+                file.delete(); // 删除所有文件
+            else if (file.isDirectory())
+                deleteDir(); // 递规的方式删除文件夹
+        }
+        dir.delete();// 删除目录本身
+    }
+
+    public static void saveBitmap(Bitmap bm, String picName) {
+        Log.e("", "保存图片");
+        try {
+            if (!isFileExist("")) {
+                File tempf = createSDDir("");
+            }
+            File f = new File(SDPATH, picName + ".JPEG");
+            if (f.exists()) {
+                f.delete();
+            }
+            FileOutputStream out = new FileOutputStream(f);
+            bm.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+            Log.e("", "已经保存");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static File createSDDir(String dirName) throws IOException {
+        File dir = new File(SDPATH + dirName);
+        if (Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED)) {
+
+            System.out.println("createSDDir:" + dir.getAbsolutePath());
+            System.out.println("createSDDir:" + dir.mkdir());
+        }
+        return dir;
+    }
+
+    public static boolean isFileExist(String fileName) {
+        File file = new File(SDPATH + fileName);
+        file.isFile();
+        return file.exists();
+    }
+
+    public static void delFile(String fileName) {
+        File file = new File(SDPATH + fileName);
+        if (file.isFile()) {
+            file.delete();
+        }
+        file.exists();
+    }
+
+    public static void deleteDir() {
+        File dir = new File(SDPATH);
+        if (dir == null || !dir.exists() || !dir.isDirectory())
+            return;
+
+        for (File file : dir.listFiles()) {
+            if (file.isFile())
+                file.delete(); // 删除所有文件
+            else if (file.isDirectory())
+                deleteDir(); // 递规的方式删除文件夹
+        }
+        dir.delete();// 删除目录本身
+    }
+
+    public static boolean fileIsExists(String path) {
+        try {
+            File f = new File(path);
+            if (!f.exists()) {
+                return false;
+            }
+        } catch (Exception e) {
+
+            return false;
+        }
+        return true;
+    }
+
+}

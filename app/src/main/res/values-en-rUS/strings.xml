@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyHome</string>
+    <string name="start_customer">Customer</string>
+    <string name="start_professional">Professional</string>
+    <string name="login_username">username</string>
+    <string name="login_password">password</string>
+    <string name="login_btn">login</string>
+    <string name="no_user">No account password?</string>
+    <string name="register">Register</string>
+    <string name="register_one_tellPhone">输入您的手机号码</string>
+    <string name="register_one_idfCode">输入验证码</string>
+    <string name="send_idf_code">获取验证码</string>
+    <string name="next">next</string>
+    <string name="register_email">输入您的电子邮箱</string>
+    <string name="register_password">输入您的密码</string>
+    <string name="submit">submit</string>
+
+</resources>

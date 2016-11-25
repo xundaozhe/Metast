@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">MyHome</string>
+    <string name="start_customer">客户</string>
+    <string name="start_professional">装修商</string>
+    <string name="login_username">输入账号</string>
+    <string name="login_password">输入密码</string>
+    <string name="login_btn">登录</string>
+    <string name="no_user">没有账号密码?</string>
+    <string name="register">注册</string>
+    <string name="register_one_tellPhone">输入您的手机号码</string>
+    <string name="register_one_idfCode">输入验证码</string>
+    <string name="send_idf_code">获取验证码</string>
+    <string name="next">下一步</string>
+    <string name="register_email">输入您的电子邮箱</string>
+    <string name="register_password">输入您的密码</string>
+    <string name="submit">提 交</string>
+
+</resources>

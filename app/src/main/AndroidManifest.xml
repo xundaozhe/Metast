@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.iuunited.myhome">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 检测网络状态 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 允许应用程序联网 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取mac地址作为用户的备用唯一标识 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 获取用户手机的IMEI，用来唯一的标识用户。 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 缓存资源优先存入SDcard -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 用于加载图片 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" /> <!-- 人人网需要权限 -->
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" /> <!-- 人人网需要权限 -->
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" >
+    </uses-permission>
+    <!-- SDCard中创建与删除文件权限 -->
+    <!-- <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" /> -->
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera" />
+    <!-- Required 自定义用来收发消息的相关权限 -->
+    <permission
+        android:name="com.jxx.android.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <!-- Required 一些系统要求的权限，如访问网络等 -->
+    <uses-permission android:name="com.jxx.android.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!--  <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" /> -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 允许应用读取低级别的系统日志文件 -->
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".base.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.NoTitleBar">
+        <!-- 高德地图SDK -->
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="caf767057fbcee065812ff8bdf8dfcfa"/>
+
+        <activity android:name=".ui.StartActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.login.LoginActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".ui.login.RegisterMobileActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.login.RegisterEmailActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.login.SettingPwdActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.MainActivity"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".ui.home.ReleaseProjectActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.home.PhotoActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.home.TestPicActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.home.ImageGridActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.home.MapActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.mine.FeedBackActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.mine.SettingActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.mine.BriefIntroductActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.project.ProjectDetailsActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.project.ProjectFinishActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.project.ProjectGradeActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.mine.AboutMyActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.mine.ForgetPwdActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.mine.ProIntroductActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.message.MessageChatActivity"
+                  android:launchMode="singleTask"/>
+
+        <!-- 高德定位服务 -->
+        <service android:name="com.amap.api.location.APSService"></service>
+    </application>
+
+</manifest>

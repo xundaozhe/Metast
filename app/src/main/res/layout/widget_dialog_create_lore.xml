@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+    >
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="40dp">
+
+                        <LinearLayout
+                            android:id="@+id/ll_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/selector_btn_white_top_corner"
+                            android:orientation="vertical" >
+
+                                <TextView
+                                    android:id="@+id/tv_title"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:minHeight="50dp"
+                                    android:padding="10dp"
+                                    android:textColor="#333333"
+                                    android:textSize="18sp" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1px"
+                                    android:background="#ffd1d1d1" />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/ll_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/textWhite"
+                            android:minHeight="60dp"
+                            android:orientation="vertical"
+                            android:padding="15dp" >
+
+                                <EditText
+                                    android:id="@+id/et_message"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="top"
+                                    android:background="@null"
+                                    android:minHeight="90dp"
+                                    android:maxLength="140"
+                                    android:textColor="#333333"
+                                    android:textSize="16sp"
+                                    android:hint="请输入技能名称"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="#ffd1d1d1" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@drawable/selector_btn_white_bottom_corner"
+                            android:orientation="horizontal" >
+
+                                <Button
+                                    android:id="@+id/dialog_btn_cancel"
+                                    android:layout_width="0dp"
+                                    android:layout_height="50dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/send_idfcode"
+                                    android:gravity="center"
+                                    android:text="取消"
+                                    android:textColor="#ffffff"
+                                    android:textSize="16sp" />
+
+                                <View
+                                    android:layout_width="1px"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center"
+                                    android:background="#ffd1d1d1" />
+
+                                <Button
+                                    android:id="@+id/dialog_btn_sure"
+                                    android:layout_width="0dp"
+                                    android:layout_height="50dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/send_idfcode"
+                                    android:gravity="center"
+                                    android:text="创建"
+                                    android:textColor="#ffffff"
+                                    android:textSize="16sp" />
+                        </LinearLayout>
+                </LinearLayout>
+        </ScrollView>
+</LinearLayout>

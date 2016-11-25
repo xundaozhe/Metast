@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyHome</string>
+    <string name="start_customer">客戶</string>
+    <string name="start_professional">裝修商</string>
+    <string name="login_username">輸入賬號</string>
+    <string name="login_password">輸入密碼</string>
+    <string name="login_btn">登錄</string>
+    <string name="no_user">沒有賬號密碼?</string>
+    <string name="register">註冊</string>
+    <string name="register_one_tellPhone">輸入您的手機號碼</string>
+    <string name="register_one_idfCode">輸入驗證碼</string>
+    <string name="send_idf_code">獲取驗證碼</string>
+    <string name="next">下一步</string>
+    <string name="register_email">輸入您的電子郵箱</string>
+    <string name="register_password">輸入您的密碼</string>
+    <string name="submit">提 交</string>
+
+
+</resources>

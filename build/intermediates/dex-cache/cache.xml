@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\com.github.ksoichiro\android-observablescrollview\1.6.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="d125b199a427e5cc8d4234f7d8673c9a27ef6336">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\com.github.ksoichiro-android-observablescrollview-1.6.0_e32146e9ed1c1ef18b5191014a947694ddc6ff81.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.3.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="debf30ce0a7560396b6235edef77e447006454c2">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.3.0_7b40dcc5c44bef8c3c27e6cb841dcbb88a02231f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\libs\eventbus-3.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="ddd99896e9569eaababbe81b35d80e1b91c4ad85">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\eventbus-3.0.0_fb1f6a962a95af7664f376522fee9ee3e838d08b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\xundaozhe\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.9.0\f824591a0016efbaeddb8300bee54832a1398cfa\okio-1.9.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="f824591a0016efbaeddb8300bee54832a1398cfa">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\okio-1.9.0_aced67863c5dcbb7672c6d372252cf4d3f8ddb16.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.3.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="a0b5d60246cd9d4f3f2443611b3b4c25265840b5">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-23.3.0_a3a2061db0a55b572dd23eba4e4fd214de4f6fdb.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\cn.finalteam\galleryfinal\1.4.6\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="8b47eb32dca3eee627e984259ce8cd99b7f669cb">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\cn.finalteam-galleryfinal-1.4.6_386dd770424ac3e1786b7125184b88a8039dea3e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\sdk\newsdk\extras\android\m2repository\com\android\support\support-annotations\23.3.0\support-annotations-23.3.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="db7791d75a07fef9844d06236c1c59ba7bf6997c">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\support-annotations-23.3.0_26f5418e0f0caf59b8d1b858631234a64811a5b0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\pub.devrel\easypermissions\0.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="745e38d006588ddc28a76c3fb085d54797380e97">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\pub.devrel-easypermissions-0.1.0_fdd2258fd0e22131dcc8ea3241d469d508ad9293.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="8a034dd16c0dfd75fe86c52c2cd581592acc684a">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.3.0_74f2d0639918061e5e585ce303de53e4809520e5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\xundaozhe\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp\3.4.2\ccde00f7ccc77af5a6d5752e2cb21f6d8998289f\okhttp-3.4.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="ccde00f7ccc77af5a6d5752e2cb21f6d8998289f">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\okhttp-3.4.2_0784b16bf9eef4693e064d2ef9b100c075679540.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.3.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="1b8e03daaa43fb0a4cd57e378167c2fd70454c1e">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.3.0_09512e161f3116020c6f070fe1e795bc7546b657.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\libs\universal-image-loader-1.9.3-SNAPSHOT.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="29cf65d299e133ec68caba92b29f69289713975b">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\universal-image-loader-1.9.3-SNAPSHOT_52ae4e914ec85b1829674bef3c40f191f5abc60a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\jars\libs\internal_impl-23.3.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="4da5a4d697d32497c6f85567a5112e62fdfd0676">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\internal_impl-23.3.0_9af419e8ca3f8a2b4012cecece20ddc71056f055.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\libs\AMap2DMap_2.9.2_AMapSearch_3.5.0_AMapLocation_3.0.0_20161026.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="96ba0d049b246a0d746be0c6c5c0b5f0fa0b2231">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\AMap2DMap_2.9.2_AMapSearch_3.5.0_AMapLocation_3.0.0_20161026_4ee90f321eb81bb415bf401b3370bc847b68e213.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\cn.finalteam\toolsfinal\1.1.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="5aaa7b2e653b709401c787ef506fe474ac830240">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\cn.finalteam-toolsfinal-1.1.1_73e0224de899561e1e56f57a812a3dfd2db1683f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.3.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="23be6993826b8fd88bbc8d14928bb3b8960d3d4e">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-23.3.0_b05387b1eb748f6d142e4b2d77375b29d678d806.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\xundaozhe\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\picasso-2.5.2_30cffc883319262cf414ddba94fa7547d8362dc8.jar" />
+    </item>
+
+</items>
