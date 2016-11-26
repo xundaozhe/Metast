@@ -20,14 +20,23 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.iuunited.myhome.Helper.ServiceClient;
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
 import com.iuunited.myhome.base.ViewPagerAdapter;
+import com.iuunited.myhome.bean.UpLoadHeadRequest;
 import com.iuunited.myhome.util.SDCardUtil;
 import com.iuunited.myhome.util.SdcardConfig;
 import com.iuunited.myhome.view.LoadingDialog;
 import com.iuunited.myhome.view.RoundImageView;
 import com.iuunited.myhome.view.SelectPhotoDialog;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -44,7 +53,7 @@ import java.util.ArrayList;
  * @updateDes 装修商简介
  * Created by xundaozhe on 2016/10/31.
  */
-public class ProIntroductActivity extends BaseFragmentActivity {
+public class ProIntroductActivity extends BaseFragmentActivity implements ServiceClient.IServerRequestable {
 
     private final static int REQUEST_CODE_PIC = 1001;
     private final static int REQUEST_CODE_TAKE_PHOTO = 1002;
@@ -272,6 +281,38 @@ public class ProIntroductActivity extends BaseFragmentActivity {
             return;
         }
         //TODO  进行网络请求上传图片并显示
+        UpLoadHeadRequest request = new UpLoadHeadRequest();
+        request.setFileType(1);
+        ServiceClient.requestServer(this,"上传中...",request, UpLoadHeadRequest.UpLoadHeadResponse.class,
+                new ServiceClient.OnSimpleActionListener<UpLoadHeadRequest.UpLoadHeadResponse>() {
+                    @Override
+                    public void onSuccess(UpLoadHeadRequest.UpLoadHeadResponse responseDto) {
+                        if(responseDto.getOperateCode() == 0) {
+                            final String token = responseDto.getToken();
+                            UploadManager uploadManager = new UploadManager();
+                            uploadManager.put(mSdcardTempFile, null, token, new UpCompletionHandler() {
+                                @Override
+                                public void complete(String key, ResponseInfo info, JSONObject response) {
+                                    if(mLoadingDialog!=null) {
+                                        mLoadingDialog.dismiss();
+                                    }
+                                    try {
+                                        String imageUrl = token + "/" + response.getString("key");
+                                        Picasso.with(ProIntroductActivity.this).load(imageUrl).into(iv_user_head);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            },null);
+                        }
+                    }
+
+                    @Override
+                    public boolean onFailure(String errorMessage) {
+                        String error = errorMessage;
+                        return false;
+                    }
+                });
     }
 
     /**
@@ -335,6 +376,31 @@ public class ProIntroductActivity extends BaseFragmentActivity {
             }
         }
         return f;
+    }
+
+    @Override
+    public void showLoadingDialog(String text) {
+
+    }
+
+    @Override
+    public void dismissLoadingDialog() {
+
+    }
+
+    @Override
+    public void showCustomToast(String text) {
+
+    }
+
+    @Override
+    public boolean getSuccessful() {
+        return false;
+    }
+
+    @Override
+    public void setSuccessful(boolean isSuccessful) {
+
     }
 
     public class MyPagerChangeListener implements ViewPager.OnPageChangeListener{

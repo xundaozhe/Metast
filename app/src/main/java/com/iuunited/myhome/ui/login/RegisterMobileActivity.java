@@ -44,6 +44,7 @@ public class RegisterMobileActivity extends BaseFragmentActivity implements Serv
     private String captcha;//短信验证码
     private boolean isNextChecked = true;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

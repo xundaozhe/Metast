@@ -3,6 +3,15 @@
 
     <item
         is-multidex="false"
+        jar="C:\Users\xundaozhe\.gradle\caches\modules-2\files-2.1\com.qiniu\qiniu-android-sdk\7.2.3\613bb7ccae6436345e3583cfab295d888b79f558\qiniu-android-sdk-7.2.3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="613bb7ccae6436345e3583cfab295d888b79f558">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\qiniu-android-sdk-7.2.3_cae1e5b451c74bacbce037d4a190d383cdc04ecd.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\com.github.ksoichiro\android-observablescrollview\1.6.0\jars\classes.jar"
         jumboMode="false"
         optimize="true"
@@ -117,6 +126,15 @@
         revision="23.0.3"
         sha1="4da5a4d697d32497c6f85567a5112e62fdfd0676">
         <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\internal_impl-23.3.0_9af419e8ca3f8a2b4012cecece20ddc71056f055.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\xundaozhe\.gradle\caches\modules-2\files-2.1\com.qiniu\happy-dns\0.2.7\d94b7987386a3aabbb5aa0be21589f72931f0489\happy-dns-0.2.7.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="d94b7987386a3aabbb5aa0be21589f72931f0489">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\happy-dns-0.2.7_ecdb43691ba66882ca4f9fbcd68c8082b5b4fe87.jar" />
     </item>
     <item
         is-multidex="false"

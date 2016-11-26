@@ -57,6 +57,8 @@ public class SettingPwdActivity extends BaseFragmentActivity implements ServiceC
     private TextView tv_title;
     private ImageView iv_share;
 
+    private static int userType;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -185,10 +187,12 @@ public class SettingPwdActivity extends BaseFragmentActivity implements ServiceC
         if(!TextUtils.isEmpty(userPwd)) {
             if(!TextUtils.isEmpty(userMobile)) {
                 if (!TextUtils.isEmpty(userEmail)) {
+                    userType = MyApplication.userType;
                     RegisterUserRequest request = new RegisterUserRequest();
                     request.setMobile(userMobile);
                     request.setEmail(userEmail);
                     request.setPassword(userPwd);
+                    request.setUserType(userType);
                     ServiceClient.requestServer(this, "请求中...", request, RegisterUserRequest.RegisterUserResponse.class,
                             new ServiceClient.OnSimpleActionListener<RegisterUserRequest.RegisterUserResponse>() {
                                 @Override

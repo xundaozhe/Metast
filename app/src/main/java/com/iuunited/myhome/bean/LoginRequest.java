@@ -37,6 +37,24 @@ public class LoginRequest extends BaseEntity {
     public static class LoginResponse extends BaseEntity {
         private String SessionId;
         private boolean IsSuccessful;
+        private int UserType;
+        private int UserID;
+
+        public int getUserType() {
+            return UserType;
+        }
+
+        public void setUserType(int userType) {
+            UserType = userType;
+        }
+
+        public int getUserID() {
+            return UserID;
+        }
+
+        public void setUserID(int userID) {
+            UserID = userID;
+        }
 
         public String getSessionId() {
             return SessionId;

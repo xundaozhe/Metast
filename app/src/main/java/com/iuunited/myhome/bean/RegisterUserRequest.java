@@ -19,6 +19,15 @@ public class RegisterUserRequest extends BaseEntity {
     private String Password;
     private String LogoKey;
     private String Email;
+    private int UserType;
+
+    public int getUserType() {
+        return UserType;
+    }
+
+    public void setUserType(int userType) {
+        UserType = userType;
+    }
 
     public String getMobile() {
         return Mobile;

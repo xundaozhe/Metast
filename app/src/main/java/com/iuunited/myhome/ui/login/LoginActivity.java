@@ -40,6 +40,7 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
 
     private boolean isChecked = true;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +115,7 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
                                 }
                             }else{
                                 ToastUtils.showShortToast(LoginActivity.this,"登录失败,请稍后重试!");
+                                isChecked = true;
                             }
                         }
 
@@ -123,6 +125,7 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
                                 mLoadingDialog.dismiss();
                             }
                             ToastUtils.showShortToast(LoginActivity.this,"登录失败,请稍后重试!");
+                            isChecked = true;
                             return false;
                         }
                     });

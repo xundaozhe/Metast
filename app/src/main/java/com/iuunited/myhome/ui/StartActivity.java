@@ -8,8 +8,11 @@ import android.widget.ImageView;
 
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
+import com.iuunited.myhome.base.MyApplication;
 import com.iuunited.myhome.ui.login.LoginActivity;
 import com.iuunited.myhome.util.IntentUtil;
+
+import static com.amap.api.col.c.m;
 
 /**
  * @author xundaozhe
@@ -58,9 +61,11 @@ public class StartActivity extends BaseFragmentActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_customer :
+                MyApplication.userType = 1;
                 IntentUtil.startActivity(this, LoginActivity.class);
                 break;
             case R.id.iv_professional :
+                MyApplication.userType = 2;
                 IntentUtil.startActivity(this, LoginActivity.class);
                 break;
         }

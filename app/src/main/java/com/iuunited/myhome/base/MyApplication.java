@@ -27,6 +27,7 @@ public class MyApplication extends Application {
     public static int userId;
     public static String mobile;
     public static String userLogoUri;
+    public static int userType;
 
     /**
      * @return 获取上下文
