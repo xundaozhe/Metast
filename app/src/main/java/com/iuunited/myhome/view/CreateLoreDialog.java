@@ -1,4 +1,4 @@
-package com.iuunited.myhome.view.smartimage;
+package com.iuunited.myhome.view;
 
 import android.app.Dialog;
 import android.content.Context;

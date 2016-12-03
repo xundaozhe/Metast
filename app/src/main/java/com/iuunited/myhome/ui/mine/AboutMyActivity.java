@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iuunited.myhome.R;
@@ -23,7 +24,7 @@ import com.iuunited.myhome.ui.MainActivity;
  */
 public class AboutMyActivity extends BaseFragmentActivity {
 
-    private ImageView iv_back;
+    private RelativeLayout iv_back;
     private TextView tv_title;
     private ImageView iv_share;
 
@@ -36,7 +37,7 @@ public class AboutMyActivity extends BaseFragmentActivity {
     }
 
     private void initView() {
-        iv_back = (ImageView)findViewById(R.id.iv_back);
+        iv_back = (RelativeLayout)findViewById(R.id.iv_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
         iv_share = (ImageView)findViewById(R.id.iv_share);
     }

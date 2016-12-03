@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iuunited.myhome.Helper.ServiceClient;
@@ -20,6 +21,8 @@ import com.iuunited.myhome.base.ActivityCollector;
 import com.iuunited.myhome.base.BaseFragmentActivity;
 import com.iuunited.myhome.base.MyApplication;
 import com.iuunited.myhome.bean.RegisterUserRequest;
+import com.iuunited.myhome.entity.Config;
+import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.util.TextUtils;
 import com.iuunited.myhome.util.ToastUtils;
@@ -37,7 +40,7 @@ import com.iuunited.myhome.view.RegisterSuccessDialog;
  */
 public class SettingPwdActivity extends BaseFragmentActivity implements ServiceClient.IServerRequestable {
 
-    private ImageView iv_back;
+    private RelativeLayout iv_back;
     private ImageView iv_react_one;
     private ImageView iv_react_two;
     private Button btn_into_main;
@@ -72,7 +75,7 @@ public class SettingPwdActivity extends BaseFragmentActivity implements ServiceC
         iv_react_one = (ImageView) findViewById(R.id.iv_react_one);
         iv_react_two = (ImageView) findViewById(R.id.iv_react_two);
         btn_into_main = (Button) findViewById(R.id.btn_into_main);
-        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_back = (RelativeLayout) findViewById(R.id.iv_back);
         tv_url_two = (TextView) findViewById(R.id.tv_url_two);
         tv_url_one = (TextView)findViewById(R.id.tv_url_one);
         tv_title = (TextView)findViewById(R.id.tv_title);
@@ -183,7 +186,7 @@ public class SettingPwdActivity extends BaseFragmentActivity implements ServiceC
         intent.addFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
      */
-    private void registerUser(String userPwd) {
+    private void registerUser(final String userPwd) {
         if(!TextUtils.isEmpty(userPwd)) {
             if(!TextUtils.isEmpty(userMobile)) {
                 if (!TextUtils.isEmpty(userEmail)) {
@@ -198,9 +201,16 @@ public class SettingPwdActivity extends BaseFragmentActivity implements ServiceC
                                 @Override
                                 public void onSuccess(RegisterUserRequest.RegisterUserResponse responseDto) {
                                     if(responseDto.getOperateCode() == 0) {
-                                        MyApplication.userId = responseDto.getUserId();
-                                        MyApplication.mobile = responseDto.getMobile();
-                                                MyApplication.userLogoUri = responseDto.getLogoUri();
+                                        int userId = responseDto.getUserId();
+                                        String mobile = responseDto.getMobile();
+                                        if (userId != 0) {
+                                            DefaultShared.putStringValue(MyApplication.getContext(), Config.CONFIG_USERID, userId + "");
+                                            DefaultShared.putStringValue(MyApplication.getContext(), Config.CONFIG_USERNAME, mobile);
+                                            DefaultShared.putStringValue(MyApplication.getContext(),Config.CONFIG_PASSWORD,userPwd);
+                                        }
+                                        MyApplication.userId = userId;
+                                        MyApplication.mobile = mobile;
+                                        MyApplication.userLogoUri = responseDto.getLogoUri();
                                         ActivityCollector.finishAll();
                                         showSuccessDialog();
                                     }else{

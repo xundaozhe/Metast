@@ -4,6 +4,14 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
             android:background="#ffffff">
+    <com.iuunited.myhome.view.FlexiScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,17 +45,61 @@
         android:layout_width="match_parent"
         android:layout_height="1dip"
         android:background="#BBBBBB" />
-    <GridView
-        android:id="@+id/gv_publish_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:horizontalSpacing="15dp"
-        android:numColumns="3"
-        android:paddingLeft="8dp"
-        android:scrollbars="none"
-        android:verticalSpacing="15dp"
-        android:gravity="center"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <com.iuunited.myhome.view.MyGridView
+                android:id="@+id/gv_publish_image"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:horizontalSpacing="15dp"
+                android:numColumns="3"
+                android:paddingLeft="8dp"
+                android:scrollbars="none"
+                android:verticalSpacing="15dp"
+                android:gravity="center"
+               />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="15dp"
+                >
+                <Button
+                    android:id="@+id/btn_publish"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="发布"
+                    android:background="@drawable/send_idfcode"
+                    android:textSize="16sp"
+                    android:textColor="#ffffff"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    />
+                <Button
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="取消"
+                    android:background="@drawable/send_idfcode"
+                    android:textSize="16sp"
+                    android:textColor="#ffffff"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    />
+            </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </com.iuunited.myhome.view.FlexiScrollView>
 </LinearLayout>

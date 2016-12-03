@@ -55,9 +55,16 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.NoTitleBar">
+//        android:name="android.support.multidex.MultiDexApplication"
         <!-- 高德地图SDK -->
-        <meta-data android:name="com.amap.api.v2.apikey" android:value="caf767057fbcee065812ff8bdf8dfcfa"/>
-
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="caf767057fbcee065812ff8bdf8dfcfa"/>
+        <!-- 友盟appKey -->
+       <!-- <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="583bcd89a325113d39000986" >
+        </meta-data>-->
         <activity android:name=".ui.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -66,7 +73,7 @@
         </activity>
         <activity android:name=".ui.login.LoginActivity"
             android:launchMode="singleTask"/>
-        <activity android:name=".ui.login.RegisterMobileActivity"
+        <activity android:name=".ui.login.RegisterActivity"
                   android:launchMode="singleTask"/>
         <activity android:name=".ui.login.RegisterEmailActivity"
                   android:launchMode="singleTask"/>
@@ -105,10 +112,98 @@
         <activity android:name=".ui.mine.ProIntroductActivity"
                   android:launchMode="singleTask"/>
         <activity android:name=".ui.message.MessageChatActivity"
+                  android:launchMode="singleTask"
+                  android:windowSoftInputMode="adjustResize|stateHidden|stateUnchanged"/>
+        <activity android:name=".ui.home.GaoDeMapActivity"/>
+        <activity android:name=".ui.login.QuestionActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.login.ReactOneActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.login.ReactTwoActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.home.ProListActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.home.ItemProjectDetailsActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.home.ProjectAssessActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.project.professional.ProUnderWayDetailsActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.project.professional.EditProjectActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.project.professional.AddTaxActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.project.professional.AddNewTaxActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.project.professional.ProProjectDetailsActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.project.professional.AddNewProjectActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.project.QuotedPriceActivity"
                   android:launchMode="singleTask"/>
 
+
+        <!-- ***************友盟第三方分享************* -->
+        <!-- 微博精简版无需特别配置   微博分享需要后台配合 -->
+        <activity
+            android:name="com.umeng.socialize.editorpage.ShareActivity"
+            android:theme="@style/Theme.UMDefault"
+            android:excludeFromRecents="true"
+            />
+
+        <!-- 友盟微信分享 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <!-- 友盟腾讯分享 -->
+        <activity
+            android:name="com.umeng.qq.tencent.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent100424468" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.umeng.qq.tencent.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+
+        <!-- 友盟facebook分享 -->
+        <activity
+            android:name="com.umeng.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            />
+        <provider
+            android:name="com.umeng.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider487692214752558"
+            android:exported="true" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <!-- 友盟twitter分享 -->
+        <activity
+            android:name="com.umeng.socialize.handler.TwitterWebActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
+
+
         <!-- 高德定位服务 -->
-        <service android:name="com.amap.api.location.APSService"></service>
+        <service android:name="com.amap.api.location.APSService"
+                 ></service>
     </application>
 
 </manifest>

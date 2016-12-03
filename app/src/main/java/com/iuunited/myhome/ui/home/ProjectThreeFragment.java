@@ -1,5 +1,6 @@
 package com.iuunited.myhome.ui.home;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -27,9 +28,11 @@ import android.widget.PopupWindow;
 
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragments;
+import com.iuunited.myhome.task.ICancelListener;
 import com.iuunited.myhome.ui.adapter.GridAdapter;
 import com.iuunited.myhome.util.Bimp;
 import com.iuunited.myhome.util.FileUtils;
+import com.iuunited.myhome.view.ProjectCancelDialog;
 
 import java.io.IOException;
 
@@ -45,16 +48,19 @@ import java.io.IOException;
  * Created by xundaozhe on 2016/10/27.
  */
 public class ProjectThreeFragment extends BaseFragments implements View.OnClickListener {
-    private final static String TAG = "PublishForumActivity";
+    private final static String TAG = "ProjectThreeFragment";
     private static final int TAKE_PICTURE = 0x000000;
     private static final int IMAGE_LOADING = 0x001;
 
     private Context mContext;
     private GridView gv_publish_image;
+    private Button btn_cancel;
 
     private Uri photoUri;
     private PopupWindows mPopupWindow;
     private GridAdapter mAdapter;
+
+    private ProjectCancelDialog mCancelDialog;
 
     @Nullable
     @Override
@@ -68,6 +74,7 @@ public class ProjectThreeFragment extends BaseFragments implements View.OnClickL
 
     private void initView(View view) {
         gv_publish_image = (GridView) view.findViewById(R.id.gv_publish_image);
+        btn_cancel = (Button) view.findViewById(R.id.btn_cancel);
         setAdapter();
     }
 
@@ -90,6 +97,7 @@ public class ProjectThreeFragment extends BaseFragments implements View.OnClickL
                 }
             }
         });
+        btn_cancel.setOnClickListener(this);
     }
 
     @Override
@@ -144,8 +152,20 @@ public class ProjectThreeFragment extends BaseFragments implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
-        }
+            case R.id.btn_cancel:
+                mCancelDialog = new ProjectCancelDialog(mContext, new ICancelListener() {
+                    @Override
+                    public void cancelClick(int id, Activity activity) {
+                        switch (id) {
+                            case R.id.dialog_btn_sure :
+                                getActivity().finish();
+                                break;
+                        }
+                    }
+                },"取消编辑","您是否要取消编辑当前工程?");
+                mCancelDialog.show();
+                break;
+       }
     }
 
 

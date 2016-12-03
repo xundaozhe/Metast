@@ -3,6 +3,60 @@
 
     <item
         is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\libs\eventbus-3.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="ddd99896e9569eaababbe81b35d80e1b91c4ad85">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\eventbus-3.0.0_fb1f6a962a95af7664f376522fee9ee3e838d08b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\libs\SocialSDK_facebook.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="8e39e8ffbc184c11c129cff1542fef6919ef2b07">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\SocialSDK_facebook_a06d6884e0ca9cde4f4b1ffa392b601220f5406e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\xundaozhe\.gradle\caches\modules-2\files-2.1\com.qiniu\happy-dns\0.2.7\d94b7987386a3aabbb5aa0be21589f72931f0489\happy-dns-0.2.7.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="d94b7987386a3aabbb5aa0be21589f72931f0489">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\happy-dns-0.2.7_ecdb43691ba66882ca4f9fbcd68c8082b5b4fe87.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\libs\SocialSDK_QQ_Simplify.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="a55a31338be964d70e7885705661899ddfcf304f">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\SocialSDK_QQ_Simplify_d6c1ced268ed4a715dc9a51f97dc2924b6e049fa.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.3.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="23be6993826b8fd88bbc8d14928bb3b8960d3d4e">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-23.3.0_b05387b1eb748f6d142e4b2d77375b29d678d806.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\xundaozhe\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\picasso-2.5.2_30cffc883319262cf414ddba94fa7547d8362dc8.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="C:\Users\xundaozhe\.gradle\caches\modules-2\files-2.1\com.qiniu\qiniu-android-sdk\7.2.3\613bb7ccae6436345e3583cfab295d888b79f558\qiniu-android-sdk-7.2.3.jar"
         jumboMode="false"
         optimize="true"
@@ -12,12 +66,57 @@
     </item>
     <item
         is-multidex="false"
-        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\com.github.ksoichiro\android-observablescrollview\1.6.0\jars\classes.jar"
+        jar="D:\androidstudioapp\MyHome\app\libs\android-support-v4.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
-        sha1="d125b199a427e5cc8d4234f7d8673c9a27ef6336">
-        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\com.github.ksoichiro-android-observablescrollview-1.6.0_e32146e9ed1c1ef18b5191014a947694ddc6ff81.jar" />
+        sha1="9b6a9a9078af571732159b904ad423b03b7cc786">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\android-support-v4_a319e39203d03381953f8f7280fdc1358b5ac3e0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\libs\SocialSDK_Sina_Simplify.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="9d522f899c73a4d5cd5ba3d31897e82a089c46c9">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\SocialSDK_Sina_Simplify_5eaf4ba0fa948db8bd10c971d8102e05b532bc40.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\sdk\newsdk\extras\android\m2repository\com\android\support\support-annotations\23.3.0\support-annotations-23.3.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="db7791d75a07fef9844d06236c1c59ba7bf6997c">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\support-annotations-23.3.0_26f5418e0f0caf59b8d1b858631234a64811a5b0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\libs\umeng_social_api.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="f32c44f476290c7e4bab98f9d47dbbaa3fb1dc8a">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\umeng_social_api_ebd5710e6a76ed8683e5f612848d4d26c4ff7d5a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\jars\libs\internal_impl-23.3.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="4da5a4d697d32497c6f85567a5112e62fdfd0676">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\internal_impl-23.3.0_9af419e8ca3f8a2b4012cecece20ddc71056f055.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\libs\AMap2DMap_2.9.2_AMapSearch_3.5.0_AMapLocation_3.0.0_20161026.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="96ba0d049b246a0d746be0c6c5c0b5f0fa0b2231">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\AMap2DMap_2.9.2_AMapSearch_3.5.0_AMapLocation_3.0.0_20161026_4ee90f321eb81bb415bf401b3370bc847b68e213.jar" />
     </item>
     <item
         is-multidex="false"
@@ -30,12 +129,12 @@
     </item>
     <item
         is-multidex="false"
-        jar="D:\androidstudioapp\MyHome\app\libs\eventbus-3.0.0.jar"
+        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.3.0\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
-        sha1="ddd99896e9569eaababbe81b35d80e1b91c4ad85">
-        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\eventbus-3.0.0_fb1f6a962a95af7664f376522fee9ee3e838d08b.jar" />
+        sha1="a0b5d60246cd9d4f3f2443611b3b4c25265840b5">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-23.3.0_a3a2061db0a55b572dd23eba4e4fd214de4f6fdb.jar" />
     </item>
     <item
         is-multidex="false"
@@ -48,12 +147,12 @@
     </item>
     <item
         is-multidex="false"
-        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.3.0\jars\classes.jar"
+        jar="D:\androidstudioapp\MyHome\app\libs\umeng_social_shareview.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
-        sha1="a0b5d60246cd9d4f3f2443611b3b4c25265840b5">
-        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-23.3.0_a3a2061db0a55b572dd23eba4e4fd214de4f6fdb.jar" />
+        sha1="4fa9858784f08185baa0ced66ca6711405f3b37b">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\umeng_social_shareview_4e4f58937fef5e7d9ffdab132d5279683d7da512.jar" />
     </item>
     <item
         is-multidex="false"
@@ -63,15 +162,6 @@
         revision="23.0.3"
         sha1="8b47eb32dca3eee627e984259ce8cd99b7f669cb">
         <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\cn.finalteam-galleryfinal-1.4.6_386dd770424ac3e1786b7125184b88a8039dea3e.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="D:\sdk\newsdk\extras\android\m2repository\com\android\support\support-annotations\23.3.0\support-annotations-23.3.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="db7791d75a07fef9844d06236c1c59ba7bf6997c">
-        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\support-annotations-23.3.0_26f5418e0f0caf59b8d1b858631234a64811a5b0.jar" />
     </item>
     <item
         is-multidex="false"
@@ -90,6 +180,24 @@
         revision="23.0.3"
         sha1="8a034dd16c0dfd75fe86c52c2cd581592acc684a">
         <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.3.0_74f2d0639918061e5e585ce303de53e4809520e5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\com.github.ksoichiro\android-observablescrollview\1.6.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="d125b199a427e5cc8d4234f7d8673c9a27ef6336">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\com.github.ksoichiro-android-observablescrollview-1.6.0_e32146e9ed1c1ef18b5191014a947694ddc6ff81.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\libs\umeng_social_net.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="0afbddf7653a4ec4f34f3b839343a2d29c074a97">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\umeng_social_net_8942b911f1e1765bb997db2089a310cc3988b02a.jar" />
     </item>
     <item
         is-multidex="false"
@@ -120,30 +228,12 @@
     </item>
     <item
         is-multidex="false"
-        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\jars\libs\internal_impl-23.3.0.jar"
+        jar="D:\androidstudioapp\MyHome\app\libs\SocialSDK_WeChat_Simplify.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
-        sha1="4da5a4d697d32497c6f85567a5112e62fdfd0676">
-        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\internal_impl-23.3.0_9af419e8ca3f8a2b4012cecece20ddc71056f055.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\xundaozhe\.gradle\caches\modules-2\files-2.1\com.qiniu\happy-dns\0.2.7\d94b7987386a3aabbb5aa0be21589f72931f0489\happy-dns-0.2.7.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="d94b7987386a3aabbb5aa0be21589f72931f0489">
-        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\happy-dns-0.2.7_ecdb43691ba66882ca4f9fbcd68c8082b5b4fe87.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="D:\androidstudioapp\MyHome\app\libs\AMap2DMap_2.9.2_AMapSearch_3.5.0_AMapLocation_3.0.0_20161026.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="96ba0d049b246a0d746be0c6c5c0b5f0fa0b2231">
-        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\AMap2DMap_2.9.2_AMapSearch_3.5.0_AMapLocation_3.0.0_20161026_4ee90f321eb81bb415bf401b3370bc847b68e213.jar" />
+        sha1="e50b96401186bec0a7ebe2206145a02d92277428">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\SocialSDK_WeChat_Simplify_0f2d5bc4067273052b174a3c3dd6706218f36724.jar" />
     </item>
     <item
         is-multidex="false"
@@ -156,21 +246,12 @@
     </item>
     <item
         is-multidex="false"
-        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.3.0\jars\classes.jar"
+        jar="D:\androidstudioapp\MyHome\app\libs\SocialSDK_twitter.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
-        sha1="23be6993826b8fd88bbc8d14928bb3b8960d3d4e">
-        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-23.3.0_b05387b1eb748f6d142e4b2d77375b29d678d806.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\xundaozhe\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
-        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\picasso-2.5.2_30cffc883319262cf414ddba94fa7547d8362dc8.jar" />
+        sha1="d6148f1d8f24068e0d29792193f1965bf9405752">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\SocialSDK_twitter_d4a129e989c259a6704547c62da9e1434c436207.jar" />
     </item>
 
 </items>

@@ -2,18 +2,26 @@ package com.iuunited.myhome.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.iuunited.myhome.R;
+import com.iuunited.myhome.ui.header.HeaderFragment;
 import com.iuunited.myhome.ui.home.HomeFragment;
 import com.iuunited.myhome.ui.message.MessageFragment;
 import com.iuunited.myhome.ui.mine.MineFragment;
 import com.iuunited.myhome.ui.project.ProjectFragment;
+import com.iuunited.myhome.view.HeaderPopupWin;
 import com.iuunited.myhome.view.MyFragmentTabhost;
+
+import static com.iuunited.myhome.R.id.SwipeRefreshLayout;
+import static com.iuunited.myhome.R.id.view;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private MyFragmentTabhost tabHost;
     
     private int fragmentId = -1;
+
+    private WindowManager.LayoutParams params;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 .setIndicator(getView(1,titles,images)), ProjectFragment.class, null);
 
         tabHost.addTab(tabHost.newTabSpec("three")
-                .setIndicator(getView(2,titles,images)), HomeFragment.class, null);
+                .setIndicator(getView(2,titles,images)), HeaderFragment.class, null);
 
         tabHost.addTab(tabHost.newTabSpec("four")
                 .setIndicator(getView(3, titles, images)), MessageFragment.class, null);
@@ -55,7 +65,11 @@ public class MainActivity extends AppCompatActivity {
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
+                if(tabId.equals("three")) {
+                    HeaderFragment headerFragment = new HeaderFragment();
+                    headerFragment.show(getSupportFragmentManager(),"fragmentDialog");
 
+                }
             }
         });
     }
@@ -70,11 +84,33 @@ public class MainActivity extends AppCompatActivity {
             tabHost.setCurrentTab(1);
         }else  if(fragmentId == 2) {
             tabHost.setCurrentTab(2);
+//            showPopFromBottom();
         }else  if(fragmentId == 3) {
             tabHost.setCurrentTab(3);
         }else  if(fragmentId == 4) {
             tabHost.setCurrentTab(4);
         }
+    }
+
+    private void showPopFromBottom() {
+        HeaderPopupWin headerPopupWin = new HeaderPopupWin(this, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        headerPopupWin.showAtLocation(findViewById(R.id.main), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        params =getWindow().getAttributes();
+        params.alpha = 0.7f;
+        getWindow().setAttributes(params);
+        headerPopupWin.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                params = getWindow().getAttributes();
+                params.alpha = 1.0f;
+                getWindow().setAttributes(params);
+            }
+        });
     }
 
     public View getView(int idx, String [] title, int[] image){

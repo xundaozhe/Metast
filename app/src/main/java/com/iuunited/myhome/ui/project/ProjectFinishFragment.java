@@ -10,8 +10,10 @@ import android.widget.AdapterView;
 
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragments;
+import com.iuunited.myhome.entity.Config;
 import com.iuunited.myhome.ui.adapter.ProjectAlllvAdapter;
 import com.iuunited.myhome.ui.adapter.ProjectFinishAdapter;
+import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.view.FlexiListView;
 
@@ -30,6 +32,8 @@ public class ProjectFinishFragment extends BaseFragments implements AdapterView.
     private ProjectFinishAdapter mAdapter;
     private Context mContext;
 
+    private String userType;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,6 +50,7 @@ public class ProjectFinishFragment extends BaseFragments implements AdapterView.
     }
 
     private void initData() {
+        userType = DefaultShared.getStringValue(mContext, Config.CONFIG_USERTYPE,0+"");
         if(mAdapter == null) {
             mAdapter = new ProjectFinishAdapter(mContext);
             flv_project_finish.setAdapter(mAdapter);
@@ -55,6 +60,8 @@ public class ProjectFinishFragment extends BaseFragments implements AdapterView.
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        IntentUtil.startActivity(getActivity(),ProjectFinishActivity.class);
+        if(userType.equals("1")) {
+            IntentUtil.startActivity(getActivity(),ProjectFinishActivity.class);
+        }
     }
 }

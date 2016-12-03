@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iuunited.myhome.R;
@@ -29,7 +30,7 @@ import static com.iuunited.myhome.R.color.textWhite;
  * @des ${TODO}
  * @updateAuthor $Author$
  * @updateDate $Date$
- * @updateDes $TODO$
+ * @updateDes 首页-----工程页面
  * Created by xundaozhe on 2016/10/28.
  */
 public class ProjectFragment extends BaseFragments implements View.OnClickListener {
@@ -45,7 +46,7 @@ public class ProjectFragment extends BaseFragments implements View.OnClickListen
     private ProjectUnderWayFragment mProjectUnderWayFragment;
     private ProjectFinishFragment mProjectFinishFragment;
 
-    private ImageView iv_back;
+    private RelativeLayout iv_back;
     private TextView tv_title;
     private ImageView iv_share;
 
@@ -59,7 +60,7 @@ public class ProjectFragment extends BaseFragments implements View.OnClickListen
     }
 
     private void initView(View view) {
-        iv_back = (ImageView) view.findViewById(R.id.iv_back);
+        iv_back = (RelativeLayout) view.findViewById(R.id.iv_back);
         tv_title = (TextView) view.findViewById(R.id.tv_title);
         iv_share = (ImageView) view.findViewById(R.id.iv_share);
         project_rg_banner = (RadioGroup) view.findViewById(R.id.project_rg_banner);

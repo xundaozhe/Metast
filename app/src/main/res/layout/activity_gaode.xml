@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+    <EditText
+        android:id="@+id/search_edit"
+        android:hint="输入关键字"
+        android:singleLine="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/map" />
+    <Spinner
+        android:id="@+id/juli"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/map"
+        android:visibility="gone"
+        >
+
+    </Spinner>
+    <Button
+        android:id="@+id/search_button"
+        android:text="搜索"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+         />
+    <Button
+        android:id="@+id/next"
+        android:text="下一页（笔者该功能未实现）"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:visibility="gone"
+        />
+    <com.amap.api.maps2d.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/search_button">
+    </com.amap.api.maps2d.MapView>
+
+</RelativeLayout>

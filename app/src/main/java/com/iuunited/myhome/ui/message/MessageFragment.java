@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iuunited.myhome.R;
@@ -29,7 +30,7 @@ import com.iuunited.myhome.view.FlexiListView;
 
 public class MessageFragment extends BaseFragments implements android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
 
-    private ImageView iv_back;
+    private RelativeLayout iv_back;
     private TextView tv_title;
     private ImageView iv_share;
     private SwipeRefreshLayout SwipeRefreshLayout;
@@ -46,7 +47,7 @@ public class MessageFragment extends BaseFragments implements android.support.v4
     }
 
     private void initView(View view) {
-        iv_back = (ImageView) view.findViewById(R.id.iv_back);
+        iv_back = (RelativeLayout) view.findViewById(R.id.iv_back);
         tv_title = (TextView) view.findViewById(R.id.tv_title);
         iv_share = (ImageView) view.findViewById(R.id.iv_share);
         SwipeRefreshLayout = (android.support.v4.widget.SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);

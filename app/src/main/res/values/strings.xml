@@ -14,5 +14,6 @@
     <string name="register_email">输入您的电子邮箱</string>
     <string name="register_password">输入您的密码</string>
     <string name="submit">提 交</string>
+    <string name="facebook_app_id">487692214752558</string>
 
 </resources>

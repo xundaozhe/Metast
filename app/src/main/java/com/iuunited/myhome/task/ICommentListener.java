@@ -11,5 +11,5 @@ package com.iuunited.myhome.task;
  * Created by xundaozhe on 2016/11/3.
  */
 public interface ICommentListener {
-    public void commentClick(int id, String content);
+    public void commentClick(int id, String conte);
 }

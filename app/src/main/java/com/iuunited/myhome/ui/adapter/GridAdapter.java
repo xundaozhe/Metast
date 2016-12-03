@@ -41,7 +41,12 @@ public class GridAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return (Bimp.bmp.size()+1);
+        int count = Bimp.bmp.size();
+        if(count == 9) {
+            return count;
+        }else{
+            return (count+1);
+        }
     }
 
     @Override

@@ -10,7 +10,10 @@ import android.widget.AdapterView;
 
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragments;
+import com.iuunited.myhome.entity.Config;
 import com.iuunited.myhome.ui.adapter.ProjectAlllvAdapter;
+import com.iuunited.myhome.ui.home.ItemProjectDetailsActivity;
+import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.view.FlexiListView;
 
@@ -30,6 +33,8 @@ public class ProjectAllFragment extends BaseFragments implements AdapterView.OnI
     private ProjectAlllvAdapter mAdapter;
     private Context mContext;
 
+    private String userType;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,6 +51,7 @@ public class ProjectAllFragment extends BaseFragments implements AdapterView.OnI
     }
 
     private void initData() {
+        userType = DefaultShared.getStringValue(mContext, Config.CONFIG_USERTYPE,0+"");
         if(mAdapter == null) {
             mAdapter = new ProjectAlllvAdapter(mContext);
             flv_project_all.setAdapter(mAdapter);
@@ -55,6 +61,10 @@ public class ProjectAllFragment extends BaseFragments implements AdapterView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        IntentUtil.startActivity(getActivity(),ProjectDetailsActivity.class);
+        if(userType.equals("1")) {
+            IntentUtil.startActivity(getActivity(),ProjectDetailsActivity.class);
+        }else if(userType.equals("2")) {
+            IntentUtil.startActivity(getActivity(), ItemProjectDetailsActivity.class);
+        }
     }
 }

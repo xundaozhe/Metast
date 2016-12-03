@@ -12,7 +12,9 @@ import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
 import com.iuunited.myhome.base.MyApplication;
 import com.iuunited.myhome.bean.LoginRequest;
+import com.iuunited.myhome.entity.Config;
 import com.iuunited.myhome.ui.MainActivity;
+import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.util.TextUtils;
 import com.iuunited.myhome.util.ToastUtils;
@@ -37,6 +39,7 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
 
     private String userName;
     private String passWord;
+    private String userType;
 
     private boolean isChecked = true;
 
@@ -67,7 +70,7 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_register :
-                IntentUtil.startActivity(this,RegisterMobileActivity.class);
+                IntentUtil.startActivity(this,RegisterActivity.class);
                 break;
             case R.id.login_btn :
 //                IntentUtil.startActivityAndFinish(this,MainActivity.class);
@@ -91,7 +94,7 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
         }
     }
 
-    private void login(String userName, String passWord) {
+    private void login(final String userName, final String passWord) {
         if (mLoadingDialog == null) {
             mLoadingDialog = new LoadingDialog(this);
             mLoadingDialog.setMessage("登陆中...");
@@ -110,6 +113,12 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
                             }
                             if (responseDto.getOperateCode() == 0) {
                                 if(responseDto.getIsSuccessful()) {
+//                                    userType = responseDto.getUserType()+"";
+                                    userType = MyApplication.userType+"";
+                                    DefaultShared.putStringValue(MyApplication.getContext(), Config.CONFIG_USERNAME,userName);
+                                    DefaultShared.putStringValue(MyApplication.getContext(), Config.CONFIG_PASSWORD, passWord);
+                                    DefaultShared.putStringValue(MyApplication.getContext(), Config.CONFIG_USERTYPE, userType);
+                                    DefaultShared.putStringValue(MyApplication.getContext(),Config.CONFIG_SESSIONID,responseDto.getSessionId());
                                     MyApplication.sessionId = responseDto.getSessionId();
                                     IntentUtil.startActivityAndFinish(LoginActivity.this,MainActivity.class);
                                 }

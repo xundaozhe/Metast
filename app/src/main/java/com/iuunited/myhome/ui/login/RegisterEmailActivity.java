@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iuunited.myhome.R;
@@ -27,7 +28,7 @@ import com.iuunited.myhome.util.ToastUtils;
  */
 public class RegisterEmailActivity extends BaseFragmentActivity {
 
-    private ImageView iv_back;
+    private RelativeLayout iv_back;
     private Button btn_next_email;
     private TextView tv_title;
     private ImageView iv_share;
@@ -47,7 +48,7 @@ public class RegisterEmailActivity extends BaseFragmentActivity {
 
     private void initView() {
         btn_next_email = (Button) findViewById(R.id.btn_next_email);
-        iv_back = (ImageView)findViewById(R.id.iv_back);
+        iv_back = (RelativeLayout)findViewById(R.id.iv_back);
         tv_title = (TextView)findViewById(R.id.tv_title);
         iv_share = (ImageView)findViewById(R.id.iv_share);
 
@@ -90,7 +91,7 @@ public class RegisterEmailActivity extends BaseFragmentActivity {
 
                 break;
             case R.id.iv_back :
-                IntentUtil.startActivityAndFinish(this,RegisterMobileActivity.class);
+                IntentUtil.startActivityAndFinish(this,RegisterActivity.class);
                 break;
         }
     }

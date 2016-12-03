@@ -1,9 +1,7 @@
 package com.iuunited.myhome.ui.mine;
 
-import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -12,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.support.annotation.IntegerRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -24,10 +21,8 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iuunited.myhome.R;
@@ -43,11 +38,10 @@ import com.iuunited.myhome.util.Bimp;
 import com.iuunited.myhome.util.FileUtils;
 import com.iuunited.myhome.view.MyGridView;
 import com.iuunited.myhome.view.MyListView;
-import com.iuunited.myhome.view.smartimage.CreateLoreDialog;
+import com.iuunited.myhome.view.CreateLoreDialog;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 

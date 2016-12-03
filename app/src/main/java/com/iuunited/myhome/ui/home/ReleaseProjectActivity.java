@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iuunited.myhome.R;
@@ -43,7 +44,7 @@ import java.util.List;
 public class ReleaseProjectActivity extends FragmentActivity implements View.OnClickListener
 {
 
-    private ImageView iv_back;
+    private RelativeLayout iv_back;
     private TextView tv_title;
     private ImageView iv_share;
 
@@ -81,7 +82,7 @@ public class ReleaseProjectActivity extends FragmentActivity implements View.OnC
     }
 
     private void initView() {
-        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_back = (RelativeLayout) findViewById(R.id.iv_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
         iv_share = (ImageView)findViewById(R.id.iv_share);
         vp_project = (NoSwipeableViewPager) findViewById(R.id.vp_project);
@@ -138,6 +139,7 @@ public class ReleaseProjectActivity extends FragmentActivity implements View.OnC
                 intent.setClass(ReleaseProjectActivity.this,MainActivity.class);
                 startActivity(intent);
                 break;
+
         }
     }
 

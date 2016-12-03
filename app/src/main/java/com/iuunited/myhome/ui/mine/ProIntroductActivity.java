@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iuunited.myhome.Helper.ServiceClient;
@@ -59,7 +60,7 @@ public class ProIntroductActivity extends BaseFragmentActivity implements Servic
     private final static int REQUEST_CODE_TAKE_PHOTO = 1002;
     private static final int REQUEST_CODE_TAKE_PHOTO_CROP = 1003;
 
-    private ImageView iv_back;
+    private RelativeLayout iv_back;
     private TextView tv_title;
     private ImageView iv_share;
 
@@ -92,7 +93,7 @@ public class ProIntroductActivity extends BaseFragmentActivity implements Servic
     }
 
     private void initView() {
-        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_back = (RelativeLayout) findViewById(R.id.iv_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
         iv_share = (ImageView) findViewById(R.id.iv_share);
 

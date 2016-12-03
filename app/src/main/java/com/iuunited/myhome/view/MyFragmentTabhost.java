@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 
+import com.iuunited.myhome.ui.header.HeaderFragment;
+
 import java.util.ArrayList;
 
 /**
@@ -208,6 +210,7 @@ public class MyFragmentTabhost extends TabHost
     public void addTab(TabSpec tabSpec, Class<?> clss, Bundle args) {
         tabSpec.setContent(new DummyTabFactory(mContext));
         String tag = tabSpec.getTag();
+//        HeaderFragment headerFragment = new HeaderFragment();
 
         TabInfo info = new TabInfo(tag, clss, args);
 
@@ -216,6 +219,9 @@ public class MyFragmentTabhost extends TabHost
             // sure this tab's fragment is inactive if it exists.  This shouldn't
             // normally happen.
             info.fragment = mFragmentManager.findFragmentByTag(tag);
+//            if(tag.equals("three")) {
+//                headerFragment.show(mFragmentManager,"fragmentDialog");
+//            }
             if (info.fragment != null && !info.fragment.isDetached()) {
                 FragmentTransaction ft = mFragmentManager.beginTransaction();
                 ft.detach(info.fragment);
@@ -225,6 +231,9 @@ public class MyFragmentTabhost extends TabHost
 
         mTabs.add(info);
         addTab(tabSpec);
+//        if(tag.equals("three")) {
+//            headerFragment.show(mFragmentManager,"fragmentDialog");
+//        }
     }
 
     @Override

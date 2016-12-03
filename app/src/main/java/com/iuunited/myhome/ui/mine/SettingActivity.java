@@ -27,7 +27,7 @@ import com.iuunited.myhome.util.IntentUtil;
  */
 public class SettingActivity extends BaseFragmentActivity {
 
-    private ImageView iv_back;
+    private RelativeLayout iv_back;
     private TextView tv_title;
     private ImageView iv_share;
 
@@ -81,7 +81,7 @@ public class SettingActivity extends BaseFragmentActivity {
     }
 
     private void initView() {
-        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_back = (RelativeLayout) findViewById(R.id.iv_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
         iv_share = (ImageView) findViewById(R.id.iv_share);
 

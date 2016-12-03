@@ -27,7 +27,7 @@ import com.iuunited.myhome.ui.home.ReleaseProjectActivity;
  */
 public class FeedBackActivity extends BaseFragmentActivity {
 
-    private ImageView iv_back;
+    private RelativeLayout iv_back;
     private ImageView iv_share;
     private TextView tv_title;
     private int checkSelect;
@@ -48,7 +48,7 @@ public class FeedBackActivity extends BaseFragmentActivity {
     }
 
     private void initView() {
-        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_back = (RelativeLayout) findViewById(R.id.iv_back);
         iv_share = (ImageView) findViewById(R.id.iv_share);
         tv_title = (TextView)findViewById(R.id.tv_title);
         rl_propose = (RelativeLayout)findViewById(R.id.rl_propose);

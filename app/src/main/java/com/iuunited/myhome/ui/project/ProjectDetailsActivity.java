@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
 import com.iuunited.myhome.ui.MainActivity;
 import com.iuunited.myhome.ui.mine.SettingActivity;
+import com.iuunited.myhome.util.IntentUtil;
 
 /**
  * @author xundaozhe
@@ -19,14 +22,15 @@ import com.iuunited.myhome.ui.mine.SettingActivity;
  * @des ${TODO}
  * @updateAuthor $Author$
  * @updateDate $Date$
- * @updateDes $TODO$
+ * @updateDes 工程---全部---用户详情页
  * Created by xundaozhe on 2016/10/28.
  */
 public class ProjectDetailsActivity extends BaseFragmentActivity {
 
-    private ImageView iv_back;
+    private RelativeLayout iv_back;
     private TextView tv_title;
     private ImageView iv_share;
+    private LinearLayout ll_quoted_price;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,14 +41,16 @@ public class ProjectDetailsActivity extends BaseFragmentActivity {
     }
 
     private void initView() {
-        iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_back = (RelativeLayout) findViewById(R.id.iv_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
         iv_share = (ImageView)findViewById(R.id.iv_share);
+        ll_quoted_price = (LinearLayout)findViewById(R.id.ll_quoted_price);
     }
 
     private void initData() {
         iv_back.setOnClickListener(this);
         tv_title.setText("工程");
+        ll_quoted_price.setOnClickListener(this);
     }
 
     @Override
@@ -55,6 +61,9 @@ public class ProjectDetailsActivity extends BaseFragmentActivity {
                 intent.putExtra("mainFragmentId",1);
                 intent.setClass(ProjectDetailsActivity.this,MainActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.ll_quoted_price:
+                IntentUtil.startActivity(this,QuotedPriceActivity.class);
                 break;
         }
     }

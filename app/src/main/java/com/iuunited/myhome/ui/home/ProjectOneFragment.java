@@ -28,6 +28,7 @@ public class ProjectOneFragment extends BaseFragments implements View.OnClickLis
 
     private Button btn_next_one;
     private Button btn_select_map;
+    private String address;
 
     @Nullable
     @Override
@@ -47,6 +48,7 @@ public class ProjectOneFragment extends BaseFragments implements View.OnClickLis
     private void initData() {
         btn_next_one.setOnClickListener(this);
         btn_select_map.setOnClickListener(this);
+//        address = getArguments().getString("address","");
     }
 
     @Override
