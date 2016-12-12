@@ -45,6 +45,7 @@ public class AddTaxActivity extends BaseFragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_tax);
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
         initView();
         data = (AddTaxBean) getIntent().getSerializableExtra("newTax");
         initData();

@@ -13,7 +13,7 @@
         android:layout_marginRight="60dp"
         android:layout_marginTop="35dp"
         android:background="@drawable/send_idfcode"
-        android:text="增 加 项 目"
+        android:text="增 加 新 税"
         android:textSize="20sp"
         android:textColor="#ffffff"
         />

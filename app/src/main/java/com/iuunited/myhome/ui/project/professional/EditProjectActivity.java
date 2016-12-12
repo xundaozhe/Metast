@@ -41,6 +41,7 @@ public class EditProjectActivity extends BaseFragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_project);
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
         initView();
         initData();
     }

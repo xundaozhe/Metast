@@ -48,6 +48,7 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
 
         initView();
         initData();
@@ -121,6 +122,9 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
                                     DefaultShared.putStringValue(MyApplication.getContext(),Config.CONFIG_SESSIONID,responseDto.getSessionId());
                                     MyApplication.sessionId = responseDto.getSessionId();
                                     IntentUtil.startActivityAndFinish(LoginActivity.this,MainActivity.class);
+                                }else{
+                                    ToastUtils.showShortToast(LoginActivity.this,"登录失败,请稍后重试!");
+                                    isChecked = true;
                                 }
                             }else{
                                 ToastUtils.showShortToast(LoginActivity.this,"登录失败,请稍后重试!");

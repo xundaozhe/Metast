@@ -5,10 +5,9 @@
               android:layout_height="match_parent"
             android:gravity="center">
 
-    <Button
-        android:id="@+id/btn_next"
+    <WebView
+        android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="问题页面,内嵌H5"
         />
 </LinearLayout>

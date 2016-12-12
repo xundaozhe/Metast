@@ -63,7 +63,7 @@ public class HeaderFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = new Dialog(getActivity(), R.style.BottomDialog);
+        Dialog dialog = new Dialog(getActivity(), R.style.take_photo_anim);
         dialog.setContentView(R.layout.home_header_pop);
         dialog.setCanceledOnTouchOutside(true);
 

@@ -16,7 +16,10 @@ import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.util.TextUtils;
 import com.iuunited.myhome.util.ToastUtils;
 
+import cn.jpush.android.api.JPushInterface;
+
 import static com.amap.api.col.c.m;
+import static com.iuunited.myhome.util.UIUtils.getResources;
 
 /**
  * @author xundaozhe
@@ -25,7 +28,7 @@ import static com.amap.api.col.c.m;
  * @des ${TODO}
  * @updateAuthor $Author$
  * @updateDate $Date$
- * @updateDes $TODO$
+ * @updateDes 应用开启页面
  * Created by xundaozhe on 2016/10/26.
  */
 public class StartActivity extends BaseFragmentActivity {
@@ -42,7 +45,7 @@ public class StartActivity extends BaseFragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
         initView();
         setAnimation();
         initData();
@@ -69,7 +72,6 @@ public class StartActivity extends BaseFragmentActivity {
         userName = DefaultShared.getStringValue(MyApplication.getContext(), Config.CONFIG_USERNAME, "");
         password = DefaultShared.getStringValue(MyApplication.getContext(), Config.CONFIG_PASSWORD, "");
         sessionId = DefaultShared.getStringValue(MyApplication.getContext(), Config.CONFIG_SESSIONID, "");
-
     }
 
     @Override
@@ -109,5 +111,17 @@ public class StartActivity extends BaseFragmentActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(getApplicationContext());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(getApplicationContext());
     }
 }

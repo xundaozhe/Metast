@@ -88,6 +88,7 @@ public class ProIntroductActivity extends BaseFragmentActivity implements Servic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pro_introduct);
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
         initView();
         initData();
     }

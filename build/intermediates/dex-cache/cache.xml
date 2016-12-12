@@ -39,6 +39,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\libs\umeng_shareboard_widget.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="26fdb654c7bbd306bbfe347345cfd0fa1a5391dc">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\umeng_shareboard_widget_78a5d616d15ec5267f858714108655b92e6c445e.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.3.0\jars\classes.jar"
         jumboMode="false"
         optimize="true"
@@ -66,15 +75,6 @@
     </item>
     <item
         is-multidex="false"
-        jar="D:\androidstudioapp\MyHome\app\libs\android-support-v4.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="9b6a9a9078af571732159b904ad423b03b7cc786">
-        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\android-support-v4_a319e39203d03381953f8f7280fdc1358b5ac3e0.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="D:\androidstudioapp\MyHome\app\libs\SocialSDK_Sina_Simplify.jar"
         jumboMode="false"
         optimize="true"
@@ -84,12 +84,30 @@
     </item>
     <item
         is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\cn.jiguang\jpush\2.2.0\jars\libs\jpush-android-2.2.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="bdb4befc8831c8e194013e752d1ffd495a619538">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\jpush-android-2.2.0_9786269be6c62b4aa0f73658c18121d284a30ebf.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="D:\sdk\newsdk\extras\android\m2repository\com\android\support\support-annotations\23.3.0\support-annotations-23.3.0.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
         sha1="db7791d75a07fef9844d06236c1c59ba7bf6997c">
         <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\support-annotations-23.3.0_26f5418e0f0caf59b8d1b858631234a64811a5b0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\libs\umeng_social_shareboard.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="0e46bbb0b60c0d74ed810020de2b406a4aa4ec40">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\umeng_social_shareboard_96d45288bfb0a79f930a0c13e2491f5d017d202f.jar" />
     </item>
     <item
         is-multidex="false"
@@ -225,6 +243,15 @@
         revision="23.0.3"
         sha1="29cf65d299e133ec68caba92b29f69289713975b">
         <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\universal-image-loader-1.9.3-SNAPSHOT_52ae4e914ec85b1829674bef3c40f191f5abc60a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="D:\androidstudioapp\MyHome\app\build\intermediates\exploded-aar\cn.jiguang\jpush\2.2.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="cfaa3f7e6af83f2c621e032fc82cc64eaa677883">
+        <dex dex="D:\androidstudioapp\MyHome\app\build\intermediates\pre-dexed\debug\cn.jiguang-jpush-2.2.0_5f78f3b65b034520b2431cd5483a7fe120534b90.jar" />
     </item>
     <item
         is-multidex="false"

@@ -32,6 +32,7 @@ public class BriefIntroductActivity extends BaseFragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_briefintroduct);
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
         initView();
         initData();
     }

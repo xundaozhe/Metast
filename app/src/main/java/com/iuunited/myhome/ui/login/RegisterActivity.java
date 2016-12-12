@@ -79,7 +79,8 @@ public class RegisterActivity extends BaseFragmentActivity implements ServiceCli
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
+
         initView();
         initData();
     }

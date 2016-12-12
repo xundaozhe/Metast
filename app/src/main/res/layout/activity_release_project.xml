@@ -69,7 +69,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#ffffff">
-        <com.iuunited.myhome.base.NoSwipeableViewPager
+        <!--<com.iuunited.myhome.base.NoSwipeableViewPager-->
+        <android.support.v4.view.ViewPager
             android:id="@+id/vp_project"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

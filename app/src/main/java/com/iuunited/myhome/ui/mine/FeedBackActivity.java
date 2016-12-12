@@ -43,6 +43,7 @@ public class FeedBackActivity extends BaseFragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mine_feedback);
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
         initView();
         initData();
     }

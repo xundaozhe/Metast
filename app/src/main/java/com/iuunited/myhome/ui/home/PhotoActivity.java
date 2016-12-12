@@ -19,6 +19,8 @@ import com.iuunited.myhome.util.FileUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.iuunited.myhome.base.BaseFragmentActivity.setColor;
+
 /**
  * @author xundaozhe
  * @version $Rev$
@@ -46,7 +48,7 @@ public class PhotoActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
-
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
         photo_relativeLayout = (RelativeLayout) findViewById(R.id.photo_relativeLayout);
         photo_relativeLayout.setBackgroundColor(0x70000000);
 

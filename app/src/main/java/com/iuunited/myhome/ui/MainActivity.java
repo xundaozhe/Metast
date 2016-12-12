@@ -22,6 +22,7 @@ import com.iuunited.myhome.view.MyFragmentTabhost;
 
 import static com.iuunited.myhome.R.id.SwipeRefreshLayout;
 import static com.iuunited.myhome.R.id.view;
+import static com.iuunited.myhome.base.BaseFragmentActivity.setColor;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
+
         initView();
     }
 
@@ -65,11 +68,19 @@ public class MainActivity extends AppCompatActivity {
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
-                if(tabId.equals("three")) {
-                    HeaderFragment headerFragment = new HeaderFragment();
-                    headerFragment.show(getSupportFragmentManager(),"fragmentDialog");
+//                if(tabId.equals("three")) {
+//                    HeaderFragment headerFragment = new HeaderFragment();
+//                    headerFragment.show(getSupportFragmentManager(),"fragmentDialog");
+//
+//                }
+            }
+        });
 
-                }
+        tabHost.getTabWidget().getChildTabViewAt(2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HeaderFragment headerFragment = new HeaderFragment();
+                headerFragment.show(getSupportFragmentManager(),"fragmentDialog");
             }
         });
     }

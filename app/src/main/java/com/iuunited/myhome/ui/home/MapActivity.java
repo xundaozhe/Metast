@@ -39,10 +39,13 @@ import com.amap.api.services.poisearch.PoiSearch;
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
 import com.iuunited.myhome.entity.Config;
+import com.iuunited.myhome.event.UserAddressEvent;
 import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.util.TextUtils;
 import com.iuunited.myhome.view.ClearEditText;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -53,6 +56,7 @@ import java.util.Locale;
 
 import static android.R.attr.key;
 import static com.iuunited.myhome.R.id.juli;
+import static com.iuunited.myhome.base.BaseFragmentActivity.setColor;
 
 /**
  * @author xundaozhe
@@ -95,8 +99,7 @@ public class MapActivity extends Activity implements View.OnClickListener, PoiSe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-
-
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
         mapView = (MapView) findViewById(R.id.mapView);
         iv_back = (RelativeLayout) findViewById(R.id.iv_back);
         et_map_search = (ClearEditText) findViewById(R.id.et_map_search);
@@ -179,7 +182,9 @@ public class MapActivity extends Activity implements View.OnClickListener, PoiSe
                     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = new Date(amapLocation.getTime());
                     df.format(date);//定位时间
-                    String bf = amapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
+                    address = amapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
+                    EventBus.getDefault().post(new UserAddressEvent(address));
+                    DefaultShared.putStringValue(getApplicationContext(),Config.CONFIG_ADDRESS,address);
                     amapLocation.getCountry();//国家信息
                     amapLocation.getProvince();//省信息
                     city = amapLocation.getCity();//城市信息
@@ -191,7 +196,6 @@ public class MapActivity extends Activity implements View.OnClickListener, PoiSe
                     String a= amapLocation.getAoiName();//获取当前定位点的AOI信息
                     lat = amapLocation.getLatitude();
                     lon = amapLocation.getLongitude();
-                    address = amapLocation.getAddress();
                     Log.v("pcw", "lat : " + lat + " lon : " + lon);
                     Log.v("pcw", "Country : " + amapLocation.getCountry() + " province : " + amapLocation.getProvince() + " City : " + amapLocation.getCity() + " District : " + amapLocation.getDistrict());
 
@@ -336,6 +340,7 @@ public class MapActivity extends Activity implements View.OnClickListener, PoiSe
                     }
                 }else{
 //                    search();
+                    finish();
                 }
                 break;
         }

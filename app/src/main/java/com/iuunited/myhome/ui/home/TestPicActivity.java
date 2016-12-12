@@ -18,6 +18,8 @@ import com.iuunited.myhome.bean.ImageBucket;
 import java.io.Serializable;
 import java.util.List;
 
+import static com.iuunited.myhome.base.BaseFragmentActivity.setColor;
+
 /**
  * @author xundaozhe
  * @version $Rev$
@@ -43,6 +45,7 @@ public class TestPicActivity extends Activity {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_bucket);
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
         ReleaseProjectActivity.addActivity(TestPicActivity.this);
         helper = AlbumHelper.getHelper();
         helper.init(getApplicationContext());

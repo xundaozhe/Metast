@@ -17,4 +17,6 @@ public class Config {
     public static String CONFIG_SESSIONID = "sessionID";
     public static String CONFIG_USERID = "userId";
     public static String CONFIG_USERTYPE = "userType";
+
+    public static String CONFIG_ADDRESS = "address";
 }

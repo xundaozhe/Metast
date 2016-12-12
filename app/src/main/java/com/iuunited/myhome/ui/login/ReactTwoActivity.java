@@ -31,6 +31,7 @@ public class ReactTwoActivity extends BaseFragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_react_one);
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
         initView();
         initData();
     }

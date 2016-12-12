@@ -34,6 +34,7 @@ public class AddNewProjectActivity extends BaseFragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_project);
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
         initView();
         initData();
     }

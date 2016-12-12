@@ -10,10 +10,13 @@ import android.widget.RelativeLayout;
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
 import com.iuunited.myhome.task.ICancelListener;
+import com.iuunited.myhome.ui.adapter.EditProjectGvAdapter;
 import com.iuunited.myhome.util.IntentUtil;
+import com.iuunited.myhome.view.MyGridView;
 import com.iuunited.myhome.view.ProjectCancelDialog;
 
 import static com.amap.api.col.v.p;
+import static com.iuunited.myhome.util.UIUtils.getResources;
 
 /**
  * @author xundaozhe
@@ -34,11 +37,15 @@ public class ItemProjectDetailsActivity extends BaseFragmentActivity {
 
     private ProjectCancelDialog mCancelDialog;
 
+    private MyGridView gv_project_details;
+    private EditProjectGvAdapter mAdapter;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_project_details);
-
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
         initView();
         initData();
     }
@@ -47,12 +54,23 @@ public class ItemProjectDetailsActivity extends BaseFragmentActivity {
         ll_no_interest = (LinearLayout)findViewById(R.id.ll_no_interest);
         ll_prepare_assess = (LinearLayout) findViewById(R.id.ll_prepare_assess);
         iv_back = (RelativeLayout)findViewById(R.id.iv_back);
+
+        gv_project_details = (MyGridView)findViewById(R.id.gv_project_details);
     }
 
     private void initData() {
         ll_no_interest.setOnClickListener(this);
         ll_prepare_assess.setOnClickListener(this);
         iv_back.setOnClickListener(this);
+        setAdapter();
+    }
+
+    private void setAdapter() {
+        if(mAdapter == null) {
+            mAdapter = new EditProjectGvAdapter(this);
+            gv_project_details.setAdapter(mAdapter);
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

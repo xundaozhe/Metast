@@ -35,6 +35,7 @@ public class ProListActivity extends BaseFragmentActivity implements AdapterView
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pro_list);
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
         initView();
         initData();
     }

@@ -23,6 +23,7 @@ import com.iuunited.myhome.ui.mine.BriefIntroductActivity;
 import com.iuunited.myhome.ui.mine.ProIntroductActivity;
 import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.IntentUtil;
+import com.iuunited.myhome.util.ToastUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,10 +58,14 @@ public class MessageChatActivity extends BaseFragmentActivity {
 
     private final static int COUNT = 12;// 初始化数组总数
 
+    private boolean isMe = true;//是谁发出的消息
+    private TextView tv_msgType;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_chat);
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
         initView();
         initData();
         mListview.setSelection(mAdapter.getCount() - 1);
@@ -85,6 +90,7 @@ public class MessageChatActivity extends BaseFragmentActivity {
         btn_send = (Button)findViewById(R.id.btn_send);
         et_sendmessage = (EditText)findViewById(R.id.et_sendmessage);
         mListview = (ListView)findViewById(R.id.listview);
+        tv_msgType = (TextView)findViewById(R.id.tv_msgType);
     }
 
     private void initData() {
@@ -116,6 +122,7 @@ public class MessageChatActivity extends BaseFragmentActivity {
 
         mAdapter = new ChatMessageViewAdapter(this, mdatas);
         mListview.setAdapter(mAdapter);
+        tv_msgType.setOnClickListener(this);
     }
 
     @Override
@@ -132,8 +139,41 @@ public class MessageChatActivity extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.btn_send:
-                send();
+                if(isMe) {
+                    send();
+                }else{
+                    accept();
+                }
                 break;
+            case R.id.tv_msgType:
+                if(isMe) {
+                    tv_msgType.setText("对方");
+                    isMe = false;
+                }else{
+                    tv_msgType.setText("自己");
+                    isMe = true;
+                }
+                break;
+        }
+    }
+
+    private void accept(){
+        String contString = et_sendmessage.getText().toString();
+        if (contString.length() > 0) {
+            ChatMsgEntity entity = new ChatMsgEntity();
+            entity.setName("肖B");
+            entity.setDate(getDate());
+            entity.setMessage(contString);
+            entity.setMsgType(true);
+
+            mdatas.add(entity);
+            mAdapter.notifyDataSetChanged();// 通知ListView，数据已发生改变
+
+            et_sendmessage.setText("");// 清空编辑框数据
+
+            mListview.setSelection(mListview.getCount() - 1);// 发送一条消息时，ListView显示选择最后一项
+        }else{
+            ToastUtils.showShortToast(this,"不能发送空消息!");
         }
     }
 
@@ -152,6 +192,8 @@ public class MessageChatActivity extends BaseFragmentActivity {
             et_sendmessage.setText("");// 清空编辑框数据
 
             mListview.setSelection(mListview.getCount() - 1);// 发送一条消息时，ListView显示选择最后一项
+        }else{
+            ToastUtils.showShortToast(this,"不能发送空消息!");
         }
     }
 
@@ -160,41 +202,4 @@ public class MessageChatActivity extends BaseFragmentActivity {
         return format.format(new Date());
     }
 
-//    private void showInputManager(EditText editText) {
-//        editText.setFocusable(true);
-//        editText.setFocusableInTouchMode(true);
-//        editText.requestFocus();
-//
-//        /** 目前测试来看，还是挺准的
-//         * 原理：OnGlobalLayoutListener 每次布局变化时都会调用
-//         * 界面view 显示消失都会调用，软键盘显示与消失时都调用
-//         * */
-//        mRootView.getViewTreeObserver().addOnGlobalLayoutListener(mLayoutChangeListener);
-//        InputMethodManager inputManager =
-//                (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-//        inputManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
-//
-//    }
-//
-//    ViewTreeObserver.OnGlobalLayoutListener mLayoutChangeListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-//        @Override
-//        public void onGlobalLayout() {
-//            //判断窗口可见区域大小
-//            Rect r = new Rect();
-//            // getWindowVisibleDisplayFrame()会返回窗口的可见区域高度
-//            getWindow().getDecorView().getWindowVisibleDisplayFrame(r);
-//            //如果屏幕高度和Window可见区域高度差值大于整个屏幕高度的1/3，则表示软键盘显示中，否则软键盘为隐藏状态。
-//            int heightDifference = WT.mScreenHeight - (r.bottom - r.top);
-//            boolean isKeyboardShowing = heightDifference > WT.mScreenHeight / 3;
-//            if(isKeyboardShowing){
-////                D.i("slack","show..."+ r.bottom + " - " + r.top + " = " + (r.bottom - r.top) +","+ heightDifference);
-//                // bottomView 需要跟随软键盘移动的布局
-//                // setDuration(0) 默认300, 设置 0 ，表示动画执行时间为0，没有过程，只有动画结果了
-//                bottomView.animate().translationY(-heightDifference).setDuration(0).start();
-//            }else{
-////                D.i("slack","hide...");
-//                bottomView.animate().translationY(0).start();
-//            }
-//        }
-//    };
 }

@@ -76,6 +76,7 @@ public class SettingActivity extends BaseFragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
         initView();
         initData();
     }

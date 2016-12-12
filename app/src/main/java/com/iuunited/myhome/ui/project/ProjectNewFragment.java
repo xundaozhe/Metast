@@ -63,6 +63,8 @@ public class ProjectNewFragment extends BaseFragments implements View.OnClickLis
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if(userType.equals("2")) {
             IntentUtil.startActivity(getActivity(), ItemProjectDetailsActivity.class);
+        }else if(userType.equals("1")) {
+            IntentUtil.startActivity(getActivity(), ProjectDetailsActivity.class);
         }
     }
 }

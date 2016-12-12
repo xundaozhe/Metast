@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -19,7 +20,6 @@ import android.widget.TextView;
 
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
-import com.iuunited.myhome.base.NoSwipeableViewPager;
 import com.iuunited.myhome.base.ViewPagerAdapter;
 import com.iuunited.myhome.event.ChangeProjectFmEvent;
 import com.iuunited.myhome.ui.MainActivity;
@@ -31,6 +31,9 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.iuunited.myhome.R.id.pro_rg_banner;
+import static com.iuunited.myhome.base.BaseFragmentActivity.setColor;
+
 /**
  * @author xundaozhe
  * @version $Rev$
@@ -38,7 +41,7 @@ import java.util.List;
  * @des ${TODO}
  * @updateAuthor $Author$
  * @updateDate $Date$
- * @updateDes $TODO$
+ * @updateDes 发布新项目
  * Created by xundaozhe on 2016/10/27.
  */
 public class ReleaseProjectActivity extends FragmentActivity implements View.OnClickListener
@@ -48,7 +51,7 @@ public class ReleaseProjectActivity extends FragmentActivity implements View.OnC
     private TextView tv_title;
     private ImageView iv_share;
 
-    private NoSwipeableViewPager vp_project;
+    private ViewPager vp_project;
     private ArrayList<Fragment> fragments = null;
     private ProjectOneFragment mProjectOneFragment;
     private ProjectTwoFragment mProjectTwoFragment;
@@ -64,6 +67,8 @@ public class ReleaseProjectActivity extends FragmentActivity implements View.OnC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_release_project);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
         initView();
         initData();
         EventBus.getDefault().register(this);
@@ -85,7 +90,7 @@ public class ReleaseProjectActivity extends FragmentActivity implements View.OnC
         iv_back = (RelativeLayout) findViewById(R.id.iv_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
         iv_share = (ImageView)findViewById(R.id.iv_share);
-        vp_project = (NoSwipeableViewPager) findViewById(R.id.vp_project);
+        vp_project = (ViewPager) findViewById(R.id.vp_project);
         fragments = new ArrayList<>();
         rg_project = (RadioGroup)findViewById(R.id.rg_project);
         rb_project_one = (RadioButton)findViewById(R.id.rb_project_one);
@@ -96,6 +101,9 @@ public class ReleaseProjectActivity extends FragmentActivity implements View.OnC
 
     private void initData() {
         iv_back.setOnClickListener(this);
+        rb_project_one.setOnClickListener(this);
+        rb_project_two.setOnClickListener(this);
+        rb_project_three.setOnClickListener(this);
         tv_title.setVisibility(View.GONE);
         iv_share.setVisibility(View.GONE);
         mProjectOneFragment = new ProjectOneFragment();
@@ -104,16 +112,18 @@ public class ReleaseProjectActivity extends FragmentActivity implements View.OnC
         fragments.add(mProjectOneFragment);
         fragments.add(mProjectTwoFragment);
         fragments.add(mProjectThreeFragment);
+        vp_project.setOffscreenPageLimit(fragments.size());
         pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         pagerAdapter.setFragments(fragments);
         vp_project.setAdapter(pagerAdapter);
+        vp_project.setOnPageChangeListener(new MyPagerChangeListener());
         swichTab(0);
     }
 
     public void swichTab(int index) {
-        vp_project.setCurrentItem(index, false);
+        vp_project.setCurrentItem(index, true);
         pagerAdapter.notifyDataSetChanged();
-//        rg_project.check(rg_project.getChildAt(index).getId());
+        rg_project.check(rg_project.getChildAt(index).getId());
         if(index == 0) {
             rb_project_one.setBackgroundResource(R.drawable.project_one_fill);
             rb_project_two.setBackgroundResource(R.drawable.project_two);
@@ -139,7 +149,15 @@ public class ReleaseProjectActivity extends FragmentActivity implements View.OnC
                 intent.setClass(ReleaseProjectActivity.this,MainActivity.class);
                 startActivity(intent);
                 break;
-
+            case R.id.rb_project_one:
+                swichTab(0);
+                break;
+            case R.id.rb_project_two:
+                swichTab(1);
+                break;
+            case R.id.rb_project_three:
+                swichTab(2);
+                break;
         }
     }
 
@@ -160,6 +178,30 @@ public class ReleaseProjectActivity extends FragmentActivity implements View.OnC
 
     public static void clearOneAcitvity(Activity activity) {
         activitys.remove(activity);
+    }
+
+    public class MyPagerChangeListener implements ViewPager.OnPageChangeListener{
+
+        @Override
+        public void onPageSelected(int position) {
+            if(rg_project.getCheckedRadioButtonId() != rg_project.getChildAt(position).getId()) {
+                swichTab(position);
+            }
+        }
+
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+
+
     }
 
 }

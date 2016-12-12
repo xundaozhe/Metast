@@ -26,6 +26,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.iuunited.myhome.base.BaseFragmentActivity.setColor;
+
 /**
  * @author xundaozhe
  * @version $Rev$
@@ -66,6 +68,8 @@ public class ImageGridActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_image_grid);
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
+
         ReleaseProjectActivity.addActivity(ImageGridActivity.this);
         helper = AlbumHelper.getHelper();
         helper.init(getApplicationContext());

@@ -25,7 +25,6 @@ import com.iuunited.myhome.util.ToastUtils;
  * @updateDes $TODO$
  * Created by xundaozhe on 2016/11/29.
  */
-
 public class AddNewTaxActivity extends BaseFragmentActivity {
 
     private RelativeLayout iv_back;
@@ -44,6 +43,7 @@ public class AddNewTaxActivity extends BaseFragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_tax);
+        setColor(this,getResources().getColor(R.color.myHomeBlue));
         initView();
         initData();
     }
@@ -52,7 +52,6 @@ public class AddNewTaxActivity extends BaseFragmentActivity {
         iv_back = (RelativeLayout)findViewById(R.id.iv_back);
         tv_title = (TextView)findViewById(R.id.tv_title);
         iv_share = (ImageView)findViewById(R.id.iv_share);
-
         et_tax_name = (EditText)findViewById(R.id.et_tax_name);
         et_tax_value = (EditText)findViewById(R.id.et_tax_value);
         tv_cancel = (TextView)findViewById(R.id.tv_cancel);

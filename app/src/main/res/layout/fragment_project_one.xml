@@ -6,7 +6,7 @@
     android:background="#ffffff">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp">
+        android:layout_height="140dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +41,6 @@
             android:layout_marginLeft="12dp"
             android:layout_centerVertical="true"
             android:textColorHint="#8D8D8D"
-            android:inputType="textPassword"
             android:textSize="16sp"/>
     </RelativeLayout>
     <View
@@ -51,6 +50,48 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="8dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp">
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="地址"
+            android:textSize="16sp"
+            android:textColor="#3D3D3D"/>
+        <EditText
+            android:id="@+id/et_address"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_address"
+            android:hint="地址"
+            android:background="@null"
+            android:layout_marginLeft="45dp"
+            android:layout_centerVertical="true"
+            android:textColorHint="#B9B9B9"
+            android:textSize="16sp"/>
+        <Button
+            android:id="@+id/btn_select_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="从地图上选择"
+            android:background="@drawable/send_idfcode"
+            android:textColor="#ffffff"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#BBBBBB"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,17 +115,9 @@
             android:layout_marginLeft="45dp"
             android:layout_centerVertical="true"
             android:textColorHint="#B9B9B9"
-            android:inputType="textPassword"
-            android:textSize="16sp"/>
-        <Button
-            android:id="@+id/btn_select_map"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="从地图上选择"
-            android:background="@drawable/send_idfcode"
-            android:textColor="#ffffff"/>
+            android:textSize="16sp"
+            android:maxLines="2"/>
+
     </RelativeLayout>
     <View
         android:layout_width="match_parent"

@@ -64,6 +64,8 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if(userType.equals("2")) {
             IntentUtil.startActivity(getActivity(),ProUnderWayDetailsActivity.class);
+        }else if(userType.equals("1")) {
+            IntentUtil.startActivity(getActivity(),ProjectDetailsActivity.class);
         }
     }
 }
