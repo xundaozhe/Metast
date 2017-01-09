@@ -62,6 +62,9 @@
         <item name="android:windowExitAnimation">@anim/pop_exit_anim</item>
     </style>
 
+    <style name="single_choice">
+        <item name="android:background">@drawable/single_choice_selector</item>
+    </style>
 
 
 </resources>

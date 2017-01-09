@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.iuunited.myhome.util.UIUtils.getResources;
+
 /**
  * @author xundaozhe
  * @version $Rev$
@@ -56,8 +58,8 @@ public class MessageChatActivity extends BaseFragmentActivity {
     private ChatMessageViewAdapter mAdapter;
     private List<ChatMsgEntity> mdatas = new ArrayList<>();
 
-    private final static int COUNT = 12;// 初始化数组总数
-
+    private final static int COUNT = 8;// 初始化数组总数
+// AIzaSyAuEzV57Lqjf0ZQzQJUp6tCm4IqtW-IwLY
     private boolean isMe = true;//是谁发出的消息
     private TextView tv_msgType;
 
@@ -71,17 +73,15 @@ public class MessageChatActivity extends BaseFragmentActivity {
         mListview.setSelection(mAdapter.getCount() - 1);
     }
 
-    private String[] msgArray = new String[] { "有大吗", "有！你呢？", "我也有", "那上吧",
-            "打啊！你放大啊！", "你TM咋不放大呢？留大抢人头啊？CAO！你个菜B", "2B不解释", "尼滚...",
-            "今晚去网吧包夜吧？", "有毛片吗？", "种子一大堆啊~还怕没片？", "OK,搞起！！" };
+    private String[] msgArray = new String[] { "你好", "您好,请问有什么可以帮到您?",
+            "我想知道修好我的门大概需要多长时间?", "按照目前的进度,再3个小时就可以了",
+            "好的,那您帮忙算一下一共是多少钱呢?", "280", "好的,谢谢", "不客气"};
 
     private String[] dataArray = new String[] { "2016-11-30 18:00:02",
             "2016-11-30 18:10:22", "2016-11-30 18:11:24",
             "2016-11-30 18:20:23", "2016-11-30 18:30:31",
             "2016-11-30 18:35:37", "2016-11-30 18:40:13",
-            "2016-11-30 18:50:26", "2016-11-30 18:52:57",
-            "2016-11-30 18:55:11", "2016-11-30 18:56:45",
-            "2016-11-30 18:57:33", };
+            "2016-11-30 18:50:26" };
     private void initView() {
         iv_back = (RelativeLayout) findViewById(R.id.iv_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
@@ -110,10 +110,10 @@ public class MessageChatActivity extends BaseFragmentActivity {
             ChatMsgEntity entity = new ChatMsgEntity();
             entity.setDate(dataArray[i]);
             if (i % 2 == 0) {
-                entity.setName("肖B");
+                entity.setName("Bobo");
                 entity.setMsgType(true);// 收到的消息
             } else {
-                entity.setName("必败");
+                entity.setName("Eric");
                 entity.setMsgType(false);// 自己发送的消息
             }
             entity.setMessage(msgArray[i]);
@@ -161,7 +161,7 @@ public class MessageChatActivity extends BaseFragmentActivity {
         String contString = et_sendmessage.getText().toString();
         if (contString.length() > 0) {
             ChatMsgEntity entity = new ChatMsgEntity();
-            entity.setName("肖B");
+            entity.setName("Bobo");
             entity.setDate(getDate());
             entity.setMessage(contString);
             entity.setMsgType(true);
@@ -181,7 +181,7 @@ public class MessageChatActivity extends BaseFragmentActivity {
         String contString = et_sendmessage.getText().toString();
         if (contString.length() > 0) {
             ChatMsgEntity entity = new ChatMsgEntity();
-            entity.setName("必败");
+            entity.setName("Eric");
             entity.setDate(getDate());
             entity.setMessage(contString);
             entity.setMsgType(false);

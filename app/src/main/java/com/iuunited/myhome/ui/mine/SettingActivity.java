@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -12,7 +13,9 @@ import android.widget.TextView;
 
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
+import com.iuunited.myhome.entity.Config;
 import com.iuunited.myhome.ui.MainActivity;
+import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.IntentUtil;
 
 /**
@@ -72,6 +75,11 @@ public class SettingActivity extends BaseFragmentActivity {
     private ImageView iv_email_push_two;
     private int email_push_two_check = 1;
 
+    private String userType;
+    
+    private Button btn_revise;
+    private Button btn_add_specialty;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +102,7 @@ public class SettingActivity extends BaseFragmentActivity {
         rl_mine_setting = (RelativeLayout)findViewById(R.id.rl_mine_setting);
         iv_notice_setting = (ImageView)findViewById(R.id.iv_notice_setting);
         ll_notice_setting = (LinearLayout)findViewById(R.id.ll_notice_setting);
+        btn_revise = (Button)findViewById(R.id.btn_revise);
 
         rl_specialty_setting = (RelativeLayout) findViewById(R.id.rl_specialty_setting);
         iv_specialty_more = (ImageView) findViewById(R.id.iv_specialty_more);
@@ -115,10 +124,13 @@ public class SettingActivity extends BaseFragmentActivity {
         iv_email_push = (ImageView) findViewById(R.id.iv_email_push);
         iv_push_notice_two = (ImageView) findViewById(R.id.iv_push_notice_two);
         iv_email_push_two = (ImageView)findViewById(R.id.iv_email_push_two);
+
+        btn_add_specialty = (Button)findViewById(R.id.btn_add_specialty);
     }
 
     private void initData() {
-        iv_back.setOnClickListener(this);//TODO
+        userType = DefaultShared.getStringValue(this, Config.CONFIG_USERTYPE,0+"");
+        iv_back.setOnClickListener(this);
         tv_title.setText("设置");
         iv_share.setVisibility(View.GONE);
 
@@ -130,11 +142,21 @@ public class SettingActivity extends BaseFragmentActivity {
         rl_individual_setting.setOnClickListener(this);
         rl_money_center.setOnClickListener(this);
         rl_close_account.setOnClickListener(this);
+        btn_revise.setOnClickListener(this);
 
         iv_push_notice.setOnClickListener(this);
         iv_email_push.setOnClickListener(this);
         iv_push_notice_two.setOnClickListener(this);
         iv_email_push_two.setOnClickListener(this);
+
+        btn_add_specialty.setOnClickListener(this);
+
+        if(!userType.equals("0")) {
+            if(userType.equals("1")) {
+                rl_specialty_setting.setVisibility(View.GONE);
+                rl_money_center.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
@@ -161,6 +183,9 @@ public class SettingActivity extends BaseFragmentActivity {
             case R.id.tv_forget_pwd:
                 IntentUtil.startActivity(this,ForgetPwdActivity.class);
                 break;
+            case R.id.btn_add_specialty:
+                IntentUtil.startActivity(this,EditSpecialtyActivity.class);
+                break;
             case R.id.rl_mine_setting:
                 if(noticeSettingCheck == 1) {
                     iv_notice_setting.setImageResource(R.drawable.item_project_adown);
@@ -171,6 +196,9 @@ public class SettingActivity extends BaseFragmentActivity {
                     ll_notice_setting.setVisibility(View.GONE);
                     noticeSettingCheck = 1;
                 }
+                break;
+            case R.id.btn_revise:
+                IntentUtil.startActivity(this,ReviseSettingActivity.class);
                 break;
             case R.id.rl_specialty_setting:
                 if(specialtyCheck == 1) {

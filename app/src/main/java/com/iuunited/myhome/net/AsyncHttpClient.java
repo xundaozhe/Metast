@@ -102,6 +102,7 @@ public class AsyncHttpClient {
     public static final String HEADER_ACCEPT_ENCODING = "Accept-Encoding";
     public static final String ENCODING_GZIP = "gzip";
     public static final String HEADER_SESSION_ID = "session-id";
+    public static final String HEADER_USER_ID = "user-id";
 
     public static final int DEFAULT_MAX_CONNECTIONS = 10;
     public static final int DEFAULT_CONNECT_TIMEOUT = 5 * 1000;

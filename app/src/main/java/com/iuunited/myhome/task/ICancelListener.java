@@ -1,6 +1,7 @@
 package com.iuunited.myhome.task;
 
 import android.app.Activity;
+import android.content.Context;
 
 /**
  * @author xundaozhe
@@ -14,5 +15,5 @@ import android.app.Activity;
  */
 
 public interface ICancelListener {
-    public void cancelClick(int id, Activity activity);
+    public void cancelClick(int id, Context context);
 }

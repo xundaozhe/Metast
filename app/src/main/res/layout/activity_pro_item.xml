@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+            android:background="@color/textWhite">
+    <include layout="@layout/comment_banner_top"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/lv_pro_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:scrollbars="none"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:background="#F2F2F2">
+            <Button
+                android:id="@+id/btn_item_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_weight="1"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="100dp"
+                android:text="编辑"
+                android:background="@drawable/send_idfcode"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

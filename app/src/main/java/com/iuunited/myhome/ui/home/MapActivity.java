@@ -29,6 +29,7 @@ import com.amap.api.maps2d.MapsInitializer;
 import com.amap.api.maps2d.model.BitmapDescriptor;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.maps2d.overlay.PoiOverlay;
 import com.amap.api.services.core.LatLonPoint;
@@ -40,9 +41,11 @@ import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
 import com.iuunited.myhome.entity.Config;
 import com.iuunited.myhome.event.UserAddressEvent;
+import com.iuunited.myhome.event.UserMarkerAddressEvent;
 import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.util.TextUtils;
+import com.iuunited.myhome.util.ToastUtils;
 import com.iuunited.myhome.view.ClearEditText;
 
 import org.greenrobot.eventbus.EventBus;
@@ -57,6 +60,7 @@ import java.util.Locale;
 import static android.R.attr.key;
 import static com.iuunited.myhome.R.id.juli;
 import static com.iuunited.myhome.base.BaseFragmentActivity.setColor;
+import static com.umeng.qq.tencent.m.m;
 
 /**
  * @author xundaozhe
@@ -68,7 +72,7 @@ import static com.iuunited.myhome.base.BaseFragmentActivity.setColor;
  * @updateDes 集成高德地图实现用户定位
  * Created by xundaozhe on 2016/10/27.
  */
-public class MapActivity extends Activity implements View.OnClickListener, PoiSearch.OnPoiSearchListener {
+public class MapActivity extends Activity implements View.OnClickListener, PoiSearch.OnPoiSearchListener, AMap.OnMarkerClickListener{
 
     private MapView mapView;
     private AMap aMap;
@@ -92,7 +96,7 @@ public class MapActivity extends Activity implements View.OnClickListener, PoiSe
     private String userType;
     private String address;
 
-
+    private String classNmme;
 
 
     @Override
@@ -109,6 +113,7 @@ public class MapActivity extends Activity implements View.OnClickListener, PoiSe
         mapView.onCreate(savedInstanceState);//必须要写
         tv_list = (TextView)findViewById(R.id.tv_list);
         tv_list.setOnClickListener(this);
+        classNmme = getIntent().getStringExtra("class");
         userType = DefaultShared.getStringValue(this, Config.CONFIG_USERTYPE,0+"");
 
         if(!userType.equals("0")) {
@@ -196,6 +201,8 @@ public class MapActivity extends Activity implements View.OnClickListener, PoiSe
                     String a= amapLocation.getAoiName();//获取当前定位点的AOI信息
                     lat = amapLocation.getLatitude();
                     lon = amapLocation.getLongitude();
+//                    lat = 43.4;
+//                    lon = 79.22;
                     Log.v("pcw", "lat : " + lat + " lon : " + lon);
                     Log.v("pcw", "Country : " + amapLocation.getCountry() + " province : " + amapLocation.getProvince() + " City : " + amapLocation.getCity() + " District : " + amapLocation.getDistrict());
 
@@ -221,6 +228,7 @@ public class MapActivity extends Activity implements View.OnClickListener, PoiSe
                     Log.e("AmapError", "location Error, ErrCode:"
                             + amapLocation.getErrorCode() + ", errInfo:"
                             + amapLocation.getErrorInfo());
+                    ToastUtils.showLongToast(MapActivity.this,"定位失败,请稍后重试!");
                 }
             }
         }
@@ -330,12 +338,14 @@ public class MapActivity extends Activity implements View.OnClickListener, PoiSe
             case R.id.btn_search:
 //                search();
                 if(userType.equals("1")) {
-                    if (!TextUtils.isEmpty(address)) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("address", address);
-                        IntentUtil.startActivity(this, ReleaseProjectActivity.class, bundle);
-                        finish();
-                    } else {
+                    if(!TextUtils.isEmpty(classNmme)) {
+                        if(!classNmme.equals("ReviseEssentialActivity")) {
+                            classNmme = "";
+                            IntentUtil.startActivityAndFinish(this, ReleaseProjectActivity.class);
+                        }else{
+                            finish();
+                        }
+                    }else{
                         finish();
                     }
                 }else{
@@ -417,6 +427,14 @@ public class MapActivity extends Activity implements View.OnClickListener, PoiSe
                         poiOverlay.removeFromMap();
                         poiOverlay.addToMap();
                         poiOverlay.zoomToSpan();
+                        aMap.setOnMarkerClickListener(this);
+                        PoiItem poiItem;
+//                        for (int j = 0; j < poiItems.size(); j++) {
+//                            poiItem = poiItems.get(j);
+//                            if (poiItem.getPoiId().equals(poiOverlay.getPoiItem(j).getPoiId())) {
+//                                ToastUtils.showShortToast(MapActivity.this,"***"+poiItem.getPoiId()+poiOverlay.getPoiItem(j).getPoiId());
+//                            }
+//                        }
                     } else if (suggestionCities != null
                             && suggestionCities.size() > 0) {
                         showSuggestCity(suggestionCities);
@@ -459,8 +477,19 @@ public class MapActivity extends Activity implements View.OnClickListener, PoiSe
 
     @Override
     public void onPoiItemSearched(PoiItem poiItem, int i) {
-
+        ToastUtils.showShortToast(MapActivity.this,poiItem.toString());
     }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        String markerAddress = "";
+        String snippet = marker.getSnippet();
+        String title = marker.getTitle();
+        markerAddress = title+"("+snippet+")";
+        EventBus.getDefault().post(new UserMarkerAddressEvent(markerAddress));
+        return false;
+    }
+
 }
 
 

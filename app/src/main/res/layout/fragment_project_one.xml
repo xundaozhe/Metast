@@ -4,44 +4,36 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
     android:background="#ffffff">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="140dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:text="基本信息"
-            android:textColor="#282828"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
-    </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="20dp">
         <TextView
-            android:id="@+id/iv_tellPhone"
+            android:id="@+id/iv_project_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="家庭安装:"
+            android:text="工程名称"
             android:textSize="16sp"
-            android:textColor="#8D8D8D"/>
-        <EditText
-            android:layout_width="wrap_content"
+            android:textColor="#3D3D3D"/>
+        <TextView
+            android:id="@+id/tv_project_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/iv_tellPhone"
-            android:hint="门安装"
+            android:layout_toRightOf="@id/iv_project_name"
+            android:hint="如门安装、车库改造等"
             android:background="@null"
             android:layout_marginLeft="12dp"
             android:layout_centerVertical="true"
-            android:textColorHint="#8D8D8D"
-            android:textSize="16sp"/>
+            android:textColorHint="#B9B9B9"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:ellipsize="end"
+            />
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -55,7 +47,44 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="10dp">
+        <TextView
+            android:id="@+id/iv_tellPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="手机号码"
+            android:textSize="16sp"
+            android:textColor="#3D3D3D"/>
+        <EditText
+            android:id="@+id/et_user_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_tellPhone"
+            android:hint="手机号码"
+            android:background="@null"
+            android:layout_marginLeft="12dp"
+            android:layout_centerVertical="true"
+            android:textColorHint="#B9B9B9"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:ellipsize="end"
+            />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#BBBBBB"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="8dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp">
         <TextView
             android:id="@+id/tv_address"
             android:layout_width="wrap_content"
@@ -63,6 +92,7 @@
             android:layout_alignParentLeft="true"
             android:text="地址"
             android:textSize="16sp"
+            android:layout_centerVertical="true"
             android:textColor="#3D3D3D"/>
         <EditText
             android:id="@+id/et_address"
@@ -74,8 +104,11 @@
             android:layout_marginLeft="45dp"
             android:layout_centerVertical="true"
             android:textColorHint="#B9B9B9"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textSize="16sp"/>
-        <Button
+        <TextView
             android:id="@+id/btn_select_map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -107,7 +140,8 @@
             android:textSize="16sp"
             android:textColor="#3D3D3D"/>
         <EditText
-            android:layout_width="wrap_content"
+            android:id="@+id/et_zip_code"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/iv_idf_code"
             android:hint="邮政编码"
@@ -116,7 +150,9 @@
             android:layout_centerVertical="true"
             android:textColorHint="#B9B9B9"
             android:textSize="16sp"
-            android:maxLines="2"/>
+            android:maxLines="1"
+            android:singleLine="true"
+            android:ellipsize="end"/>
 
     </RelativeLayout>
     <View
@@ -132,7 +168,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="140dp"
         android:text="@string/next"
         android:background="@drawable/send_idfcode"
         android:textSize="16sp"

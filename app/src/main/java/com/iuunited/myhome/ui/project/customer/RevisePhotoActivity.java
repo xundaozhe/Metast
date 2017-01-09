@@ -40,7 +40,6 @@ import com.iuunited.myhome.view.ProjectCancelDialog;
 import java.io.IOException;
 
 import static android.R.attr.data;
-import static com.iuunited.myhome.R.id.btn_cancel;
 import static com.iuunited.myhome.R.id.view;
 
 /**

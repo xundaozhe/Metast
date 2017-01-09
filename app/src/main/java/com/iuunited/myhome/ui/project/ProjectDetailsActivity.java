@@ -1,23 +1,46 @@
 package com.iuunited.myhome.ui.project;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.common.escape.ArrayBasedUnicodeEscaper;
+import com.iuunited.myhome.Helper.ServiceClient;
 import com.iuunited.myhome.R;
+import com.iuunited.myhome.base.ActivityCollector;
 import com.iuunited.myhome.base.BaseFragmentActivity;
+import com.iuunited.myhome.bean.AnswerBean;
+import com.iuunited.myhome.bean.DetailsQuestionBean;
+import com.iuunited.myhome.bean.ProjectInfoBean;
+import com.iuunited.myhome.bean.QueryProjectDetailsRequest;
 import com.iuunited.myhome.task.ICancelListener;
 import com.iuunited.myhome.ui.MainActivity;
+import com.iuunited.myhome.ui.adapter.DetailsQuestionAdapter;
 import com.iuunited.myhome.ui.adapter.EditProjectGvAdapter;
+import com.iuunited.myhome.ui.adapter.ProjectEvaluateAdapter;
+import com.iuunited.myhome.ui.project.customer.LoocUpDetailsActivity;
 import com.iuunited.myhome.util.IntentUtil;
+import com.iuunited.myhome.util.TextUtils;
+import com.iuunited.myhome.util.ToastUtils;
+import com.iuunited.myhome.view.LoadingDialog;
 import com.iuunited.myhome.view.MyGridView;
+import com.iuunited.myhome.view.MyListView;
 import com.iuunited.myhome.view.ProjectCancelDialog;
+import com.jauker.widget.BadgeView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.R.id.list;
 
 
 /**
@@ -30,36 +53,89 @@ import com.iuunited.myhome.view.ProjectCancelDialog;
  * @updateDes 工程---全部---用户详情页
  * Created by xundaozhe on 2016/10/28.
  */
-public class ProjectDetailsActivity extends BaseFragmentActivity {
+public class ProjectDetailsActivity extends BaseFragmentActivity implements AdapterView.OnItemClickListener, ServiceClient.IServerRequestable {
+
+    private static final int QUERY_PROJECT_DETAILS_SUCCESS = 0X001;
+    private static final int QUERY_PROJECT_DETAILS_FAILURE = 0X002;
 
     private RelativeLayout iv_back;
     private TextView tv_title;
     private ImageView iv_share;
-    private LinearLayout ll_quoted_price;
-    
+
     private LinearLayout ll_edit_project;
     private LinearLayout ll_cancel_project;
+    private LinearLayout ll_check_details;
     private ProjectCancelDialog mCancelDialog;
+
+    private TextView tv_project_name;
+    private TextView tv_title_name;
+    private TextView tv_telephone;
+    private TextView tv_address;
+    private TextView tv_description;
+    private TextView tv_date;
 
     private MyGridView gv_project_details;
     private EditProjectGvAdapter mAdapter;
+    private List<String> imageUrls = new ArrayList<>();
+    private MyListView lv_evaluate;
+    private ProjectEvaluateAdapter mEvaluateAdapter;
+    private MyListView lv_details_question;
+    private List<AnswerBean> mQuestionData = new ArrayList<>();
+    private DetailsQuestionAdapter mQuestionAdapter;
+
+    private String claz = "";
+    private BadgeView badgeView;
+    private ImageView iv_details;
+    private TextView tv_postcode;
+
+    private String projecttName;
+    private String telePhone;
+    private String address;
+    private String postCode;
+
+    private int itemId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_details);
         setColor(this,getResources().getColor(R.color.myHomeBlue));
+        ActivityCollector.finishAll();
         initView();
         initData();
     }
 
     private void initView() {
+        itemId = getIntent().getIntExtra("itemId",0);
+        claz = getIntent().getStringExtra("underWay");
         iv_back = (RelativeLayout) findViewById(R.id.iv_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
         iv_share = (ImageView)findViewById(R.id.iv_share);
-        ll_quoted_price = (LinearLayout)findViewById(R.id.ll_quoted_price);
+        iv_details = (ImageView)findViewById(R.id.iv_details);
         ll_edit_project = (LinearLayout)findViewById(R.id.ll_edit_project);
         ll_cancel_project = (LinearLayout) findViewById(R.id.ll_cancel_project);
+        ll_check_details = (LinearLayout)findViewById(R.id.ll_check_details);
+        tv_project_name = (TextView)findViewById(R.id.tv_project_name);
+        tv_title_name = (TextView)findViewById(R.id.tv_title_name);
+        tv_telephone = (TextView) findViewById(R.id.tv_telephone);
+        tv_address = (TextView) findViewById(R.id.tv_address);
+        tv_postcode = (TextView) findViewById(R.id.tv_postcode);
+        tv_description = (TextView) findViewById(R.id.tv_description);
+        tv_date = (TextView) findViewById(R.id.tv_date);
+
+        badgeView = new BadgeView(this);
+        badgeView.setTargetView(iv_details);
+        badgeView.setBadgeMargin(24,0,0,24);
+        badgeView.setBadgeCount(2);
+        if(claz!=null) {
+            if(claz.equals("underWay")) {
+                ll_edit_project.setVisibility(View.GONE);
+                ll_cancel_project.setVisibility(View.GONE);
+                ll_check_details.setVisibility(View.VISIBLE);
+            }
+        }
+        lv_evaluate = (MyListView)findViewById(R.id.lv_evaluate);
+        lv_details_question = (MyListView) findViewById(R.id.lv_details_question);
 
         gv_project_details = (MyGridView)findViewById(R.id.gv_project_details);
     }
@@ -67,15 +143,127 @@ public class ProjectDetailsActivity extends BaseFragmentActivity {
     private void initData() {
         iv_back.setOnClickListener(this);
         tv_title.setText("工程");
-        ll_quoted_price.setOnClickListener(this);
         ll_edit_project.setOnClickListener(this);
         ll_cancel_project.setOnClickListener(this);
-        setAdapter();
+        ll_check_details.setOnClickListener(this);
+        initProjectDetails();
+        setImageAdapter();
+        setEvaluateAdapter();
+        lv_evaluate.setOnItemClickListener(this);
     }
 
-    private void setAdapter() {
+    private void initProjectDetails() {
+        if(mLoadingDialog == null) {
+            mLoadingDialog = new LoadingDialog(this);
+            mLoadingDialog.setMessage("加载中...");
+        }
+        mLoadingDialog.show();
+        QueryProjectDetailsRequest request = new QueryProjectDetailsRequest();
+        request.setId(itemId);
+        ServiceClient.requestServer(this, "加载中...", request, QueryProjectDetailsRequest.QueryProjectDetailsResponse.class,
+                new ServiceClient.OnSimpleActionListener<QueryProjectDetailsRequest.QueryProjectDetailsResponse>() {
+                    @Override
+                    public void onSuccess(QueryProjectDetailsRequest.QueryProjectDetailsResponse responseDto) {
+                        Message message = new Message();
+                        if (responseDto.getOperateCode() == 0) {
+                            projecttName = responseDto.getName();
+                            if (!TextUtils.isEmpty(projecttName)) {
+                                tv_project_name.setText(projecttName);
+                                tv_title_name.setText(projecttName);
+                            }
+                            telePhone = responseDto.getTelephone();
+                            if (!TextUtils.isEmpty(telePhone)) {
+                                tv_telephone.setText(telePhone);
+                            }
+                            address = responseDto.getAddress();
+                            if (!TextUtils.isEmpty(address)) {
+                                tv_address.setText(address);
+                            }
+                            postCode = responseDto.getPostCode();
+                            if (!TextUtils.isEmpty(postCode)) {
+                                tv_postcode.setText(postCode);
+                            }
+                            List<AnswerBean> answers = responseDto.getAnswers();
+                            for (int i = 0; i < answers.size(); i++) {
+                                AnswerBean answerBean = answers.get(i);
+                                mQuestionData.add(answerBean);
+                            }
+                            if (mQuestionData.size() == answers.size()) {
+                                setQuestionAdapter();
+                            }
+                            String description = responseDto.getDescription();
+                            if (!TextUtils.isEmpty(description)) {
+                                tv_description.setText(description);
+                            } else {
+                                tv_description.setVisibility(View.GONE);
+                            }
+                            List<String> urls = responseDto.getUrls();
+                            if (urls != null && urls.size() > 0) {
+                                for (int i = 0; i < urls.size(); i++) {
+                                    String url = urls.get(i);
+                                    imageUrls.add(url);
+                                }
+                                if (imageUrls.size() > 0) {
+                                    if (imageUrls.size() == urls.size()) {
+                                        setImageAdapter();
+                                    }
+                                } else {
+                                    gv_project_details.setVisibility(View.GONE);
+                                }
+                            }
+                            message.what = QUERY_PROJECT_DETAILS_SUCCESS;
+                            sendUiMessage(message);
+                        } else {
+                            message.what = QUERY_PROJECT_DETAILS_FAILURE;
+                            sendUiMessage(message);
+                        }
+                    }
+
+                    @Override
+                    public boolean onFailure(String errorMessage) {
+                        return false;
+                    }
+                });
+    }
+
+    @Override
+    protected void handleUiMessage(Message msg) {
+        super.handleUiMessage(msg);
+        switch (msg.what) {
+            case QUERY_PROJECT_DETAILS_SUCCESS :
+                if(mLoadingDialog!=null) {
+                    mLoadingDialog.dismiss();
+                }
+                break;
+            case QUERY_PROJECT_DETAILS_FAILURE:
+                if (mLoadingDialog != null) {
+                    mLoadingDialog.dismiss();
+                }
+                ToastUtils.showShortToast(this, "加载失败,请稍后重试!");
+                this.finish();
+                break;
+        }
+    }
+
+    private void setQuestionAdapter() {
+        if(mQuestionAdapter == null) {
+            mQuestionAdapter = new DetailsQuestionAdapter(this, mQuestionData);
+            lv_details_question.setAdapter(mQuestionAdapter);
+        }
+        mQuestionAdapter.notifyDataSetChanged();
+    }
+
+    private void setEvaluateAdapter() {
+        if(mEvaluateAdapter == null) {
+            mEvaluateAdapter = new ProjectEvaluateAdapter(this);
+            lv_evaluate.setAdapter(mEvaluateAdapter);
+        }
+        mEvaluateAdapter.notifyDataSetChanged();
+    }
+
+    private void setImageAdapter() {
         if(mAdapter == null) {
-            mAdapter = new EditProjectGvAdapter(this);
+            mAdapter = new EditProjectGvAdapter(this,imageUrls);
             gv_project_details.setAdapter(mAdapter);
         }
         mAdapter.notifyDataSetChanged();
@@ -90,16 +278,13 @@ public class ProjectDetailsActivity extends BaseFragmentActivity {
                 intent.setClass(ProjectDetailsActivity.this,MainActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.ll_quoted_price:
-                IntentUtil.startActivity(this,QuotedPriceActivity.class);
-                break;
             case R.id.ll_edit_project:
                 IntentUtil.startActivity(this,ReviseProjectActivity.class);
                 break;
             case R.id.ll_cancel_project:
                 mCancelDialog = new ProjectCancelDialog(this, new ICancelListener() {
                     @Override
-                    public void cancelClick(int id, Activity activity) {
+                    public void cancelClick(int id, Context activity) {
                         switch (id) {
                             case R.id.dialog_btn_sure :
                                 finish();
@@ -109,6 +294,39 @@ public class ProjectDetailsActivity extends BaseFragmentActivity {
                 },"取消工程","您确定要取消这个工程吗?");
                 mCancelDialog.show();
                 break;
+            case R.id.ll_check_details:
+                IntentUtil.startActivity(this,LoocUpDetailsActivity.class);
+                break;
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        IntentUtil.startActivity(this,QuotedPriceActivity.class);
+    }
+
+    @Override
+    public void showLoadingDialog(String text) {
+
+    }
+
+    @Override
+    public void dismissLoadingDialog() {
+
+    }
+
+    @Override
+    public void showCustomToast(String text) {
+
+    }
+
+    @Override
+    public boolean getSuccessful() {
+        return false;
+    }
+
+    @Override
+    public void setSuccessful(boolean isSuccessful) {
+
     }
 }

@@ -167,7 +167,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginLeft="15dp">
+                android:layout_marginLeft="20dp">
+                <ImageView
+                    android:id="@+id/iv_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/phone"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/iv_phone"
+                    android:layout_centerVertical="true"
+                    android:text="15768186245"
+                    android:textColor="#333333"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="10dp"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp">
                 <ImageView
                     android:id="@+id/iv_location"
                     android:layout_width="wrap_content"
@@ -188,21 +210,22 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="12dp">
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp">
                 <ImageView
-                    android:id="@+id/iv_timer"
+                    android:id="@+id/iv_zip_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/time"/>
+                    android:src="@drawable/icon_zip_code"
+                    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/iv_timer"
+                    android:layout_toRightOf="@id/iv_zip_code"
                     android:layout_centerVertical="true"
-                    android:text="2016-10-07"
+                    android:text="042600"
                     android:textColor="#333333"
                     android:textSize="16sp"
                     android:layout_marginLeft="10dp"/>
@@ -211,21 +234,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="12dp">
                 <ImageView
-                    android:id="@+id/iv_zip_code"
+                    android:id="@+id/iv_timer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/icon_zip_code"/>
+
+                    android:src="@drawable/time"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/iv_zip_code"
+                    android:layout_toRightOf="@id/iv_timer"
                     android:layout_centerVertical="true"
-                    android:text="042600"
+                    android:text="2016-10-07"
                     android:textColor="#333333"
                     android:textSize="16sp"
                     android:layout_marginLeft="10dp"/>

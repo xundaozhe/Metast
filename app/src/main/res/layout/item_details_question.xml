@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+            android:background="@color/textWhite">
+    <TextView
+        android:id="@+id/tv_question_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="关上门的时候有问题吗？"
+        android:textColor="#4D4D4D"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"/>
+    <TextView
+        android:id="@+id/tv_question_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="没有"
+        android:textColor="#4D4D4D"
+        android:textSize="15sp"
+        android:layout_marginTop="5dp"/>
+</LinearLayout>

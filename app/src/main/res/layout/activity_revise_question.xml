@@ -3,11 +3,29 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:gravity="center">
+              android:background="#ffffff">
     <include layout="@layout/comment_banner_top"/>
-    <WebView
-        android:id="@+id/webView"
+    <com.iuunited.myhome.view.MyListView
+        android:id="@+id/lv_interlocution"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:layout_marginTop="10dp"
         />
+    <com.iuunited.myhome.view.MyListView
+        android:id="@+id/lv_single_selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:layout_marginTop="20dp"
+        />
+    <com.iuunited.myhome.view.MyListView
+        android:id="@+id/lv_multi_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:layout_marginTop="20dp"
+        />
+
+
 </LinearLayout>

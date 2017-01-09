@@ -1,5 +1,7 @@
 package com.iuunited.myhome.ui.mine;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -14,10 +16,10 @@ import com.iuunited.myhome.base.BaseFragments;
 import com.iuunited.myhome.base.MyApplication;
 import com.iuunited.myhome.entity.Config;
 import com.iuunited.myhome.ui.StartActivity;
-import com.iuunited.myhome.ui.login.LoginActivity;
 import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.util.TextUtils;
+import com.iuunited.myhome.view.ProjectCancelDialog;
 
 /**
  * @author xundaozhe
@@ -41,6 +43,10 @@ public class MineFragment extends BaseFragments implements View.OnClickListener 
     private RelativeLayout rl_dropout_app;
     private String userType;
 
+    private String typeMessage;
+
+    private ProjectCancelDialog mCancelDialog;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,6 +68,7 @@ public class MineFragment extends BaseFragments implements View.OnClickListener 
     }
 
     private void initData() {
+        typeMessage = DefaultShared.getStringValue(getActivity(),"typeMessage","");
         iv_back.setVisibility(View.GONE);
         iv_share.setVisibility(View.GONE);
         tv_title.setText("我的");
@@ -72,32 +79,79 @@ public class MineFragment extends BaseFragments implements View.OnClickListener 
         rl_dropout_app.setOnClickListener(this);
 
         userType = DefaultShared.getStringValue(getActivity(),Config.CONFIG_USERTYPE,"0");
+        onclick();
+    }
+
+    private void onclick() {
+        if(!TextUtils.isEmpty(typeMessage)) {
+            if(typeMessage.equals("message")) {
+
+            }
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_mine_feedback :
-                IntentUtil.startActivity(getActivity(),FeedBackActivity.class);
+//                if(!TextUtils.isEmpty(typeMessage)) {
+//                    if(typeMessage.equals("message")) {
+//                        ToastUtils.showShortToast(getActivity(),"请点击退出后再进行此类操作!");
+//                    }
+//                }else{
+                    IntentUtil.startActivity(getActivity(),FeedBackActivity.class);
+//                }
                 break;
             case R.id.rl_mine_setting :
-                IntentUtil.startActivity(getActivity(),SettingActivity.class);
+//                if(!TextUtils.isEmpty(typeMessage)) {
+//                    if(typeMessage.equals("message")) {
+//                        ToastUtils.showShortToast(getActivity(),"请点击退出后再进行此类操作!");
+//                    }
+//                }else {
+                    IntentUtil.startActivity(getActivity(), SettingActivity.class);
+//                }
                 break;
             case R.id.rl_abstract://简介 -- 用户简介  装修商简介
-                if(!TextUtils.isEmpty(userType)) {
-                    if(userType.equals("1")) {
-                        IntentUtil.startActivity(getActivity(),BriefIntroductActivity.class);
-                    }else{
-                        IntentUtil.startActivity(getActivity(), ProIntroductActivity.class);
+//                if(!TextUtils.isEmpty(typeMessage)) {
+//                    if(typeMessage.equals("message")) {
+//                        ToastUtils.showShortToast(getActivity(),"请点击退出后再进行此类操作!");
+//                    }
+//                }else {
+                    if (!TextUtils.isEmpty(userType)) {
+                        if (userType.equals("1")) {
+                            IntentUtil.startActivity(getActivity(), BriefIntroductActivity.class);
+                        } else {
+                            IntentUtil.startActivity(getActivity(), ProIntroductActivity.class);
+                        }
                     }
-                }
+//                }
                 break;
             case R.id.rl_mine_aboutMy:
-                IntentUtil.startActivity(getActivity(), AboutMyActivity.class);
+//                if(!TextUtils.isEmpty(typeMessage)) {
+//                    if(typeMessage.equals("message")) {
+//                        ToastUtils.showShortToast(getActivity(),"请点击退出后再进行此类操作!");
+//                    }
+//                }else {
+                    IntentUtil.startActivity(getActivity(), AboutMyActivity.class);
+//                }
                 break;
             case R.id.rl_dropout_app:
-                DefaultShared.clear(MyApplication.getContext());
-                IntentUtil.startActivityAndFinish(getActivity(), StartActivity.class);
+                AlertDialog dialog = new AlertDialog.Builder(getActivity()).setTitle("退出登录")
+                        .setMessage("确定退出当前登录?").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                DefaultShared.clear(MyApplication.getContext());
+                                IntentUtil.startActivityAndFinish(getActivity(), StartActivity.class);
+                            }
+                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+                dialog.show();
+
+
                 break;
         }
     }

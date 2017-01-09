@@ -4,11 +4,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
 import com.iuunited.myhome.ui.project.professional.AddNewProjectActivity;
+import com.iuunited.myhome.ui.project.professional.EditNewProjectActivity;
+import com.iuunited.myhome.ui.project.professional.ProItemDepotActivity;
 import com.iuunited.myhome.util.IntentUtil;
 
 /**
@@ -25,8 +29,13 @@ import com.iuunited.myhome.util.IntentUtil;
 public class ProjectAssessActivity extends BaseFragmentActivity {
 
     private RelativeLayout iv_back;
+    private TextView tv_title;
+    private ImageView iv_share;
     
-    private Button btn_add_project;
+
+    private Button btn_item_depot;
+    private Button btn_new_item;
+    
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,12 +48,18 @@ public class ProjectAssessActivity extends BaseFragmentActivity {
 
     private void initView() {
         iv_back = (RelativeLayout)findViewById(R.id.iv_back);
-        btn_add_project = (Button)findViewById(R.id.btn_add_project);
+        tv_title = (TextView)findViewById(R.id.tv_title);
+        iv_share = (ImageView) findViewById(R.id.iv_share);
+        btn_item_depot = (Button)findViewById(R.id.btn_item_depot);
+        btn_new_item = (Button) findViewById(R.id.btn_new_item);
     }
 
     private void initData() {
         iv_back.setOnClickListener(this);
-        btn_add_project.setOnClickListener(this);
+        tv_title.setText("昵称");
+        iv_share.setVisibility(View.GONE);
+        btn_item_depot.setOnClickListener(this);
+        btn_new_item.setOnClickListener(this);
     }
     
 
@@ -54,8 +69,12 @@ public class ProjectAssessActivity extends BaseFragmentActivity {
             case R.id.iv_back :
                 finish();
                 break;
-            case R.id.btn_add_project:
-                IntentUtil.startActivity(this, AddNewProjectActivity.class);
+//                IntentUtil.startActivity(this, AddNewProjectActivity.class);
+            case R.id.btn_item_depot:
+                IntentUtil.startActivity(this,ProItemDepotActivity.class);
+                break;
+            case R.id.btn_new_item:
+                IntentUtil.startActivity(this,EditNewProjectActivity.class);
                 break;
         }
     }

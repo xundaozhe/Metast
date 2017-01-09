@@ -60,7 +60,7 @@ public class AddNewProjectActivity extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.btn_add_new_project:
-                IntentUtil.startActivity(this,EditProjectActivity.class);
+                IntentUtil.startActivity(this,EditNewProjectActivity.class);
                 break;
         }
     }

@@ -58,7 +58,27 @@
                         android:layout_height="wrap_content"
                         android:text="不感兴趣"
                         android:layout_marginTop="8dp"
-                        android:textColor="@color/textBlack"
+                        android:textColor="#614DA7"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_increase_cost"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:visibility="gone">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/icon_increase_cost"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="成本"
+                        android:layout_marginTop="8dp"
+                        android:textColor="#614DA7"
                         android:textSize="16sp"/>
                 </LinearLayout>
                 <LinearLayout
@@ -77,7 +97,7 @@
                         android:layout_height="wrap_content"
                         android:text="准备估价"
                         android:layout_marginTop="8dp"
-                        android:textColor="@color/textBlack"
+                        android:textColor="#614DA7"
                         android:textSize="16sp"/>
                 </LinearLayout>
             </LinearLayout>
@@ -87,112 +107,64 @@
                 android:background="#ebebeb"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textColor="@color/textBlack"
-                    android:text="估价"
+                    android:text="装修商估价"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="15dp"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="#bbbbbb"
-                    android:text="还没有估价"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="15dp"/>
-                <View
+                    />
+                <com.iuunited.myhome.view.MyListView
+                    android:id="@+id/lv_evaluate"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="#bbbbbb"
-                    android:layout_marginTop="10dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="客户的信息"
-                    android:textSize="16sp"
-                    android:textColor="@color/textBlack"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="15dp"/>
+                    android:divider="@null"
+                    android:layout_marginBottom="15dp"/>
             </LinearLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#e1e1e1">
-                <com.iuunited.myhome.view.RoundedImageView
-                    android:id="@+id/riv_custom_header"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="15dp"
-                    android:background="@drawable/aobama"/>
-                <TextView
-                    android:id="@+id/tv_custom_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="WAI Wong"
-                    android:textColor="@color/textBlack"
-                    android:textSize="16sp"
-                    android:layout_toRightOf="@id/riv_custom_header"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="25dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="没有评分"
-                    android:textColor="@color/textBlack"
-                    android:textSize="16sp"
-                    android:layout_toRightOf="@id/riv_custom_header"
-                    android:layout_below="@id/tv_custom_name"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"/>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_marginRight="20dp">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/item_message_img"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="聊天"
-                        android:textSize="16sp"
-                        android:textColor="@color/textBlack"
-                        android:layout_marginTop="5dp"/>
-                </LinearLayout>
-            </RelativeLayout>
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#bbbbbb"
-                android:layout_marginTop="15dp"
-                />
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:background="#ebebeb"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="        以前的工作还没有做完,浴室还有一些地方需要装瓷砖或者翻新。"
-                android:textColor="#bbbbbb"
-                android:textSize="14sp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="20dp"/>
+                android:text="浴室修门"
+                android:textColor="#101010"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginLeft="15dp">
+                android:layout_marginLeft="20dp">
+                <ImageView
+                    android:id="@+id/iv_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/phone"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/iv_phone"
+                    android:layout_centerVertical="true"
+                    android:text="15768186245"
+                    android:textColor="#333333"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="10dp"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp">
                 <ImageView
                     android:id="@+id/iv_location"
                     android:layout_width="wrap_content"
@@ -213,21 +185,22 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="12dp">
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp">
                 <ImageView
-                    android:id="@+id/iv_timer"
+                    android:id="@+id/iv_zip_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/time"/>
+                    android:src="@drawable/icon_zip_code"
+                    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/iv_timer"
+                    android:layout_toRightOf="@id/iv_zip_code"
                     android:layout_centerVertical="true"
-                    android:text="2016-10-07"
+                    android:text="042600"
                     android:textColor="#333333"
                     android:textSize="16sp"
                     android:layout_marginLeft="10dp"/>
@@ -236,21 +209,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="12dp">
                 <ImageView
-                    android:id="@+id/iv_zip_code"
+                    android:id="@+id/iv_timer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/icon_zip_code"/>
+
+                    android:src="@drawable/time"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/iv_zip_code"
+                    android:layout_toRightOf="@id/iv_timer"
                     android:layout_centerVertical="true"
-                    android:text="042600"
+                    android:text="2016-10-07"
                     android:textColor="#333333"
                     android:textSize="16sp"
                     android:layout_marginLeft="10dp"/>
@@ -267,53 +241,12 @@
                 android:layout_marginLeft="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="你有什么财产?"
-                    android:textSize="16sp"
-                    android:textColor="@color/textBlack"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="房子"
-                    android:textColor="#6d6b6b"
-                    android:textSize="15sp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="房门还是屏蔽门?"
-                    android:layout_marginTop="15dp"
-                    android:textSize="16sp"
-                    android:textColor="@color/textBlack"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="没有回答"
-                    android:textColor="#6d6b6b"
-                    android:textSize="15sp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="门关上的时候有问题吗?"
-                    android:layout_marginTop="15dp"
-                    android:textSize="16sp"
-                    android:textColor="@color/textBlack"/>
-                <RelativeLayout
+                <com.iuunited.myhome.view.MyListView
+                    android:id="@+id/lv_details_question"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="没有"
-                        android:textColor="#6d6b6b"
-                        android:textSize="15sp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentLeft="true"/>
-                </RelativeLayout>
+                    android:layout_height="wrap_content"
+                    android:divider="@null"
+                    android:scrollbars="none"/>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"

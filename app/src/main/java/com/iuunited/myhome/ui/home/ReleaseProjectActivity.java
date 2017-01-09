@@ -23,6 +23,7 @@ import com.iuunited.myhome.base.BaseFragmentActivity;
 import com.iuunited.myhome.base.ViewPagerAdapter;
 import com.iuunited.myhome.event.ChangeProjectFmEvent;
 import com.iuunited.myhome.ui.MainActivity;
+import com.iuunited.myhome.view.MyViewPager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -51,10 +52,10 @@ public class ReleaseProjectActivity extends FragmentActivity implements View.OnC
     private TextView tv_title;
     private ImageView iv_share;
 
-    private ViewPager vp_project;
+    private MyViewPager vp_project;
     private ArrayList<Fragment> fragments = null;
     private ProjectOneFragment mProjectOneFragment;
-    private ProjectTwoFragment mProjectTwoFragment;
+    public ProjectTwoFragment mProjectTwoFragment;
     private ProjectThreeFragment mProjectThreeFragment;
     private ViewPagerAdapter pagerAdapter;
 
@@ -90,7 +91,7 @@ public class ReleaseProjectActivity extends FragmentActivity implements View.OnC
         iv_back = (RelativeLayout) findViewById(R.id.iv_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
         iv_share = (ImageView)findViewById(R.id.iv_share);
-        vp_project = (ViewPager) findViewById(R.id.vp_project);
+        vp_project = (MyViewPager) findViewById(R.id.vp_project);
         fragments = new ArrayList<>();
         rg_project = (RadioGroup)findViewById(R.id.rg_project);
         rb_project_one = (RadioButton)findViewById(R.id.rb_project_one);
@@ -101,9 +102,7 @@ public class ReleaseProjectActivity extends FragmentActivity implements View.OnC
 
     private void initData() {
         iv_back.setOnClickListener(this);
-        rb_project_one.setOnClickListener(this);
-        rb_project_two.setOnClickListener(this);
-        rb_project_three.setOnClickListener(this);
+
         tv_title.setVisibility(View.GONE);
         iv_share.setVisibility(View.GONE);
         mProjectOneFragment = new ProjectOneFragment();
@@ -116,8 +115,16 @@ public class ReleaseProjectActivity extends FragmentActivity implements View.OnC
         pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         pagerAdapter.setFragments(fragments);
         vp_project.setAdapter(pagerAdapter);
+        vp_project.setScrollble(false);
         vp_project.setOnPageChangeListener(new MyPagerChangeListener());
         swichTab(0);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mProjectTwoFragment.onDestroyView();
     }
 
     public void swichTab(int index) {
@@ -133,6 +140,10 @@ public class ReleaseProjectActivity extends FragmentActivity implements View.OnC
             rb_project_two.setBackgroundResource(R.drawable.project_two_fill);
             rb_project_three.setBackgroundResource(R.drawable.project_three);
         }else{
+            vp_project.setScrollble(true);
+            rb_project_one.setOnClickListener(this);
+            rb_project_two.setOnClickListener(this);
+            rb_project_three.setOnClickListener(this);
             rb_project_one.setBackgroundResource(R.drawable.project_one);
             rb_project_two.setBackgroundResource(R.drawable.project_two);
             rb_project_three.setBackgroundResource(R.drawable.project_three_fill);

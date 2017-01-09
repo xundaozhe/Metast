@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragments;
 import com.iuunited.myhome.bean.BadgeBean;
+import com.iuunited.myhome.entity.Config;
 import com.iuunited.myhome.task.ICommentListener;
 import com.iuunited.myhome.ui.adapter.BadgeAdapter;
 import com.iuunited.myhome.ui.adapter.GridAdapter;
@@ -35,7 +36,9 @@ import com.iuunited.myhome.ui.adapter.TerritoryLoreAdapter;
 import com.iuunited.myhome.ui.home.PhotoActivity;
 import com.iuunited.myhome.ui.home.TestPicActivity;
 import com.iuunited.myhome.util.Bimp;
+import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.FileUtils;
+import com.iuunited.myhome.util.TextUtils;
 import com.iuunited.myhome.view.MyGridView;
 import com.iuunited.myhome.view.MyListView;
 import com.iuunited.myhome.view.CreateLoreDialog;
@@ -88,6 +91,10 @@ public class ProDetailsFragment extends BaseFragments implements View.OnClickLis
 //    private List<String> datas = new ArrayList<>();
     private List<HashMap<Integer,String>> datas = new ArrayList<>();
     private int index = 0;
+
+    private TextView tv_edit_synopsis;
+
+    private String userType;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable final Bundle savedInstanceState) {
@@ -110,6 +117,7 @@ public class ProDetailsFragment extends BaseFragments implements View.OnClickLis
         initLoreAdapter();
         tv_edit_photo = (TextView) view.findViewById(R.id.tv_edit_photo);
         gv_publish_image = (MyGridView) view.findViewById(R.id.gv_publish_image);
+        tv_edit_synopsis = (TextView) view.findViewById(R.id.tv_edit_synopsis);
         setAdapter();
 
     }
@@ -121,6 +129,16 @@ public class ProDetailsFragment extends BaseFragments implements View.OnClickLis
     }
 
     private void initData() {
+        userType = DefaultShared.getStringValue(mContext, Config.CONFIG_USERTYPE,0+"");
+        if(!TextUtils.isEmpty(userType)) {
+            if(!userType.equals("0")) {
+                if(userType.equals("1")) {
+                    tv_lore_edit.setVisibility(View.GONE);
+                    tv_edit_synopsis.setVisibility(View.GONE);
+                    tv_edit_photo.setVisibility(View.GONE);
+                }
+            }
+        }
         mDatas = new ArrayList<>();
         BadgeBean bean = null;
         if(bean ==null) {

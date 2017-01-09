@@ -2,6 +2,8 @@ package com.iuunited.myhome.base;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import com.iuunited.myhome.Helper.ServiceClient;
 import com.umeng.socialize.Config;
@@ -20,7 +22,7 @@ import cn.jpush.android.api.JPushInterface;
  * @updateDes $TODO$
  * Created by xundaozhe on 2016/10/26.
  */
-public class MyApplication extends Application {
+public class MyApplication extends MultiDexApplication {
     private static Context mContext;
     private static long mMainThreadId;
     public static String sessionId;
@@ -63,5 +65,11 @@ public class MyApplication extends Application {
 
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }

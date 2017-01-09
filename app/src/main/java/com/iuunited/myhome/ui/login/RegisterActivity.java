@@ -31,6 +31,8 @@ import com.iuunited.myhome.util.ToastUtils;
 import com.iuunited.myhome.view.LoadingDialog;
 import com.iuunited.myhome.view.RegisterSuccessDialog;
 
+import static com.iuunited.myhome.base.MyApplication.userId;
+
 /**
  * @author xundaozhe
  * @version $Rev$
@@ -80,7 +82,7 @@ public class RegisterActivity extends BaseFragmentActivity implements ServiceCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         setColor(this,getResources().getColor(R.color.myHomeBlue));
-
+        ActivityCollector.addActivity(this);
         initView();
         initData();
     }
@@ -283,17 +285,19 @@ public class RegisterActivity extends BaseFragmentActivity implements ServiceCli
                                         if(mLoadingDialog != null) {
                                             mLoadingDialog.dismiss();
                                         }
-                                        int userId = responseDto.getUserId();
+                                        MyApplication.userId = responseDto.getUserId();
                                         String mobile = responseDto.getMobile();
                                         if (userId != 0) {
                                             DefaultShared.putStringValue(MyApplication.getContext(), Config.CONFIG_USERID, userId + "");
                                             DefaultShared.putStringValue(MyApplication.getContext(), Config.CONFIG_USERNAME, mobile);
                                             DefaultShared.putStringValue(MyApplication.getContext(),Config.CONFIG_PASSWORD,passWord);
                                         }
-                                        MyApplication.userId = userId;
+                                        userId = userId;
                                         MyApplication.mobile = mobile;
                                         MyApplication.userLogoUri = responseDto.getLogoUri();
-                                        ActivityCollector.finishAll();
+//                                        ActivityCollector.finishAll();
+                                        int userType = MyApplication.userType;
+                                        DefaultShared.putStringValue(getApplicationContext(),Config.CONFIG_USERTYPE,userType+"");
                                         showSuccessDialog();
                                     }else if(operateCode == 20) {
                                         ToastUtils.showShortToast(RegisterActivity.this,"用户已经存在,请直接登录");
@@ -407,6 +411,7 @@ public class RegisterActivity extends BaseFragmentActivity implements ServiceCli
                             if (!TextUtils.isEmpty(sessionId)) {
                                 DefaultShared.putStringValue(MyApplication.getContext(), Config.CONFIG_SESSIONID,sessionId);
                                 MyApplication.sessionId = sessionId;
+                                isSendChecked = true;
                             }
 //                            isSendChecked = false;
                         }else if(operateCode == 20) {

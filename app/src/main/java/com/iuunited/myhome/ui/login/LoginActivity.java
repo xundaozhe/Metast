@@ -5,15 +5,18 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iuunited.myhome.Helper.ServiceClient;
 import com.iuunited.myhome.R;
+import com.iuunited.myhome.base.ActivityCollector;
 import com.iuunited.myhome.base.BaseFragmentActivity;
 import com.iuunited.myhome.base.MyApplication;
 import com.iuunited.myhome.bean.LoginRequest;
 import com.iuunited.myhome.entity.Config;
 import com.iuunited.myhome.ui.MainActivity;
+import com.iuunited.myhome.ui.StartActivity;
 import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.util.TextUtils;
@@ -37,6 +40,8 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
     private EditText et_username;
     private EditText et_password;
 
+    private ImageView iv_logo;
+
     private String userName;
     private String passWord;
     private String userType;
@@ -49,7 +54,7 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setColor(this,getResources().getColor(R.color.myHomeBlue));
-
+        ActivityCollector.addActivity(this);
         initView();
         initData();
     }
@@ -59,12 +64,17 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
         login_btn = (Button)findViewById(R.id.login_btn);
         et_username = (EditText)findViewById(R.id.et_username);
         et_password = (EditText)findViewById(R.id.et_password);
+
+        iv_logo = (ImageView)findViewById(R.id.iv_logo);
     }
 
     private void initData() {
         tv_register.setOnClickListener(this);
         login_btn.setOnClickListener(this);
+        iv_logo.setOnClickListener(this);
 
+        et_username.setText("15920821115");
+        et_password.setText("6865169");
     }
 
     @Override
@@ -84,6 +94,11 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
                         isChecked = true;
                         break;
                     }
+                    if(!TextUtils.isMobileNO(userName)) {
+                        ToastUtils.showShortToast(LoginActivity.this, "请输入正确的手机号!");
+                        isChecked = true;
+                        break;
+                    }
                     if(TextUtils.isEmpty(passWord)) {
                         ToastUtils.showShortToast(LoginActivity.this, "密码不能为空!");
                         isChecked = true;
@@ -91,6 +106,9 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
                     }
                     login(userName,passWord);
                 }
+                break;
+            case R.id.iv_logo:
+                IntentUtil.startActivityAndFinish(this, StartActivity.class);
                 break;
         }
     }
@@ -121,7 +139,9 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
                                     DefaultShared.putStringValue(MyApplication.getContext(), Config.CONFIG_USERTYPE, userType);
                                     DefaultShared.putStringValue(MyApplication.getContext(),Config.CONFIG_SESSIONID,responseDto.getSessionId());
                                     MyApplication.sessionId = responseDto.getSessionId();
-                                    IntentUtil.startActivityAndFinish(LoginActivity.this,MainActivity.class);
+                                    MyApplication.userId = responseDto.getUserID();
+                                    DefaultShared.putIntValue(MyApplication.getContext(),Config.CONFIG_USERID,responseDto.getUserID());
+                                    IntentUtil.startActivity(LoginActivity.this,MainActivity.class);
                                 }else{
                                     ToastUtils.showShortToast(LoginActivity.this,"登录失败,请稍后重试!");
                                     isChecked = true;

@@ -180,14 +180,26 @@
         android:text="意见:"
         android:textSize="18sp"
         android:textColor="@color/myHomeBlue"/>
-    <EditText
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/edittext_bg_layer"
-        android:gravity="left|top"/>
+        android:background="@drawable/edittext_bg_layer">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@null"
+            android:gravity="left"
+            android:textSize="16sp"
+            />
+    </RelativeLayout>
     <Button
         android:id="@+id/btn_into_main"
         android:layout_width="match_parent"

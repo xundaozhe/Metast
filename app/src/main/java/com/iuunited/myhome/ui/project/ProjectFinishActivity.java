@@ -14,8 +14,11 @@ import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
 import com.iuunited.myhome.entity.Config;
 import com.iuunited.myhome.ui.MainActivity;
+import com.iuunited.myhome.ui.adapter.EditProjectGvAdapter;
+import com.iuunited.myhome.ui.project.professional.UserRatingActivity;
 import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.IntentUtil;
+import com.iuunited.myhome.view.MyGridView;
 
 /**
  * @author xundaozhe
@@ -36,6 +39,9 @@ public class ProjectFinishActivity extends BaseFragmentActivity {
     private LinearLayout ll_finish_grade;
     private LinearLayout ll_assess_price;
     private String userType;
+    private MyGridView gv_project_details;
+    private EditProjectGvAdapter mAdapter;
+
 
 
     @Override
@@ -53,6 +59,9 @@ public class ProjectFinishActivity extends BaseFragmentActivity {
         iv_share = (ImageView)findViewById(R.id.iv_share);
         ll_finish_grade = (LinearLayout)findViewById(R.id.ll_finish_grade);
         ll_assess_price = (LinearLayout)findViewById(R.id.ll_assess_price);
+
+        gv_project_details = (MyGridView)findViewById(R.id.gv_project_details);
+
     }
 
     private void initData() {
@@ -61,6 +70,16 @@ public class ProjectFinishActivity extends BaseFragmentActivity {
         tv_title.setText("工程");
         ll_finish_grade.setOnClickListener(this);
         ll_assess_price.setOnClickListener(this);
+
+//        setAdapter();
+    }
+
+    private void setAdapter() {
+        if(mAdapter == null) {
+//            mAdapter = new EditProjectGvAdapter(this);
+            gv_project_details.setAdapter(mAdapter);
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -74,12 +93,18 @@ public class ProjectFinishActivity extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.ll_finish_grade:
-                IntentUtil.startActivity(this,ProjectGradeActivity.class);
+                if(!userType.equals("0")) {
+                    if(userType.equals("1")) {
+                        IntentUtil.startActivity(this,ProjectGradeActivity.class);
+                    }else if(userType.equals("2")){
+                        IntentUtil.startActivity(this,UserRatingActivity.class);
+                    }
+                }
                 break;
             case R.id.ll_assess_price:
-                if(userType.equals("1")) {
+//                if(userType.equals("1")) {
                     IntentUtil.startActivity(this,QuotedPriceActivity.class);
-                }
+//                }
                 break;
         }
     }

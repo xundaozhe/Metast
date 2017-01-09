@@ -20,16 +20,26 @@
         android:text="描述您的项目"
         android:textSize="18sp"
         android:textColor="#333333"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/edittext_bg_layer"
-        android:gravity="left"
-        android:textSize="16sp"
-        />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_bg_layer">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@null"
+                    android:gravity="left"
+                    android:textSize="16sp"
+                    />
+            </RelativeLayout>
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -73,10 +83,10 @@
                 android:layout_marginTop="15dp"
                 >
                 <Button
-                    android:id="@+id/btn_publish"
+                    android:id="@+id/btn_preview"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text="发布"
+                    android:text="预览"
                     android:background="@drawable/send_idfcode"
                     android:textSize="16sp"
                     android:textColor="#ffffff"
@@ -86,10 +96,10 @@
                     android:layout_marginRight="10dp"
                     />
                 <Button
-                    android:id="@+id/btn_cancel"
+                    android:id="@+id/btn_publish"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text="取消"
+                    android:text="发布"
                     android:background="@drawable/send_idfcode"
                     android:textSize="16sp"
                     android:textColor="#ffffff"

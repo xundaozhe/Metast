@@ -1,5 +1,6 @@
 package com.iuunited.myhome.ui.project.customer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
 import com.iuunited.myhome.event.UserAddressEvent;
+import com.iuunited.myhome.event.UserMarkerAddressEvent;
 import com.iuunited.myhome.ui.home.MapActivity;
 import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.util.TextUtils;
@@ -41,6 +43,7 @@ public class ReviseEssentialActivity extends BaseFragmentActivity {
 
     private Button btn_select_map;
     private String address;
+    private String markerAddress = "";
 
     private EditText et_address;
 
@@ -59,8 +62,23 @@ public class ReviseEssentialActivity extends BaseFragmentActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void userAddress(UserAddressEvent event){
         address = event.address;
-        if(!TextUtils.isEmpty(address)) {
+        if(markerAddress.equals("")) {
+            if(!TextUtils.isEmpty(address)) {
+                et_address.setText(address);
+            }
+        } else{
+            et_address.setText(markerAddress);
+        }
+        if(!TextUtils.isEmpty(address)&&!markerAddress.equals("")) {
             et_address.setText(address);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void userMarkerAddress(UserMarkerAddressEvent event){
+        markerAddress = event.markerAddress;
+        if(!markerAddress.equals("")) {
+            et_address.setText(markerAddress);
         }
     }
 
@@ -87,7 +105,11 @@ public class ReviseEssentialActivity extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.btn_select_map:
-                IntentUtil.startActivity(this, MapActivity.class);
+                Intent intent = new Intent();
+                intent.putExtra("class", "ReviseEssentialActivity");
+                intent.setClass(ReviseEssentialActivity.this,MapActivity.class);
+                startActivity(intent);
+//                IntentUtil.startActivity(this, MapActivity.class);
                 break;
         }
     }

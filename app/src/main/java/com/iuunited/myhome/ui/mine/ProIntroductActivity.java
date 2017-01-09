@@ -26,8 +26,11 @@ import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
 import com.iuunited.myhome.base.ViewPagerAdapter;
 import com.iuunited.myhome.bean.UpLoadHeadRequest;
+import com.iuunited.myhome.entity.Config;
+import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.SDCardUtil;
 import com.iuunited.myhome.util.SdcardConfig;
+import com.iuunited.myhome.util.TextUtils;
 import com.iuunited.myhome.view.LoadingDialog;
 import com.iuunited.myhome.view.RoundImageView;
 import com.iuunited.myhome.view.SelectPhotoDialog;
@@ -83,6 +86,8 @@ public class ProIntroductActivity extends BaseFragmentActivity implements Servic
     private File mSdcardTempFile;// 相册中的图片
     private Bitmap mCurBitmap;
 
+    private String userType;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -112,6 +117,14 @@ public class ProIntroductActivity extends BaseFragmentActivity implements Servic
     }
 
     private void initData() {
+        userType = DefaultShared.getStringValue(this, Config.CONFIG_USERTYPE,0+"");
+        if(!TextUtils.isEmpty(userType)) {
+            if(!userType.equals("0")) {
+                if(userType.equals("1")) {
+                    tv_edit.setVisibility(View.GONE);
+                }
+            }
+        }
         iv_back.setOnClickListener(this);
         tv_title.setVisibility(View.GONE);
         iv_share.setVisibility(View.GONE);

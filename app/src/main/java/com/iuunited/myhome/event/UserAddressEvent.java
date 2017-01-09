@@ -12,8 +12,10 @@ package com.iuunited.myhome.event;
  */
 public class UserAddressEvent {
     public String address;
+//    public String markerAddress;
 
     public UserAddressEvent(String address) {
         this.address = address;
+//        this.markerAddress = markerAddress;
     }
 }

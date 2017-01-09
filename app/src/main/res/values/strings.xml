@@ -16,4 +16,6 @@
     <string name="submit">提 交</string>
     <string name="facebook_app_id">487692214752558</string>
 
+    <string name="accessToken">pk.eyJ1IjoieHVuZGFvemhlIiwiYSI6ImNpd3Z1eTRxMjAxY3kyb3BsaGhsN3kzcWYifQ.Zq7ufsQrknvXhTk9ITWd5Q</string>
+
 </resources>

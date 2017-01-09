@@ -13,6 +13,7 @@ import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.ActivityCollector;
 import com.iuunited.myhome.ui.MainActivity;
 import com.iuunited.myhome.ui.StartActivity;
+import com.iuunited.myhome.ui.login.RegisterActivity;
 import com.iuunited.myhome.ui.login.SettingPwdActivity;
 import com.iuunited.myhome.util.IntentUtil;
 
@@ -55,6 +56,7 @@ public class RegisterSuccessDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 IntentUtil.startActivity(activity,MainActivity.class);
+//                ActivityCollector.finishAll();
             }
         });
     }

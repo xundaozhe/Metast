@@ -9,10 +9,12 @@ import android.util.Log;
 
 import com.iuunited.myhome.base.MyApplication;
 import com.iuunited.myhome.entity.BaseEntity;
+import com.iuunited.myhome.entity.Config;
 import com.iuunited.myhome.net.AsyncHttpClient;
 import com.iuunited.myhome.net.JsonHttpResponseHandler;
 import com.iuunited.myhome.net.RequestParams;
 import com.iuunited.myhome.net.ResponseHandlerInterface;
+import com.iuunited.myhome.util.DefaultShared;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -121,6 +123,10 @@ public class ServiceClient
 		HttpClient.addHeader(AsyncHttpClient.HEADER_CONTENT_TYPE, "application/json;charset=utf-8");
 		if(!com.iuunited.myhome.util.TextUtils.isEmpty(MyApplication.sessionId)) {
 			HttpClient.addHeader(AsyncHttpClient.HEADER_SESSION_ID, MyApplication.sessionId);
+		}
+        int userId = DefaultShared.getIntValue(MyApplication.getContext(), Config.CONFIG_USERID, 0);
+        if(userId!=0) {
+			HttpClient.addHeader(AsyncHttpClient.HEADER_USER_ID, String.valueOf(userId));
 		}
 
 		HttpClient.post(context, getAbsoluteUrl(dtoInfo), params, responseHandler);

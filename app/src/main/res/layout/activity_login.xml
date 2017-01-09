@@ -5,6 +5,7 @@
               android:layout_height="match_parent"
     android:background="@color/myHomeBlue">
     <ImageView
+        android:id="@+id/iv_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -32,7 +33,8 @@
             android:background="@null"
             android:layout_marginLeft="12dp"
             android:layout_centerVertical="true"
-            android:textColorHint="#8ccffe"/>
+            android:textColorHint="#8ccffe"
+            android:textColor="@color/textWhite"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -63,7 +65,8 @@
             android:layout_marginLeft="12dp"
             android:layout_centerVertical="true"
             android:textColorHint="#8ccffe"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:textColor="@color/textWhite"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"

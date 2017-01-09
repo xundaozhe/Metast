@@ -21,7 +21,7 @@
             app:riv_oval="false"
             />
         <TextView
-            android:id="@+id/iv_project_name"
+            android:id="@+id/tv_project_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/iv_project_img"
@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_below="@id/iv_project_name"
+        android:layout_below="@id/tv_project_name"
         android:text="家庭维护;外部;门修理。"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"

@@ -10,6 +10,10 @@ import android.widget.TextView;
 
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
+import com.iuunited.myhome.entity.Config;
+import com.iuunited.myhome.ui.project.professional.AddCostActivity;
+import com.iuunited.myhome.ui.project.professional.AddTaxActivity;
+import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.IntentUtil;
 
 /**
@@ -31,6 +35,8 @@ public class QuotedPriceActivity extends BaseFragmentActivity {
     
     private Button btn_look_details;
 
+    private String userType;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +47,7 @@ public class QuotedPriceActivity extends BaseFragmentActivity {
     }
 
     private void initView() {
+        userType = DefaultShared.getStringValue(this, Config.CONFIG_USERTYPE,"");
         iv_back = (RelativeLayout)findViewById(R.id.iv_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
         iv_share = (ImageView)findViewById(R.id.iv_share);
@@ -62,7 +69,13 @@ public class QuotedPriceActivity extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.btn_look_details:
-                IntentUtil.startActivity(this,PriceDetailsActivity.class);
+                if(userType!=null) {
+                    if(userType.equals("1")) {
+                        IntentUtil.startActivity(this,PriceDetailsActivity.class);
+                    }else{
+                        IntentUtil.startActivity(this,AddCostActivity.class);
+                    }
+                }
                 break;
         }
     }

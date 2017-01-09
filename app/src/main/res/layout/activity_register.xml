@@ -224,12 +224,12 @@
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:layout_marginTop="40dp"
-            android:text="@string/next"
+            android:text="注 册"
             android:background="@drawable/send_idfcode"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textColor="#ffffff"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

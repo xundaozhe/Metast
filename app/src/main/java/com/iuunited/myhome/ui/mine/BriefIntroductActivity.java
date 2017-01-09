@@ -10,7 +10,10 @@ import android.widget.TextView;
 
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
+import com.iuunited.myhome.entity.Config;
 import com.iuunited.myhome.ui.MainActivity;
+import com.iuunited.myhome.util.DefaultShared;
+import com.iuunited.myhome.util.TextUtils;
 
 /**
  * @author xundaozhe
@@ -28,6 +31,9 @@ public class BriefIntroductActivity extends BaseFragmentActivity {
     private TextView tv_title;
     private ImageView iv_share;
 
+    private TextView tv_edit;
+    private String userType;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +47,24 @@ public class BriefIntroductActivity extends BaseFragmentActivity {
         iv_back = (RelativeLayout) findViewById(R.id.iv_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
         iv_share = (ImageView)findViewById(R.id.iv_share);
+
+        tv_edit = (TextView)findViewById(R.id.tv_edit);
     }
 
     private void initData() {
+        userType = DefaultShared.getStringValue(this, Config.CONFIG_USERTYPE,0+"");
         iv_back.setOnClickListener(this);
         tv_title.setText("简介");
         iv_share.setVisibility(View.GONE);
+
+        if(!TextUtils.isEmpty(userType)) {
+            if(!userType.equals("0")) {
+                if(userType.equals("2")) {
+                    tv_edit.setVisibility(View.GONE);
+                }
+            }
+        }
+
     }
 
     @Override

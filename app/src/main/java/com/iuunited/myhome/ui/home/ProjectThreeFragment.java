@@ -1,17 +1,22 @@
 package com.iuunited.myhome.ui.home;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -30,11 +35,18 @@ import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragments;
 import com.iuunited.myhome.task.ICancelListener;
 import com.iuunited.myhome.ui.adapter.GridAdapter;
+import com.iuunited.myhome.ui.project.ProjectDetailsActivity;
+import com.iuunited.myhome.ui.project.ReviseProjectActivity;
+import com.iuunited.myhome.ui.project.professional.ProProjectDetailsActivity;
 import com.iuunited.myhome.util.Bimp;
 import com.iuunited.myhome.util.FileUtils;
+import com.iuunited.myhome.util.IntentUtil;
+import com.iuunited.myhome.util.PermissionUtils;
 import com.iuunited.myhome.view.ProjectCancelDialog;
 
 import java.io.IOException;
+
+import static com.iuunited.myhome.util.PermissionUtils.isCameraPermission;
 
 
 /**
@@ -54,7 +66,8 @@ public class ProjectThreeFragment extends BaseFragments implements View.OnClickL
 
     private Context mContext;
     private GridView gv_publish_image;
-    private Button btn_cancel;
+    private Button btn_publish;
+    private Button btn_preview;
 
     private Uri photoUri;
     private PopupWindows mPopupWindow;
@@ -74,7 +87,8 @@ public class ProjectThreeFragment extends BaseFragments implements View.OnClickL
 
     private void initView(View view) {
         gv_publish_image = (GridView) view.findViewById(R.id.gv_publish_image);
-        btn_cancel = (Button) view.findViewById(R.id.btn_cancel);
+        btn_publish = (Button) view.findViewById(R.id.btn_publish);
+        btn_preview = (Button) view.findViewById(R.id.btn_preview);
         setAdapter();
     }
 
@@ -97,7 +111,8 @@ public class ProjectThreeFragment extends BaseFragments implements View.OnClickL
                 }
             }
         });
-        btn_cancel.setOnClickListener(this);
+        btn_publish.setOnClickListener(this);
+        btn_preview.setOnClickListener(this);
     }
 
     @Override
@@ -152,18 +167,22 @@ public class ProjectThreeFragment extends BaseFragments implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_cancel:
-                mCancelDialog = new ProjectCancelDialog(mContext, new ICancelListener() {
-                    @Override
-                    public void cancelClick(int id, Activity activity) {
-                        switch (id) {
-                            case R.id.dialog_btn_sure :
-                                getActivity().finish();
-                                break;
-                        }
-                    }
-                },"取消编辑","您是否要取消编辑当前工程?");
-                mCancelDialog.show();
+            case R.id.btn_publish:
+//                mCancelDialog = new ProjectCancelDialog(mContext, new ICancelListener() {
+//                    @Override
+//                    public void cancelClick(int id, Context activity) {
+//                        switch (id) {
+//                            case R.id.dialog_btn_sure :
+//                                getActivity().finish();
+//                                break;
+//                        }
+//                    }
+//                },"取消编辑","您是否要取消编辑当前工程?");
+//                mCancelDialog.show();
+                IntentUtil.startActivity(getActivity(), ProjectDetailsActivity.class);
+                break;
+            case R.id.btn_preview:
+                IntentUtil.startActivity(getActivity(), ReviseProjectActivity.class);
                 break;
        }
     }
@@ -236,7 +255,9 @@ public class ProjectThreeFragment extends BaseFragments implements View.OnClickL
             bt1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    photo();
+                    if(PermissionUtils.isCameraPermission(getActivity(),TAKE_PICTURE)) {
+                        photo();
+                    }
                     dismiss();
                 }
             });
@@ -268,6 +289,8 @@ public class ProjectThreeFragment extends BaseFragments implements View.OnClickL
         intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, photoUri);
         startActivityForResult(intent, TAKE_PICTURE);
     }
+
+
 
 //    @Override
 //    protected void onRestart() {

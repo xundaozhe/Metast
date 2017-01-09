@@ -57,12 +57,12 @@ public class ProUnderWayDetailsActivity extends BaseFragmentActivity {
         iv_back.setOnClickListener(this);
         ll_add_cost.setOnClickListener(this);
 
-        setAdapter();
+//        setAdapter();
     }
 
     private void setAdapter() {
         if(mAdapter == null) {
-            mAdapter = new EditProjectGvAdapter(this);
+//            mAdapter = new EditProjectGvAdapter(this);
             gv_project_details.setAdapter(mAdapter);
         }
         mAdapter.notifyDataSetChanged();

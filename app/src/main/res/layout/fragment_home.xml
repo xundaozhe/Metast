@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+                android:background="#01000000">
 
     <include layout="@layout/comment_banner_top"/>
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <!--<android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/SwipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <com.iuunited.myhome.view.FlexiScrollView
+        android:layout_height="match_parent">-->
+    <com.iuunited.myhome.view.ReboundScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
@@ -80,9 +81,9 @@
             android:layout_marginLeft="20dp"/>
     </LinearLayout>
 
-        <FrameLayout
+       <!-- <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent">-->
         <com.iuunited.myhome.view.MyListView
             android:id="@+id/flv_newly_project"
             android:layout_width="match_parent"
@@ -92,8 +93,8 @@
             android:divider="@null"
             android:listSelector="#00000000"
             />
-        </FrameLayout>
+        <!--</FrameLayout>-->
         </LinearLayout>
-    </com.iuunited.myhome.view.FlexiScrollView>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </com.iuunited.myhome.view.ReboundScrollView>
+    <!--</android.support.v4.widget.SwipeRefreshLayout>-->
 </LinearLayout>

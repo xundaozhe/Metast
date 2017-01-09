@@ -201,7 +201,15 @@ public class JsonStreamerEntity implements HttpEntity {
             } else if (value instanceof Integer) {
                 os.write((((Number) value).intValue() + "").getBytes());
             } else {
-                os.write(("\""+value.toString()+"\"").getBytes());
+                String stringValue = value.toString();
+                if (stringValue.startsWith("[") && stringValue.endsWith("]"))
+                {
+                    os.write(stringValue.getBytes());
+                }
+                else
+                {
+                    os.write(("\""+stringValue+"\"").getBytes());
+                }
             }
 
             os.write(',');

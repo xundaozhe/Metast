@@ -28,6 +28,16 @@ public class UpLoadHeadRequest extends BaseEntity{
     public static class UpLoadHeadResponse extends BaseEntity{
         private String Token;
 
+        private String Host;
+
+        public String getHost() {
+            return Host;
+        }
+
+        public void setHost(String host) {
+            Host = host;
+        }
+
         public String getToken() {
             return Token;
         }

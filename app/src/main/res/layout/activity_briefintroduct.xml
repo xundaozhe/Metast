@@ -17,7 +17,7 @@
             android:layout_marginLeft="30dp"
             android:src="@drawable/aobama"
             />
-        <TextView
+      <!--  <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,13 +30,57 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/iv_aobama"
-            android:layout_below="@id/tv_name"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:text="专业人员"
+            android:text="编辑"
             android:textSize="16sp"
-            android:textColor="#3C3C3B"/>
+            android:layout_alignParentRight="true"/>-->
+
+        <FrameLayout
+            android:id="@+id/fl_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_aobama"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            >
+            <EditText
+                android:id="@+id/edit_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:background="#a3c5e3"
+                android:textColorHint="#3C3C3B"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Patrick Metast"
+                android:textSize="16sp"
+                android:textColor="#3C3C3B"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="20dp">
+            <TextView
+                android:id="@+id/tv_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="编辑"
+                android:textSize="16sp"
+                android:textColor="#FE7769"/>
+            <TextView
+                android:id="@+id/tv_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="确定"
+                android:textSize="16sp"
+                android:textColor="#FE7769"
+                android:visibility="gone"/>
+        </FrameLayout>
     </RelativeLayout>
     <include layout="@layout/line_ebebeb"/>
     <LinearLayout

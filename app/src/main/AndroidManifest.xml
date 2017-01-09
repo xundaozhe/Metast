@@ -69,7 +69,13 @@
             android:name="JPUSH_APPKEY"
             android:value="2eb7780d328aa3844503d8a5"
             tools:replace="android:value"/>
-        <activity android:name=".ui.StartActivity">
+        <!-- 谷歌地图 -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBRKxq5CtuJ-rbE8g_cF5XpdP346xAegTc"/>
+
+        <activity android:name=".ui.StartActivity"
+                    android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -84,9 +90,10 @@
         <activity android:name=".ui.login.SettingPwdActivity"
                   android:launchMode="singleTask"/>
         <activity android:name=".ui.MainActivity"
-                  android:theme="@style/Theme.AppCompat.Light.NoActionBar"
                   android:launchMode="singleTask"
-                  android:screenOrientation="portrait"/>
+                  android:theme="@android:style/Theme.Translucent.NoTitleBar"
+        android:screenOrientation="portrait"/>
+        <!--android:theme="@style/Theme.AppCompat.Light.NoActionBar"-->
         <activity android:name=".ui.home.ReleaseProjectActivity"
                   android:launchMode="singleTask"/>
         <activity android:name=".ui.home.PhotoActivity"
@@ -133,7 +140,7 @@
                   android:launchMode="singleTask"/>
         <activity android:name=".ui.project.professional.ProUnderWayDetailsActivity"
                   android:launchMode="singleTask"/>
-        <activity android:name=".ui.project.professional.EditProjectActivity"
+        <activity android:name=".ui.project.professional.EditNewProjectActivity"
                   android:launchMode="singleTask"/>
         <activity android:name=".ui.project.professional.AddTaxActivity"
                   android:launchMode="singleTask"/>
@@ -155,8 +162,32 @@
                   android:launchMode="singleTask"/>
         <activity android:name=".ui.project.PriceDetailsActivity"
                   android:launchMode="singleTask"/>
-
-
+        <activity android:name=".ui.mine.ReviseSettingActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.mine.EditSpecialtyActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.project.professional.UserRatingActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.mine.MyHomeSynopsisActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".mapdemo.OneActivity"
+            android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar"/>
+        <activity android:name=".mapdemo.TwoActivity"
+                  android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar"/>
+        <activity android:name=".ui.project.customer.LoocUpDetailsActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.project.professional.ProItemDepotActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.project.professional.AddCostActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.home.SearchQuestionActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.home.ProjectOneActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.home.ProjectTwoActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.home.ProjectThreeActivity"
+                  android:launchMode="singleTask"/>
 
 
         <!-- ***************友盟第三方分享************* -->
@@ -220,7 +251,8 @@
         <!-- 高德定位服务 -->
         <service android:name="com.amap.api.location.APSService"
                  ></service>
-
+        <!-- mapBox服务 -->
+        <service android:name="com.mapbox.mapboxsdk.telemetry.TelemetryService" />
 
         <!-- Rich push 核心功能 since 2.0.6-->
         <activity
@@ -310,9 +342,11 @@
                 <action android:name="cn.jpush.android.intent.CONNECTION" /><!-- 接收网络变化 连接/断开 since 1.6.3 -->
                 <category android:name="com.iuunited.myhome" />
             </intent-filter>
-        </receiver>
-
-
+        </receiver><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
 
 
     </application>
