@@ -85,7 +85,7 @@ public class DetailsQuestionAdapter extends BaseAdapter {
             }
             if (questionType == 0) {
                 String optionValues = answerBean.getOptionValues();
-                if(!TextUtils.isEmpty(optionValues)) {
+                if (!TextUtils.isEmpty(optionValues)) {
                     holder.mTvQuestionAnswer.setText(optionValues);
                 }
             }

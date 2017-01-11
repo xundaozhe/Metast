@@ -20,6 +20,7 @@
             android:textSize="16sp"
             android:textColor="#3D3D3D"/>
         <EditText
+            android:id="@+id/et_telephone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/iv_tellPhone"
@@ -101,6 +102,7 @@
             android:textSize="16sp"
             android:textColor="#3D3D3D"/>
         <EditText
+            android:id="@+id/et_zipcode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/iv_idf_code"
@@ -123,7 +125,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"/>
     <Button
-        android:id="@+id/btn_next_one"
+        android:id="@+id/btn_upload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"

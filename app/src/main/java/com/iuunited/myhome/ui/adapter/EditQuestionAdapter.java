@@ -17,7 +17,7 @@ import com.iuunited.myhome.R;
  * @des ${TODO}
  * @updateAuthor $Author$
  * @updateDate $Date$
- * @updateDes $TODO$
+ * @updateDes 有修改按键的显示问题的adadpter
  * Created by xundaozhe on 2016/12/24.
  */
 

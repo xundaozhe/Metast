@@ -38,6 +38,7 @@ import com.iuunited.myhome.util.FileUtils;
 import com.iuunited.myhome.view.ProjectCancelDialog;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static android.R.attr.data;
 import static com.iuunited.myhome.R.id.view;
@@ -71,6 +72,10 @@ public class RevisePhotoActivity extends BaseFragmentActivity {
     private GridAdapter mAdapter;
 
     private ProjectCancelDialog mCancelDialog;
+
+    private int projectId;
+    private String description;
+    private ArrayList<String> imageUrls;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

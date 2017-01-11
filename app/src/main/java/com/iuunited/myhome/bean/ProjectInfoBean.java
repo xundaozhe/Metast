@@ -22,10 +22,19 @@ public class ProjectInfoBean {
     private double Latitude;
     private double Longitude;
     private String Description;
+    private long CreateTime;
 
     private int Status;
     private List<AnswerBean> Answers;
     private List<String> Urls;
+
+    public long getCreateTime() {
+        return CreateTime;
+    }
+
+    public void setCreateTime(long createTime) {
+        CreateTime = createTime;
+    }
 
     public int getStatus() {
         return Status;

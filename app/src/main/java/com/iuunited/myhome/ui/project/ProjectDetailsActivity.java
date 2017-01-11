@@ -22,12 +22,14 @@ import com.iuunited.myhome.bean.AnswerBean;
 import com.iuunited.myhome.bean.DetailsQuestionBean;
 import com.iuunited.myhome.bean.ProjectInfoBean;
 import com.iuunited.myhome.bean.QueryProjectDetailsRequest;
+import com.iuunited.myhome.event.UploadGeneralEvent;
 import com.iuunited.myhome.task.ICancelListener;
 import com.iuunited.myhome.ui.MainActivity;
 import com.iuunited.myhome.ui.adapter.DetailsQuestionAdapter;
 import com.iuunited.myhome.ui.adapter.EditProjectGvAdapter;
 import com.iuunited.myhome.ui.adapter.ProjectEvaluateAdapter;
 import com.iuunited.myhome.ui.project.customer.LoocUpDetailsActivity;
+import com.iuunited.myhome.util.DateUtils;
 import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.util.TextUtils;
 import com.iuunited.myhome.util.ToastUtils;
@@ -37,10 +39,20 @@ import com.iuunited.myhome.view.MyListView;
 import com.iuunited.myhome.view.ProjectCancelDialog;
 import com.jauker.widget.BadgeView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.description;
+import static android.R.attr.phoneNumber;
 import static android.R.id.list;
+import static com.iuunited.myhome.R.id.tv_location;
+import static com.iuunited.myhome.R.id.tv_phone;
+import static com.iuunited.myhome.R.id.tv_zip_code;
 
 
 /**
@@ -92,21 +104,36 @@ public class ProjectDetailsActivity extends BaseFragmentActivity implements Adap
     private String telePhone;
     private String address;
     private String postCode;
+    private long createTime;
+    private String description;
 
     private int itemId;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_details);
+        EventBus.getDefault().register(this);
         setColor(this,getResources().getColor(R.color.myHomeBlue));
         ActivityCollector.finishAll();
         initView();
         initData();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUploadGeneralEvent(UploadGeneralEvent event){
+        String uploadTelePhone = event.uploadTelePhone;
+        String uploadAddress = event.uploadAddress;
+        String uploadZipCode = event.uploadZipCode;
+        tv_telephone.setText(uploadTelePhone);
+        tv_address.setText(uploadAddress);
+        tv_postcode.setText(uploadZipCode);
+    }
+
     private void initView() {
         itemId = getIntent().getIntExtra("itemId",0);
+        createTime = getIntent().getLongExtra("itemCreateTime",0L);
         claz = getIntent().getStringExtra("underWay");
         iv_back = (RelativeLayout) findViewById(R.id.iv_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
@@ -142,7 +169,7 @@ public class ProjectDetailsActivity extends BaseFragmentActivity implements Adap
 
     private void initData() {
         iv_back.setOnClickListener(this);
-        tv_title.setText("工程");
+        tv_title.setText("工程详情");
         ll_edit_project.setOnClickListener(this);
         ll_cancel_project.setOnClickListener(this);
         ll_check_details.setOnClickListener(this);
@@ -158,6 +185,12 @@ public class ProjectDetailsActivity extends BaseFragmentActivity implements Adap
             mLoadingDialog.setMessage("加载中...");
         }
         mLoadingDialog.show();
+        if(createTime != 0L) {
+            String date = DateUtils.getDateToString(createTime);
+            if(!TextUtils.isEmpty(date)) {
+                tv_date.setText(date+"");
+            }
+        }
         QueryProjectDetailsRequest request = new QueryProjectDetailsRequest();
         request.setId(itemId);
         ServiceClient.requestServer(this, "加载中...", request, QueryProjectDetailsRequest.QueryProjectDetailsResponse.class,
@@ -191,7 +224,7 @@ public class ProjectDetailsActivity extends BaseFragmentActivity implements Adap
                             if (mQuestionData.size() == answers.size()) {
                                 setQuestionAdapter();
                             }
-                            String description = responseDto.getDescription();
+                            description = responseDto.getDescription();
                             if (!TextUtils.isEmpty(description)) {
                                 tv_description.setText(description);
                             } else {
@@ -279,7 +312,36 @@ public class ProjectDetailsActivity extends BaseFragmentActivity implements Adap
                 startActivity(intent);
                 break;
             case R.id.ll_edit_project:
-                IntentUtil.startActivity(this,ReviseProjectActivity.class);
+                Bundle bundle = new Bundle();
+                if(!TextUtils.isEmpty(projecttName)) {
+                    bundle.putString("projectName",projecttName);
+                }
+                if(!TextUtils.isEmpty(telePhone)) {
+                    bundle.putString("phoneNumber",telePhone);
+                }
+                if(!TextUtils.isEmpty(address)) {
+                    bundle.putString("address",address);
+                }
+                if(!TextUtils.isEmpty(postCode)) {
+                    bundle.putString("zipCode",postCode);
+                }
+                if(mQuestionData.size()>0) {
+                    bundle.putSerializable("answerLists", (Serializable) mQuestionData);
+                }
+                if(!TextUtils.isEmpty(description)) {
+                    bundle.putString("decription",description);
+                }
+                if(imageUrls.size()>0) {
+                    bundle.putStringArrayList("imageUrls", (ArrayList<String>) imageUrls);
+                }
+                bundle.putInt("class",1);
+                if(createTime!=0L) {
+                    bundle.putLong("createTime",createTime);
+                }
+                if(itemId!=0) {
+                    bundle.putInt("itemId",itemId);
+                }
+                IntentUtil.startActivity(this,ReviseProjectActivity.class,bundle);
                 break;
             case R.id.ll_cancel_project:
                 mCancelDialog = new ProjectCancelDialog(this, new ICancelListener() {
@@ -328,5 +390,11 @@ public class ProjectDetailsActivity extends BaseFragmentActivity implements Adap
     @Override
     public void setSuccessful(boolean isSuccessful) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

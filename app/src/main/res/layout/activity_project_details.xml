@@ -199,7 +199,9 @@
                     android:text="位置"
                     android:textColor="#333333"
                     android:textSize="16sp"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:maxLines="1"
+                    android:singleLine="true"/>
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -259,7 +261,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_marginTop="15dp"
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.iuunited.myhome.view.MyListView

@@ -42,7 +42,8 @@ public class GridAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         int count = Bimp.bmp.size();
-        if(count == 9) {
+//        if(count == 9) {
+        if(count == 6) {
             return count;
         }else{
             return (count+1);
@@ -74,7 +75,8 @@ public class GridAdapter extends BaseAdapter {
             holder.image.setImageBitmap(BitmapFactory.decodeResource(
                     UIUtils.getResources(), R.drawable.icon_addpic_unfocused));
 //            holder.image.setImageResource(R.drawable.icon_addpic_unfocused);
-            if(position == 9) {
+//            if(position == 9) {
+            if(position == 6) {
                 holder.image.setVisibility(View.GONE);
             }else{
                 holder.image.setVisibility(View.VISIBLE);

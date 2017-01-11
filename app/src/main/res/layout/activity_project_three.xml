@@ -64,7 +64,7 @@
         android:layout_height="1dip"
         android:background="#BBBBBB" />
 
-    <com.iuunited.myhome.view.FlexiScrollView
+    <com.iuunited.myhome.view.ReboundScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none">
@@ -171,6 +171,9 @@
                         />
                 </LinearLayout>
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="120dp"/>
         </LinearLayout>
-    </com.iuunited.myhome.view.FlexiScrollView>
+    </com.iuunited.myhome.view.ReboundScrollView>
 </LinearLayout>

@@ -37,6 +37,7 @@ import com.iuunited.myhome.base.BaseFragmentActivity;
 import com.iuunited.myhome.bean.AnswerBean;
 import com.iuunited.myhome.bean.CreateProjectRequest;
 import com.iuunited.myhome.bean.UpLoadHeadRequest;
+import com.iuunited.myhome.event.AddProjectEvent;
 import com.iuunited.myhome.ui.adapter.GridAdapter;
 import com.iuunited.myhome.ui.project.ProjectDetailsActivity;
 import com.iuunited.myhome.ui.project.ReviseProjectActivity;
@@ -52,6 +53,7 @@ import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -248,6 +250,7 @@ public class ProjectThreeActivity extends BaseFragmentActivity implements Servic
                         }
                         if (responseDto.getOperateCode() == 0) {
                             int projectId = responseDto.getProjectId();
+                            EventBus.getDefault().post(new AddProjectEvent(1));
                             Bundle bundle = new Bundle();
                             bundle.putInt("itemId",projectId);
                             IntentUtil.startActivity(ProjectThreeActivity.this, ProjectDetailsActivity.class,bundle);
@@ -320,17 +323,34 @@ public class ProjectThreeActivity extends BaseFragmentActivity implements Servic
                             publishProject(Bimp.drr.get(i));
                         }
                     }
+                }else{
+                    createProject();
                 }
 //                createProject();
 //                IntentUtil.startActivity(this, ProjectDetailsActivity.class);
                 break;
             case R.id.btn_preview:
-                IntentUtil.startActivity(this, ReviseProjectActivity.class);
+                reviseProject();
+
                 break;
             case R.id.iv_back:
                 finish();
                 break;
         }
+    }
+
+    private void reviseProject() {
+        Bundle bundle = new Bundle();
+        bundle.putString("projectName", projectName);
+        bundle.putString("phoneNumber", phoneNumber);
+        bundle.putString("zipCode", zipCode);
+        bundle.putString("address", address);
+        bundle.putSerializable("answerLists",mAnswerBeen);
+        decription = et_description.getText().toString().trim();
+        if (!TextUtils.isEmpty(decription)) {
+            bundle.putString("decription",decription);
+        }
+        IntentUtil.startActivity(this, ReviseProjectActivity.class,bundle);
     }
 
     private void publishProject(final String imagePath) {

@@ -16,14 +16,20 @@ import com.iuunited.myhome.bean.HomeNewlyBean;
 import com.iuunited.myhome.bean.ProjectInfoBean;
 import com.iuunited.myhome.bean.QueryMyProjectRequest;
 import com.iuunited.myhome.entity.Config;
+import com.iuunited.myhome.event.InitProjectEvent;
 import com.iuunited.myhome.ui.adapter.HomeNewlyAdpter;
 import com.iuunited.myhome.ui.adapter.ProjectAlllvAdapter;
 import com.iuunited.myhome.ui.adapter.ProjectNewAdapter;
 import com.iuunited.myhome.ui.home.ItemProjectDetailsActivity;
 import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.IntentUtil;
+import com.iuunited.myhome.util.ToastUtils;
 import com.iuunited.myhome.view.FlexiListView;
 import com.iuunited.myhome.view.LoadingDialog;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +65,13 @@ public class ProjectNewFragment extends BaseFragments implements View.OnClickLis
 //    private String[] titles = new String[]{"门修理", "卫生间改造"};
 //    private String[] text = new String[]{"家庭维护,外部,门修理","添加&铺面装修,卫生间改造"};
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,9 +88,23 @@ public class ProjectNewFragment extends BaseFragments implements View.OnClickLis
 //            mAdapter = new ProjectNewAdapter(mContext);
 //            flv_project_new.setAdapter(mAdapter);
 //        }
-        initProject();
+//        initProject();
 
         flv_project_new.setOnItemClickListener(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onInitEvent(InitProjectEvent event) {
+        int states = event.states;
+        if(states == 0) {
+            ProjectInfoBean datas = event.mDatas;
+            mDatas.add(datas);
+            if(mDatas.size()>0) {
+                setAdapter();
+            }else{
+                flv_project_new.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void initProject() {
@@ -127,12 +154,6 @@ public class ProjectNewFragment extends BaseFragments implements View.OnClickLis
     }
 
     private void setAdapter() {
-//        for (int i = 0;i<count;i++){
-//            HomeNewlyBean newlyBean = new HomeNewlyBean();
-//            newlyBean.setTitle(titles[i]);
-//            newlyBean.setText(text[i]);
-//            mDatas.add(newlyBean);
-//        }
         if (mAdapter == null) {
             mAdapter = new HomeNewlyAdpter(mContext,mDatas);
             flv_project_new.setAdapter(mAdapter);
@@ -150,7 +171,23 @@ public class ProjectNewFragment extends BaseFragments implements View.OnClickLis
         if(userType.equals("2")) {
             IntentUtil.startActivity(getActivity(), ItemProjectDetailsActivity.class);
         }else if(userType.equals("1")) {
-            IntentUtil.startActivity(getActivity(), ProjectDetailsActivity.class);
+            ProjectInfoBean projectInfoBean = mDatas.get(position);
+            int itemId = projectInfoBean.getId();
+            Bundle bundle = new Bundle();
+            if(itemId!=0) {
+                bundle.putInt("itemId",itemId);
+            }else{
+                ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
+                return;
+            }
+            long createTime = projectInfoBean.getCreateTime();
+            if(createTime != 0L) {
+                bundle.putLong("itemCreateTime",createTime);
+            }else{
+                ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
+                return;
+            }
+            IntentUtil.startActivity(getActivity(), ProjectDetailsActivity.class,bundle);
         }
     }
 
@@ -177,5 +214,11 @@ public class ProjectNewFragment extends BaseFragments implements View.OnClickLis
     @Override
     public void setSuccessful(boolean isSuccessful) {
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 }

@@ -17,6 +17,7 @@ import com.iuunited.myhome.bean.HomeNewlyBean;
 import com.iuunited.myhome.bean.ProjectInfoBean;
 import com.iuunited.myhome.bean.QueryMyProjectRequest;
 import com.iuunited.myhome.entity.Config;
+import com.iuunited.myhome.event.InitProjectEvent;
 import com.iuunited.myhome.ui.adapter.HomeNewlyAdpter;
 import com.iuunited.myhome.ui.adapter.ProjectAlllvAdapter;
 import com.iuunited.myhome.ui.adapter.ProjectUnderWayAdapter;
@@ -26,6 +27,10 @@ import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.view.FlexiListView;
 import com.iuunited.myhome.view.LoadingDialog;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,13 +60,14 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
 
     private String userType;
 
-    private int count = 4;
     private List<ProjectInfoBean> mDatas = new ArrayList<>();
 
-//    private String[] titles = new String[]{"厨房改造",
-//            "制冷系统的维修", "木栅栏的安装","保洁服务","景观设计与安装","浴室装修与设计"};
-//    private String[] text = new String[]{"添加&铺面装修,厨房改造"
-//            ,"空调与制冷,制冷系统的维修","栅栏、围墙,木栅栏的安装","搬家,保洁服务"};
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
 
     @Nullable
     @Override
@@ -78,8 +84,22 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
 
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onInitEvent(InitProjectEvent event){
+        int states = event.states;
+        if(states == 1) {
+            ProjectInfoBean datas = event.mDatas;
+            mDatas.add(datas);
+            if(mDatas.size()>0) {
+                setAdapter();
+            }else{
+                flv_project_underWay.setVisibility(View.GONE);
+            }
+        }
+    }
+
     private void initData() {
-        initProject();
+//        initProject();
         userType = DefaultShared.getStringValue(mContext, Config.CONFIG_USERTYPE, 0 + "");
         flv_project_underWay.setOnItemClickListener(this);
     }
@@ -183,5 +203,11 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
     @Override
     public void setSuccessful(boolean isSuccessful) {
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 }

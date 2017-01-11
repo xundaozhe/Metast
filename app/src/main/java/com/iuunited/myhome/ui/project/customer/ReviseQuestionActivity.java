@@ -17,6 +17,9 @@ import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
 import com.iuunited.myhome.view.LoadingDialog;
 
+import java.util.ArrayList;
+
+import static android.R.attr.description;
 import static com.iuunited.myhome.R.id.view;
 import static com.iuunited.myhome.R.id.webView;
 
@@ -39,6 +42,7 @@ public class ReviseQuestionActivity extends BaseFragmentActivity {
 
 
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +52,7 @@ public class ReviseQuestionActivity extends BaseFragmentActivity {
     }
 
     private void initView() {
+
         iv_back = (RelativeLayout) findViewById(R.id.iv_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
         iv_share = (ImageView) findViewById(R.id.iv_share);

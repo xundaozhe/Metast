@@ -24,6 +24,7 @@ import com.iuunited.myhome.bean.HomeNewlyBean;
 import com.iuunited.myhome.bean.ProjectInfoBean;
 import com.iuunited.myhome.bean.QueryMyProjectRequest;
 import com.iuunited.myhome.entity.Config;
+import com.iuunited.myhome.event.AddProjectEvent;
 import com.iuunited.myhome.mapdemo.OneActivity;
 import com.iuunited.myhome.mapdemo.TwoActivity;
 import com.iuunited.myhome.ui.MainActivity;
@@ -31,6 +32,7 @@ import com.iuunited.myhome.ui.adapter.HomeNewlyAdpter;
 import com.iuunited.myhome.ui.project.ProjectDetailsActivity;
 import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.IntentUtil;
+import com.iuunited.myhome.util.ToastUtils;
 import com.iuunited.myhome.view.FlexiListView;
 import com.iuunited.myhome.view.LoadingDialog;
 import com.iuunited.myhome.view.MyListView;
@@ -39,6 +41,10 @@ import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,14 +81,16 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
     private String userType;
     private LoadingDialog mLoadingDialog;
 
-    private int count = 5;
-//    private List<HomeNewlyBean> mDatas = new ArrayList<>();
     private List<ProjectInfoBean> mDatas = new ArrayList<>();
-//    private String[] titles = new String[]{"门修理", "卫生间改造", "厨房改造", "制冷系统的维修", "木栅栏的安装"};
-//    private String[] text = new String[]{"家庭维护,外部,门修理","添加&铺面装修,卫生间改造","添加&铺面装修,厨房改造"
-//                                        ,"空调与制冷,制冷系统的维修","栅栏、围墙,木栅栏的安装"};
 
-   @Nullable
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home,null);
@@ -90,8 +98,15 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
         userType = DefaultShared.getStringValue(MyApplication.getContext(), Config.CONFIG_USERTYPE, "");
         initView(view);
         initData();
-        //C:\Users\xundaozhe\Desktop\MyHomeKey
         return view;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAddProjectEvent(AddProjectEvent event){
+        int state = event.state;
+        if(state == 1) {
+            queryMyProject();
+        }
     }
 
     private void initView(View view) {
@@ -159,6 +174,9 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
                     @Override
                     public void onSuccess(QueryMyProjectRequest.QueryMyProjectResponse responseDto) {
                         if(responseDto.getOperateCode() == 0) {
+                            if(mDatas.size()>0) {
+                                mDatas.clear();
+                            }
                             List<ProjectInfoBean> projects = responseDto.getProjects();
                             for (int i = 0;i<projects.size();i++){
                                 ProjectInfoBean projectInfoBean = projects.get(i);
@@ -180,12 +198,6 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
     }
 
     private void setAdapter() {
-//        for (int i = 0;i<count;i++){
-//            HomeNewlyBean newlyBean = new HomeNewlyBean();
-//            newlyBean.setTitle(titles[i]);
-//            newlyBean.setText(text[i]);
-//            mDatas.add(newlyBean);
-//        }
         if (mAdpter == null) {
             mAdpter = new HomeNewlyAdpter(mContext,mDatas);
             flv_newly_project.setAdapter(mAdpter);
@@ -222,7 +234,19 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
             ProjectInfoBean projectInfoBean = mDatas.get(position);
             int itemId = projectInfoBean.getId();
             Bundle bundle = new Bundle();
-            bundle.putInt("itemId", itemId);
+            if(itemId!=0) {
+                bundle.putInt("itemId", itemId);
+            }else{
+                ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
+                return;
+            }
+            long createTime = projectInfoBean.getCreateTime();
+            if(createTime!=0L) {
+                bundle.putLong("itemCreateTime", createTime);
+            }else{
+                ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
+                return;
+            }
             IntentUtil.startActivity(getActivity(), ProjectDetailsActivity.class,bundle);
         }else if(userType.equals("2")) {
             IntentUtil.startActivity(getActivity(),ItemProjectDetailsActivity.class);
@@ -252,5 +276,11 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
     @Override
     public void setSuccessful(boolean isSuccessful) {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
