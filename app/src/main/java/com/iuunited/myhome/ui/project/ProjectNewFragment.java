@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,9 @@ import com.iuunited.myhome.bean.HomeNewlyBean;
 import com.iuunited.myhome.bean.ProjectInfoBean;
 import com.iuunited.myhome.bean.QueryMyProjectRequest;
 import com.iuunited.myhome.entity.Config;
+import com.iuunited.myhome.event.AddProjectEvent;
 import com.iuunited.myhome.event.InitProjectEvent;
+import com.iuunited.myhome.event.InitProjectFailureEvent;
 import com.iuunited.myhome.ui.adapter.HomeNewlyAdpter;
 import com.iuunited.myhome.ui.adapter.ProjectAlllvAdapter;
 import com.iuunited.myhome.ui.adapter.ProjectNewAdapter;
@@ -33,7 +36,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.iuunited.myhome.R.id.flv_project_all;
 
 /**
@@ -46,9 +48,10 @@ import static com.iuunited.myhome.R.id.flv_project_all;
  * @updateDes $TODO$
  * Created by xundaozhe on 2016/10/28.
  */
-public class ProjectNewFragment extends BaseFragments implements View.OnClickListener, AdapterView.OnItemClickListener, ServiceClient.IServerRequestable {
+public class ProjectNewFragment extends BaseFragments implements View.OnClickListener, AdapterView.OnItemClickListener, ServiceClient.IServerRequestable, android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
 
     public static final int QUERY_MY_PROJECT_SUCCESS = 0X001;
+    public static final int REFRESH_SUCCESS = 0X002;
 
     private FlexiListView flv_project_new;
 //    private ProjectNewAdapter mAdapter;
@@ -58,52 +61,51 @@ public class ProjectNewFragment extends BaseFragments implements View.OnClickLis
     private String userType;
 
     private int count = 2;
-    private List<ProjectInfoBean> mDatas = new ArrayList<>();
+    private List<ProjectInfoBean> mDatas;
 
     private LoadingDialog mLoadingDialog;
-
-//    private String[] titles = new String[]{"门修理", "卫生间改造"};
-//    private String[] text = new String[]{"家庭维护,外部,门修理","添加&铺面装修,卫生间改造"};
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
+    private SwipeRefreshLayout SwipeRefreshLayout;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_project_new, null);
+        EventBus.getDefault().register(this);
         mContext = getActivity();
         initView(view);
         return  view;
     }
 
     private void initView(View view) {
+        SwipeRefreshLayout = (android.support.v4.widget.SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
+        SwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
+
+        SwipeRefreshLayout.setOnRefreshListener(this);
         userType = DefaultShared.getStringValue(mContext, Config.CONFIG_USERTYPE,0+"");
         flv_project_new = (FlexiListView) view.findViewById(R.id.flv_project_new);
-//        if(mAdapter == null) {
-//            mAdapter = new ProjectNewAdapter(mContext);
-//            flv_project_new.setAdapter(mAdapter);
-//        }
-//        initProject();
-
         flv_project_new.setOnItemClickListener(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onInitEvent(InitProjectEvent event) {
         int states = event.states;
-        if(states == 0) {
-            ProjectInfoBean datas = event.mDatas;
-            mDatas.add(datas);
-            if(mDatas.size()>0) {
-                setAdapter();
-            }else{
-                flv_project_new.setVisibility(View.GONE);
+            if(states == 0) {
+                mDatas = event.mDatas;
+                if(mDatas.size()>0) {
+                    setAdapter();
+                }else{
+                    flv_project_new.setVisibility(View.GONE);
+                }
+                SwipeRefreshLayout.setRefreshing(false);
             }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onInitDateFailure(InitProjectFailureEvent event){
+        int state = event.state;
+        if(state == -1) {
+            SwipeRefreshLayout.setRefreshing(false);
         }
     }
 
@@ -150,14 +152,17 @@ public class ProjectNewFragment extends BaseFragments implements View.OnClickLis
                 }
                 setAdapter();
                 break;
+            case REFRESH_SUCCESS:
+                SwipeRefreshLayout.setRefreshing(false);
+                break;
         }
     }
 
     private void setAdapter() {
-        if (mAdapter == null) {
+//        if (mAdapter == null) {
             mAdapter = new HomeNewlyAdpter(mContext,mDatas);
             flv_project_new.setAdapter(mAdapter);
-        }
+//        }
         mAdapter.notifyDataSetChanged();
     }
 
@@ -219,6 +224,16 @@ public class ProjectNewFragment extends BaseFragments implements View.OnClickLis
     @Override
     public void onStop() {
         super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onRefresh() {
+        EventBus.getDefault().post(new AddProjectEvent(1));
     }
 }

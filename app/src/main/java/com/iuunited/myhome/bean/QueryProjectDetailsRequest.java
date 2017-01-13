@@ -30,6 +30,7 @@ public class QueryProjectDetailsRequest extends BaseEntity {
 
     public static class QueryProjectDetailsResponse extends BaseEntity {
         private int Id;
+        private int CategoryId;
         private String Name;
         private String Telephone;
         private String Address;
@@ -41,6 +42,14 @@ public class QueryProjectDetailsRequest extends BaseEntity {
         private int Status;
         private List<AnswerBean> Answers;
         private List<String> Urls;
+
+        public int getCategoryId() {
+            return CategoryId;
+        }
+
+        public void setCategoryId(int categoryId) {
+            CategoryId = categoryId;
+        }
 
         public int getStatus() {
             return Status;

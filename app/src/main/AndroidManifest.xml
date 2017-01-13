@@ -159,7 +159,8 @@
         <activity android:name=".ui.project.customer.ReviseQuestionActivity"
                   android:launchMode="singleTask"/>
         <activity android:name=".ui.project.customer.RevisePhotoActivity"
-                  android:launchMode="singleTask"/>
+                  android:launchMode="singleTask"
+                  android:windowSoftInputMode="stateHidden|stateUnchanged"/>
         <activity android:name=".ui.project.PriceDetailsActivity"
                   android:launchMode="singleTask"/>
         <activity android:name=".ui.mine.ReviseSettingActivity"

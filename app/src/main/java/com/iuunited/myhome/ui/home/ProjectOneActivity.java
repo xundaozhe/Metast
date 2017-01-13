@@ -37,6 +37,7 @@ import com.iuunited.myhome.event.QuestionEvent;
 import com.iuunited.myhome.event.QuestionNameEvent;
 import com.iuunited.myhome.event.UserAddressEvent;
 import com.iuunited.myhome.event.UserMarkerAddressEvent;
+import com.iuunited.myhome.mapdemo.OneActivity;
 import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.util.TextUtils;
@@ -268,26 +269,49 @@ public class ProjectOneActivity extends BaseFragmentActivity implements TextWatc
                                 bundle.putSerializable("question", questions);
                                 if (!TextUtils.isEmpty(projectName)) {
                                     bundle.putString("projectName",projectName);
+                                }else{
+                                    ToastUtils.showShortToast(ProjectOneActivity.this, "请选择项目名称!");
+                                    return;
                                 }
                                 if(!TextUtils.isEmpty(userPhone)) {
                                     bundle.putString("phoneNumber",userPhone);
+                                }else{
+                                    ToastUtils.showShortToast(ProjectOneActivity.this, "请输入电话号码！");
+                                    return;
                                 }
                                 if(!TextUtils.isEmpty(address)) {
                                     bundle.putString("address",address);
+                                }else{
+                                    ToastUtils.showShortToast(ProjectOneActivity.this, "请输入地址信息！");
+                                    return;
                                 }
                                 if (!TextUtils.isEmpty(zipCode)) {
                                     bundle.putString("zipCode",zipCode);
+                                }else{
+                                    ToastUtils.showShortToast(ProjectOneActivity.this, "请输入邮政编码！");
+                                    return;
                                 }
                                 if(lat!=0.0) {
                                     bundle.putDouble("latitude",lat);
+                                }else{
+                                    ToastUtils.showShortToast(ProjectOneActivity.this, "获取定位信息失败，请点击从地图获取或打开定位权限！");
+                                    return;
                                 }
                                 if(lon!=0.0) {
                                     bundle.putDouble("longitude",lon);
+                                }else{
+                                    ToastUtils.showShortToast(ProjectOneActivity.this, "获取定位信息失败，请点击从地图获取或打开定位权限！");
+                                    return;
+                                }
+                                if(questionId!=-1) {
+                                    bundle.putInt("questionId",questionId);
                                 }
                                 bundle.putInt("questionNumber",questionNumber);
                                 IntentUtil.startActivity(ProjectOneActivity.this,ProjectTwoActivity.class,bundle);
 //                                EventBus.getDefault().post(new ChangeProjectFmEvent(1));
                             }
+                        }else{
+                            ToastUtils.showShortToast(ProjectOneActivity.this,"获取问题列表失败,请稍后再试!");
                         }
                     }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,9 @@ import com.iuunited.myhome.bean.HomeNewlyBean;
 import com.iuunited.myhome.bean.ProjectInfoBean;
 import com.iuunited.myhome.bean.QueryMyProjectRequest;
 import com.iuunited.myhome.entity.Config;
+import com.iuunited.myhome.event.AddProjectEvent;
 import com.iuunited.myhome.event.InitProjectEvent;
+import com.iuunited.myhome.event.InitProjectFailureEvent;
 import com.iuunited.myhome.ui.adapter.HomeNewlyAdpter;
 import com.iuunited.myhome.ui.adapter.ProjectAlllvAdapter;
 import com.iuunited.myhome.ui.adapter.ProjectFinishAdapter;
@@ -44,7 +47,7 @@ import static com.iuunited.myhome.R.id.flv_project_all;
  * @updateDes $TODO$
  * Created by xundaozhe on 2016/10/28.
  */
-public class ProjectFinishFragment extends BaseFragments implements AdapterView.OnItemClickListener, ServiceClient.IServerRequestable {
+public class ProjectFinishFragment extends BaseFragments implements AdapterView.OnItemClickListener, ServiceClient.IServerRequestable, android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
 
     public static final int QUERY_MY_PROJECT_SUCCESS = 0X001;
     private LoadingDialog mLoadingDialog;
@@ -60,29 +63,32 @@ public class ProjectFinishFragment extends BaseFragments implements AdapterView.
     private int count = 2;
     private List<ProjectInfoBean> mDatas = new ArrayList<>();
     private int[] projects = new int[]{2,4};
+    private SwipeRefreshLayout SwipeRefreshLayout;
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_project_finish, null);
         mContext = getActivity();
+        EventBus.getDefault().register(this);
         initView(view);
         initData();
         return view;
     }
 
     private void initView(View view) {
+        SwipeRefreshLayout = (android.support.v4.widget.SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
+        SwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
+
+        SwipeRefreshLayout.setOnRefreshListener(this);
         flv_project_finish = (FlexiListView) view.findViewById(R.id.flv_project_finish);
 
     }
 
     private void initData() {
+
         userType = DefaultShared.getStringValue(mContext, Config.CONFIG_USERTYPE, 0 + "");
 //        for (int i = 0;i<projects.length;i++){
 //            initProject(projects[i]);
@@ -94,13 +100,21 @@ public class ProjectFinishFragment extends BaseFragments implements AdapterView.
     public void onInitEvent(InitProjectEvent event){
         int states = event.states;
         if(states == 2) {
-            ProjectInfoBean datas = event.mDatas;
-            mDatas.add(datas);
+            mDatas = event.mDatas;
             if(mDatas.size()>0) {
                 setAdapter();
             }else{
                 flv_project_finish.setVisibility(View.GONE);
             }
+            SwipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onInitDateFailure(InitProjectFailureEvent event){
+        int state = event.state;
+        if(state == -1) {
+            SwipeRefreshLayout.setRefreshing(false);
         }
     }
 
@@ -151,10 +165,8 @@ public class ProjectFinishFragment extends BaseFragments implements AdapterView.
     }
 
     private void setAdapter() {
-        if (mAdapter == null) {
             mAdapter = new HomeNewlyAdpter(mContext,mDatas);
             flv_project_finish.setAdapter(mAdapter);
-        }
         mAdapter.notifyDataSetChanged();
     }
 
@@ -193,8 +205,13 @@ public class ProjectFinishFragment extends BaseFragments implements AdapterView.
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onRefresh() {
+        EventBus.getDefault().post(new AddProjectEvent(1));
     }
 }

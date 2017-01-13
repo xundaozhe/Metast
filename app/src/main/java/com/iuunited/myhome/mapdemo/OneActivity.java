@@ -60,7 +60,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OneActivity extends BaseFragmentActivity implements OnMapReadyCallback, GeocoderAutoCompleteView.OnFeatureListener, View.OnTouchListener {
+public class OneActivity extends BaseFragmentActivity implements OnMapReadyCallback, GeocoderAutoCompleteView.OnFeatureListener, View.OnTouchListener, MapboxMap.OnCameraChangeListener{
     private MapView mapView;
     private LocationManager locationMannger;
 
@@ -125,6 +125,8 @@ public class OneActivity extends BaseFragmentActivity implements OnMapReadyCallb
         selectLocationButton = (Button) findViewById(R.id.select_location_button);
         mapListview = (ListView) findViewById(R.id.map_lv);
     }
+
+
 
     private void setAdapter() {
         if (mAdapter == null) {
@@ -290,11 +292,11 @@ public class OneActivity extends BaseFragmentActivity implements OnMapReadyCallb
         mapView.onSaveInstanceState(outState);
     }
 
-
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
         this.map = mapboxMap;
         map.setStyle(Style.MAPBOX_STREETS);
+        map.setOnCameraChangeListener(this);
 //        map.addMarker(new MarkerOptions()//添加标记
 //        .position(new LatLng(23.107040,113.274515))
 //        .title("2的位置"));
@@ -411,7 +413,6 @@ public class OneActivity extends BaseFragmentActivity implements OnMapReadyCallb
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN :
                 cleanDropMarker();
-
                 break;
             case MotionEvent.ACTION_UP:
                 if (map != null) {
@@ -462,6 +463,9 @@ public class OneActivity extends BaseFragmentActivity implements OnMapReadyCallb
                 break;
             case MotionEvent.ACTION_MOVE:
                 break;
+            case MotionEvent.ACTION_CANCEL:
+                ToastUtils.showLongToast(OneActivity.this,"手机只离开地图了?@@@@@@@@@@@@@");
+                break;
         }
         return false;
     }
@@ -474,6 +478,12 @@ public class OneActivity extends BaseFragmentActivity implements OnMapReadyCallb
                 enableLocation(true);
             }
         }
+    }
+
+
+    @Override
+    public void onCameraChange(CameraPosition position) {
+
     }
 
 

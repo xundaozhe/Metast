@@ -22,7 +22,9 @@ import com.iuunited.myhome.bean.AnswerBean;
 import com.iuunited.myhome.bean.DetailsQuestionBean;
 import com.iuunited.myhome.bean.ProjectInfoBean;
 import com.iuunited.myhome.bean.QueryProjectDetailsRequest;
+import com.iuunited.myhome.event.UpdateProjectAnswerEvent;
 import com.iuunited.myhome.event.UploadGeneralEvent;
+import com.iuunited.myhome.event.UploadProjectUrlEvent;
 import com.iuunited.myhome.task.ICancelListener;
 import com.iuunited.myhome.ui.MainActivity;
 import com.iuunited.myhome.ui.adapter.DetailsQuestionAdapter;
@@ -50,6 +52,8 @@ import java.util.List;
 import static android.R.attr.description;
 import static android.R.attr.phoneNumber;
 import static android.R.id.list;
+import static com.iuunited.myhome.R.id.gv_revise_project;
+import static com.iuunited.myhome.R.id.lv_project_question;
 import static com.iuunited.myhome.R.id.tv_location;
 import static com.iuunited.myhome.R.id.tv_phone;
 import static com.iuunited.myhome.R.id.tv_zip_code;
@@ -108,6 +112,10 @@ public class ProjectDetailsActivity extends BaseFragmentActivity implements Adap
     private String description;
 
     private int itemId;
+    private String updateDescription;
+    private List<String> updateImageUrls;
+    private int questionId;
+    private List<AnswerBean> updateAnswerList;
 
 
     @Override
@@ -129,6 +137,30 @@ public class ProjectDetailsActivity extends BaseFragmentActivity implements Adap
         tv_telephone.setText(uploadTelePhone);
         tv_address.setText(uploadAddress);
         tv_postcode.setText(uploadZipCode);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUploadProjectUrlEvent(UploadProjectUrlEvent event){
+        updateDescription = event.description;
+        updateImageUrls = event.imageUrls;
+        if(!TextUtils.isEmpty(updateDescription)) {
+            tv_description.setText(updateDescription);
+        }
+        if(updateImageUrls.size()>0) {
+            mAdapter = new EditProjectGvAdapter(this,updateImageUrls);
+            gv_project_details.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpdateProjectAnswerEvent(UpdateProjectAnswerEvent event){
+        updateAnswerList = event.mAnswerBeanList;
+        if(updateAnswerList.size()>0) {
+            mQuestionAdapter = new DetailsQuestionAdapter(this, updateAnswerList);
+            lv_details_question.setAdapter(mQuestionAdapter);
+            mQuestionAdapter.notifyDataSetChanged();
+        }
     }
 
     private void initView() {
@@ -212,6 +244,7 @@ public class ProjectDetailsActivity extends BaseFragmentActivity implements Adap
                             if (!TextUtils.isEmpty(address)) {
                                 tv_address.setText(address);
                             }
+                            questionId = responseDto.getCategoryId();
                             postCode = responseDto.getPostCode();
                             if (!TextUtils.isEmpty(postCode)) {
                                 tv_postcode.setText(postCode);
@@ -254,6 +287,9 @@ public class ProjectDetailsActivity extends BaseFragmentActivity implements Adap
 
                     @Override
                     public boolean onFailure(String errorMessage) {
+                        Message message = new Message();
+                        message.what = QUERY_PROJECT_DETAILS_FAILURE;
+                        sendUiMessage(message);
                         return false;
                     }
                 });
@@ -325,14 +361,30 @@ public class ProjectDetailsActivity extends BaseFragmentActivity implements Adap
                 if(!TextUtils.isEmpty(postCode)) {
                     bundle.putString("zipCode",postCode);
                 }
-                if(mQuestionData.size()>0) {
-                    bundle.putSerializable("answerLists", (Serializable) mQuestionData);
+                if(updateAnswerList!=null) {
+                    if(updateAnswerList.size()>0) {
+                        bundle.putSerializable("answerLists", (Serializable) updateAnswerList);
+                    }
+                }else{
+                    if(mQuestionData.size()>0) {
+                        bundle.putSerializable("answerLists", (Serializable) mQuestionData);
+                    }
                 }
-                if(!TextUtils.isEmpty(description)) {
-                    bundle.putString("decription",description);
+                if(!TextUtils.isEmpty(updateDescription)) {
+                    bundle.putString("decription",updateDescription);
+                }else{
+                    if(!TextUtils.isEmpty(description)) {
+                        bundle.putString("decription",description);
+                    }
                 }
-                if(imageUrls.size()>0) {
-                    bundle.putStringArrayList("imageUrls", (ArrayList<String>) imageUrls);
+                if(updateImageUrls!=null) {
+                    if(updateImageUrls.size()>0) {
+                        bundle.putStringArrayList("imageUrls", (ArrayList<String>) updateImageUrls);
+                    }
+                }else{
+                    if(imageUrls.size()>0) {
+                        bundle.putStringArrayList("imageUrls", (ArrayList<String>) imageUrls);
+                    }
                 }
                 bundle.putInt("class",1);
                 if(createTime!=0L) {
@@ -340,6 +392,9 @@ public class ProjectDetailsActivity extends BaseFragmentActivity implements Adap
                 }
                 if(itemId!=0) {
                     bundle.putInt("itemId",itemId);
+                }
+                if(questionId!=0) {
+                    bundle.putInt("questionId",questionId);
                 }
                 IntentUtil.startActivity(this,ReviseProjectActivity.class,bundle);
                 break;

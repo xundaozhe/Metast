@@ -63,7 +63,7 @@ import static com.umeng.facebook.FacebookSdk.getApplicationContext;
  * @updateDes $TODO$
  * Created by xundaozhe on 2016/10/26.
  */
-public class HomeFragment extends BaseFragments implements View.OnClickListener, AdapterView.OnItemClickListener, ServiceClient.IServerRequestable {
+public class HomeFragment extends BaseFragments implements View.OnClickListener, AdapterView.OnItemClickListener, ServiceClient.IServerRequestable, android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
 
     public static final int QUERY_MY_PROJECT_SUCCESS = 0X001;
 
@@ -110,11 +110,11 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
     }
 
     private void initView(View view) {
-//        SwipeRefreshLayout = (android.support.v4.widget.SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
-//        SwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
-//                android.R.color.holo_orange_light, android.R.color.holo_red_light);
-//
-//        SwipeRefreshLayout.setOnRefreshListener(this);
+        SwipeRefreshLayout = (android.support.v4.widget.SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
+        SwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
+
+        SwipeRefreshLayout.setOnRefreshListener(this);
         iv_back = (RelativeLayout) view.findViewById(R.id.iv_back);
         rl_release_project = (RelativeLayout) view.findViewById(R.id.rl_release_project);
         flv_newly_project = (MyListView) view.findViewById(R.id.flv_newly_project);
@@ -129,8 +129,6 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
     private void initData() {
         iv_back.setVisibility(View.GONE);
         iv_share.setOnClickListener(this);
-        queryMyProject();
-
         if(userType.equals("1")) {
             iv_release_project.setImageResource(R.drawable.release_project);
             tv_publish_project.setText("发布新工程");
@@ -140,6 +138,12 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
             tv_publish_project.setText("找装修工程");
             tv_project_depict.setText("寻找一个需要你帮助的客户。");
         }
+        if(mLoadingDialog == null) {
+            mLoadingDialog = new LoadingDialog(getActivity());
+            mLoadingDialog.setMessage("加载中...");
+        }
+        mLoadingDialog.show();
+        queryMyProject();
         rl_release_project.setOnClickListener(this);
 
         flv_newly_project.setOnItemClickListener(this);
@@ -154,6 +158,7 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
                 if (mLoadingDialog != null) {
                     mLoadingDialog.dismiss();
                 }
+                SwipeRefreshLayout.setRefreshing(false);
                 if(mDatas.size()>0) {
                     setAdapter();
                 }
@@ -162,11 +167,6 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
     }
 
     private void queryMyProject() {
-        if(mLoadingDialog == null) {
-            mLoadingDialog = new LoadingDialog(getActivity());
-            mLoadingDialog.setMessage("加载中...");
-        }
-        mLoadingDialog.show();
         QueryMyProjectRequest request = new QueryMyProjectRequest();
         request.setStatus(0);
         ServiceClient.requestServer(this, "加载中...", request, QueryMyProjectRequest.QueryMyProjectResponse.class,
@@ -187,11 +187,22 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
                                 message.what = QUERY_MY_PROJECT_SUCCESS;
                                 sendUiMessage(message);
 //                            }
+                        }else{
+                            if (mLoadingDialog != null) {
+                                mLoadingDialog.dismiss();
+                            }
+                            SwipeRefreshLayout.setRefreshing(false);
+                            ToastUtils.showShortToast(getActivity(),"获取信息失败,请稍后再试!");
                         }
                     }
 
                     @Override
                     public boolean onFailure(String errorMessage) {
+                        if (mLoadingDialog != null) {
+                            mLoadingDialog.dismiss();
+                        }
+                        SwipeRefreshLayout.setRefreshing(false);
+                        ToastUtils.showShortToast(getActivity(),"获取信息失败,请稍后再试!");
                         return false;
                     }
                 });
@@ -223,10 +234,14 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
         }
     }
 
-//    @Override
-//    public void onRefresh() {
-//        //下拉刷新进行加载数据,加载完成后发送消息给handler更新界面
-//    }
+    @Override
+    public void onRefresh() {
+        //下拉刷新进行加载数据,加载完成后发送消息给handler更新界面
+        if(mDatas.size()>0) {
+            mDatas.clear();
+        }
+        queryMyProject();
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

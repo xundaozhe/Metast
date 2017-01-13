@@ -17,7 +17,7 @@ import java.util.List;
  */
 @RouteAttr(url = "/Project/CreateProject", hostType = RouteAttr.HOST_TYPE.Default)
 public class CreateProjectRequest extends BaseEntity {
-
+    private int CategoryId;
     private String Name;
     private String Telephone;
     private String Address;
@@ -27,6 +27,14 @@ public class CreateProjectRequest extends BaseEntity {
     private String Description;
     private List<AnswerBean> Answers;
     private List<String> Urls;
+
+    public int getCategoryId() {
+        return CategoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        CategoryId = categoryId;
+    }
 
     public String getName() {
         return Name;

@@ -87,6 +87,7 @@ public class ProjectTwoActivity extends BaseFragmentActivity implements AdapterV
     private String zipCode;
     private double latitude;
     private double longitude;
+    private int questionId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,6 +112,7 @@ public class ProjectTwoActivity extends BaseFragmentActivity implements AdapterV
         zipCode = getIntent().getStringExtra("zipCode");
         latitude = getIntent().getDoubleExtra("latitude", 0.0);
         longitude = getIntent().getDoubleExtra("longitude", 0.0);
+        questionId = getIntent().getIntExtra("questionId",-1);
         stepBar = (StepView) findViewById(R.id.stepBar);
         List<String> titles = new ArrayList<String>();
         for (int i = 0; i < questionNumber; i++) {
@@ -127,7 +129,6 @@ public class ProjectTwoActivity extends BaseFragmentActivity implements AdapterV
     }
 
     private void initData() {
-        /********单选题********/
         selectQuestion(index);
         btn_next_one.setOnClickListener(this);
         lv_choice.setOnItemClickListener(this);
@@ -184,6 +185,9 @@ public class ProjectTwoActivity extends BaseFragmentActivity implements AdapterV
                         }
                         if (longitude != 0.0) {
                             bundle.putDouble("longitude", longitude);
+                        }
+                        if(questionId!=-1) {
+                            bundle.putInt("questionId",questionId);
                         }
                         IntentUtil.startActivity(this, ProjectThreeActivity.class, bundle);
                     }

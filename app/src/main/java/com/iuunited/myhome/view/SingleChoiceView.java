@@ -23,7 +23,7 @@ import com.iuunited.myhome.R;
 public class SingleChoiceView extends FrameLayout implements Checkable{
 
     private TextView mSingleText;
-    private RadioButton mSingleBtn;
+    public RadioButton mSingleBtn;
 
 
     public SingleChoiceView(Context context) {

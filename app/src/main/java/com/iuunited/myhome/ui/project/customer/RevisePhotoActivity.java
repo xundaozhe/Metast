@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,21 +27,41 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.iuunited.myhome.Helper.ServiceClient;
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
+import com.iuunited.myhome.bean.UpLoadHeadRequest;
+import com.iuunited.myhome.bean.UploadProjectUrlsRequest;
+import com.iuunited.myhome.event.AddProjectEvent;
+import com.iuunited.myhome.event.UploadProjectUrlEvent;
 import com.iuunited.myhome.task.ICancelListener;
+import com.iuunited.myhome.ui.adapter.EditProjectGvAdapter;
 import com.iuunited.myhome.ui.adapter.GridAdapter;
 import com.iuunited.myhome.ui.home.PhotoActivity;
+import com.iuunited.myhome.ui.home.ProjectThreeActivity;
 import com.iuunited.myhome.ui.home.ProjectThreeFragment;
 import com.iuunited.myhome.ui.home.TestPicActivity;
 import com.iuunited.myhome.util.Bimp;
+import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.FileUtils;
+import com.iuunited.myhome.util.TextUtils;
+import com.iuunited.myhome.util.ToastUtils;
+import com.iuunited.myhome.view.LoadingDialog;
 import com.iuunited.myhome.view.ProjectCancelDialog;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.R.attr.data;
+import static android.view.View.X;
 import static com.iuunited.myhome.R.id.view;
 
 /**
@@ -54,7 +75,12 @@ import static com.iuunited.myhome.R.id.view;
  * Created by xundaozhe on 2016/12/7.
  */
 
-public class RevisePhotoActivity extends BaseFragmentActivity {
+public class RevisePhotoActivity extends BaseFragmentActivity implements ServiceClient.IServerRequestable {
+
+    private static final int UPLOAD_IMAGE_SUCCESS = 0X002;
+    private static final int IMAGE_UPLOAD_SUCCESS = 0X003;
+    private static final int UPLOAD_PROJECT_URL_SUCCESS = 0X004;
+
 
     private RelativeLayout iv_back;
     private TextView tv_title;
@@ -70,12 +96,20 @@ public class RevisePhotoActivity extends BaseFragmentActivity {
     private Uri photoUri;
     private PopupWindows mPopupWindow;
     private GridAdapter mAdapter;
-
-    private ProjectCancelDialog mCancelDialog;
+    private LinearLayout ll_image;
+    private GridView gv_image_url;
+    private EditProjectGvAdapter mImageAdapter;
+    private EditText et_description;
 
     private int projectId;
     private String description;
     private ArrayList<String> imageUrls;
+    private TextView tv_point_out;
+    private Button btn_ensure;
+
+    private List<String> imageKeys = new ArrayList<>();
+    private boolean isLocal = false;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,10 +122,18 @@ public class RevisePhotoActivity extends BaseFragmentActivity {
     }
 
     private void initView() {
+        projectId = getIntent().getIntExtra("itemId",0);
+        description = getIntent().getStringExtra("decription");
+        imageUrls = getIntent().getStringArrayListExtra("imageUrls");
         iv_back = (RelativeLayout) findViewById(R.id.iv_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
         iv_share = (ImageView) findViewById(R.id.iv_share);
-
+        ll_image = (LinearLayout)findViewById(R.id.ll_image);
+        gv_image_url = (GridView) findViewById(R.id.gv_image_url);
+        et_description = (EditText) findViewById(R.id.et_description);
+        tv_point_out = (TextView) findViewById(R.id.tv_point_out);
+        btn_ensure = (Button) findViewById(R.id.btn_ensure);
+        
         gv_publish_image = (GridView) findViewById(R.id.gv_publish_image);
         setAdapter();
     }
@@ -112,6 +154,28 @@ public class RevisePhotoActivity extends BaseFragmentActivity {
         iv_back.setOnClickListener(this);
         tv_title.setVisibility(View.GONE);
         iv_share.setVisibility(View.GONE);
+        btn_ensure.setOnClickListener(this);
+        if(mLoadingDialog == null) {
+            mLoadingDialog = new LoadingDialog(this);
+            mLoadingDialog.setMessage("加载中...");
+        }
+        mLoadingDialog.show();
+        if(projectId!=0) {
+            if(!TextUtils.isEmpty(description)) {
+                et_description.setHint(description);
+            }
+            if(imageUrls.size()>0) {
+                setImageAdapter();
+                tv_point_out.setText("您可以点击下方图片重新选择图片");
+            }else{
+                tv_point_out.setText("您可以点击下方图片选择图片");
+                ll_image.setVisibility(View.GONE);
+            }
+        }else{
+            ToastUtils.showShortToast(this,"获取信息失败,请稍后重试!");
+            this.finish();
+        }
+
 
         loadingImg();
         gv_publish_image.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -133,13 +197,88 @@ public class RevisePhotoActivity extends BaseFragmentActivity {
         });
     }
 
+    private void setImageAdapter() {
+        if(mImageAdapter == null) {
+            mImageAdapter = new EditProjectGvAdapter(this, imageUrls);
+            gv_image_url.setAdapter(mImageAdapter);
+        }
+        mImageAdapter.notifyDataSetChanged();
+        Message message = new Message();
+        message.what = UPLOAD_IMAGE_SUCCESS;
+        sendUiMessage(message);
+    }
+
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
+            case R.id.btn_ensure:
+                if(mLoadingDialog == null) {
+                    mLoadingDialog = new LoadingDialog(this);
+                    mLoadingDialog.setMessage("修改中...");
+                }
+                mLoadingDialog.show();
+                if(Bimp.drr.size()>0) {
+                    for (int i = 0;i<Bimp.drr.size();i++){
+                        uploadImage(Bimp.drr.get(i));
+                    }
+                }else{
+                    uploadUrl();
+                }
+                break;
         }
+    }
+
+    private void uploadImage(final String path) {
+        UpLoadHeadRequest request = new UpLoadHeadRequest();
+        request.setFileType(2);
+        ServiceClient.requestServer(this, "发布中...", request, UpLoadHeadRequest.UpLoadHeadResponse.class,
+                new ServiceClient.OnSimpleActionListener<UpLoadHeadRequest.UpLoadHeadResponse>() {
+                    @Override
+                    public void onSuccess(UpLoadHeadRequest.UpLoadHeadResponse responseDto) {
+                        if(responseDto.getOperateCode() == 0) {
+                            String token = responseDto.getToken();
+                            final String host = responseDto.getHost();
+                            UploadManager uploadManager = new UploadManager();
+                            uploadManager.put(path, null, token, new UpCompletionHandler() {
+                                @Override
+                                public void complete(String key, ResponseInfo info, JSONObject response) {
+                                    Log.i("qiniu", key + ",\r\n " + info + ",\r\n "
+                                            + response+"-------------x"+host);
+                                    try {
+                                        String imageKey = response.getString("key");
+                                        imageKeys.add(imageKey);
+                                        if(imageKeys.size() == Bimp.drr.size()) {
+                                            Message message = new Message();
+                                            message.what = IMAGE_UPLOAD_SUCCESS;
+                                            sendUiMessage(message);
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            },null);
+                        }else{
+                            if(mLoadingDialog!=null) {
+                                mLoadingDialog.dismiss();
+                            }
+                            ToastUtils.showShortToast(RevisePhotoActivity.this,"图片上传失败,请稍后再试!");
+                        }
+                    }
+
+                    @Override
+                    public boolean onFailure(String errorMessage) {
+                        if(mLoadingDialog!=null) {
+                            mLoadingDialog.dismiss();
+                        }
+                        ToastUtils.showShortToast(RevisePhotoActivity.this,"图片上传失败,请稍后再试!");
+                        return false;
+                    }
+                });
     }
 
     @Override
@@ -171,7 +310,83 @@ public class RevisePhotoActivity extends BaseFragmentActivity {
                 Log.e(TAG, "图片有" + Bimp.bmp.size() + "张++++");
                 setAdapter();
                 break;
+            case UPLOAD_IMAGE_SUCCESS:
+                if(mLoadingDialog!=null) {
+                    mLoadingDialog.dismiss();
+                }
+                break;
+            case IMAGE_UPLOAD_SUCCESS:
+                uploadUrl();
+                break;
+            case UPLOAD_PROJECT_URL_SUCCESS:
+                this.finish();
+                break;
         }
+    }
+
+    private void uploadUrl() {
+        final UploadProjectUrlsRequest request = new UploadProjectUrlsRequest();
+        String uploadDescription = et_description.getText().toString().trim();
+        if (!TextUtils.isEmpty(uploadDescription)) {
+            request.setDescription(uploadDescription);
+        }else{
+            et_description.setText(description);
+            request.setDescription(description);
+        }
+        if(projectId!=0) {
+            request.setId(projectId);
+        }else{
+            ToastUtils.showShortToast(this, "发布失败，请稍后再试！");
+            return;
+        }
+        if(imageKeys.size()>0) {
+            isLocal = true;
+            request.setUrls(imageKeys);
+        }else{
+            isLocal = false;
+            request.setUrls(imageUrls);
+        }
+        ServiceClient.requestServer(this, "上传中...", request, UploadProjectUrlsRequest.UpdateProjectUrlsResponse.class,
+                new ServiceClient.OnSimpleActionListener<UploadProjectUrlsRequest.UpdateProjectUrlsResponse>() {
+                    @Override
+                    public void onSuccess(UploadProjectUrlsRequest.UpdateProjectUrlsResponse responseDto) {
+                        if(mLoadingDialog!=null) {
+                            mLoadingDialog.dismiss();
+                        }
+                        if (responseDto.getIsSuccessful()) {
+                            String description = request.getDescription();
+                            List<String> urls = request.getUrls();
+                            ArrayList<String> imageUrls = new ArrayList<>();
+                            for (int i = 0;i<urls.size();i++){
+                                String key = urls.get(i);
+                                String imageUrl = "";
+                                if(isLocal) {
+                                    imageUrl = "http://oj7029k8u.bkt.clouddn.com/"+key;
+                                }else{
+                                    imageUrl =  key;
+                                }
+                                imageUrls.add(imageUrl);
+                            }
+                            EventBus.getDefault().post(new UploadProjectUrlEvent(description, imageUrls));
+                            EventBus.getDefault().post(new AddProjectEvent(1));
+                            ToastUtils.showShortToast(RevisePhotoActivity.this, "上传成功!");
+                            Message message = new Message();
+                            message.what = UPLOAD_PROJECT_URL_SUCCESS;
+                            sendUiMessageDelayed(message,1000);
+                        } else {
+                            ToastUtils.showShortToast(RevisePhotoActivity.this, "上传失败,请稍后再试!");
+                        }
+                    }
+
+                    @Override
+                    public boolean onFailure(String errorMessage) {
+                        if(mLoadingDialog!=null) {
+                            mLoadingDialog.dismiss();
+                        }
+                        ToastUtils.showShortToast(RevisePhotoActivity.this, "上传失败,请稍后再试!");
+                        return false;
+                    }
+                });
     }
 
     private void loadingImg() {
@@ -234,6 +449,31 @@ public class RevisePhotoActivity extends BaseFragmentActivity {
         FileUtils.deleteDir();
         FileUtils.deleteVideoDir();
         FileUtils.deleteZipDir();
+    }
+
+    @Override
+    public void showLoadingDialog(String text) {
+
+    }
+
+    @Override
+    public void dismissLoadingDialog() {
+
+    }
+
+    @Override
+    public void showCustomToast(String text) {
+
+    }
+
+    @Override
+    public boolean getSuccessful() {
+        return false;
+    }
+
+    @Override
+    public void setSuccessful(boolean isSuccessful) {
+
     }
 
 

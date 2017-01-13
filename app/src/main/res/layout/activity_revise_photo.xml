@@ -5,10 +5,10 @@
               android:layout_height="match_parent"
               android:background="#ffffff">
     <include layout="@layout/comment_banner_top"/>
-    <com.iuunited.myhome.view.FlexiScrollView
+    <com.iuunited.myhome.view.ReboundScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -27,8 +27,11 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/edittext_bg_layer">
+                android:background="@drawable/edittext_bg_layer"
+                android:focusable="true"
+                android:filterTouchesWhenObscured="true">
                 <EditText
+                    android:id="@+id/et_description"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
@@ -40,13 +43,48 @@
                     android:textSize="16sp"
                     />
             </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/ll_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:text="已经选择的图片"
+                    android:textColor="#4D4D4D"
+                    android:textSize="16sp"/>
+                <View
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="#BBBBBB" />
+                <com.iuunited.myhome.view.MyGridView
+                    android:id="@+id/gv_image_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:horizontalSpacing="15dp"
+                    android:numColumns="3"
+                    android:paddingLeft="8dp"
+                    android:scrollbars="none"
+                    android:verticalSpacing="15dp"
+                    android:gravity="center"
+                    />
+            </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_point_out"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="30dp"
-                android:text="附加 (可选)"
+                android:text="您可以点击下方图片重新选择图片"
                 android:textColor="#4D4D4D"
                 android:textSize="16sp"/>
             <View
@@ -62,7 +100,7 @@
                 <com.iuunited.myhome.view.MyGridView
                     android:id="@+id/gv_publish_image"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="10dp"
@@ -74,12 +112,12 @@
                     android:gravity="center"
                     />
                 <Button
-                    android:id="@+id/btn_next_one"
+                    android:id="@+id/btn_ensure"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
                     android:layout_marginRight="50dp"
-                    android:layout_marginTop="80dp"
+                    android:layout_marginTop="50dp"
                     android:text="确 定"
                     android:background="@drawable/send_idfcode"
                     android:textSize="18sp"
@@ -87,6 +125,9 @@
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"/>
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="120dp"/>
         </LinearLayout>
-    </com.iuunited.myhome.view.FlexiScrollView>
+    </com.iuunited.myhome.view.ReboundScrollView>
 </LinearLayout>

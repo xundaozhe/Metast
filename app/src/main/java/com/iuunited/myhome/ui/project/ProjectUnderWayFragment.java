@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,9 @@ import com.iuunited.myhome.bean.HomeNewlyBean;
 import com.iuunited.myhome.bean.ProjectInfoBean;
 import com.iuunited.myhome.bean.QueryMyProjectRequest;
 import com.iuunited.myhome.entity.Config;
+import com.iuunited.myhome.event.AddProjectEvent;
 import com.iuunited.myhome.event.InitProjectEvent;
+import com.iuunited.myhome.event.InitProjectFailureEvent;
 import com.iuunited.myhome.ui.adapter.HomeNewlyAdpter;
 import com.iuunited.myhome.ui.adapter.ProjectAlllvAdapter;
 import com.iuunited.myhome.ui.adapter.ProjectUnderWayAdapter;
@@ -25,6 +28,7 @@ import com.iuunited.myhome.ui.home.ItemProjectDetailsActivity;
 import com.iuunited.myhome.ui.project.professional.ProUnderWayDetailsActivity;
 import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.IntentUtil;
+import com.iuunited.myhome.util.ToastUtils;
 import com.iuunited.myhome.view.FlexiListView;
 import com.iuunited.myhome.view.LoadingDialog;
 
@@ -47,7 +51,7 @@ import static com.iuunited.myhome.R.id.flv_project_all;
  * @updateDes 工程进行中
  * Created by xundaozhe on 2016/10/28.
  */
-public class ProjectUnderWayFragment extends BaseFragments implements AdapterView.OnItemClickListener, ServiceClient.IServerRequestable {
+public class ProjectUnderWayFragment extends BaseFragments implements AdapterView.OnItemClickListener, ServiceClient.IServerRequestable, android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
 
     public static final int QUERY_MY_PROJECT_SUCCESS = 0X001;
     private LoadingDialog mLoadingDialog;
@@ -61,25 +65,26 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
     private String userType;
 
     private List<ProjectInfoBean> mDatas = new ArrayList<>();
+    private SwipeRefreshLayout SwipeRefreshLayout;
 
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_project_underway, null);
         mContext = getActivity();
+        EventBus.getDefault().register(this);
         initView(view);
         initData();
         return view;
     }
 
     private void initView(View view) {
+        SwipeRefreshLayout = (android.support.v4.widget.SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
+        SwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
+
+        SwipeRefreshLayout.setOnRefreshListener(this);
         flv_project_underWay = (FlexiListView) view.findViewById(R.id.flv_project_underWay);
 
     }
@@ -87,14 +92,22 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onInitEvent(InitProjectEvent event){
         int states = event.states;
-        if(states == 1) {
-            ProjectInfoBean datas = event.mDatas;
-            mDatas.add(datas);
-            if(mDatas.size()>0) {
-                setAdapter();
-            }else{
-                flv_project_underWay.setVisibility(View.GONE);
+            if(states == 1) {
+                mDatas = event.mDatas;
+                if(mDatas.size()>0) {
+                    setAdapter();
+                }else{
+                    flv_project_underWay.setVisibility(View.GONE);
+                }
+                SwipeRefreshLayout.setRefreshing(false);
             }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onInitDateFailure(InitProjectFailureEvent event){
+        int state = event.state;
+        if(state == -1) {
+            SwipeRefreshLayout.setRefreshing(false);
         }
     }
 
@@ -151,16 +164,8 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
     }
 
     private void setAdapter() {
-//        for (int i = 0;i<count;i++){
-//            HomeNewlyBean newlyBean = new HomeNewlyBean();
-//            newlyBean.setTitle(titles[i]);
-//            newlyBean.setText(text[i]);
-//            mDatas.add(newlyBean);
-//        }
-        if (mAdapter == null) {
             mAdapter = new HomeNewlyAdpter(mContext, mDatas);
             flv_project_underWay.setAdapter(mAdapter);
-        }
         mAdapter.notifyDataSetChanged();
     }
 
@@ -208,6 +213,17 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
     @Override
     public void onStop() {
         super.onStop();
+//        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onRefresh() {
+        EventBus.getDefault().post(new AddProjectEvent(1));
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.iuunited.myhome.bean.QueryMyProjectRequest;
 import com.iuunited.myhome.entity.Config;
 import com.iuunited.myhome.event.AddProjectEvent;
 import com.iuunited.myhome.event.InitProjectEvent;
+import com.iuunited.myhome.event.InitProjectFailureEvent;
 import com.iuunited.myhome.ui.adapter.HomeNewlyAdpter;
 import com.iuunited.myhome.ui.adapter.ProjectAlllvAdapter;
 import com.iuunited.myhome.ui.home.ItemProjectDetailsActivity;
@@ -49,7 +51,7 @@ import static com.iuunited.myhome.R.id.query;
  * @updateDes $TODO$
  * Created by xundaozhe on 2016/10/28.
  */
-public class ProjectAllFragment extends BaseFragments implements AdapterView.OnItemClickListener, ServiceClient.IServerRequestable {
+public class ProjectAllFragment extends BaseFragments implements AdapterView.OnItemClickListener, ServiceClient.IServerRequestable, android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
 
     public static final int QUERY_MY_PROJECT_SUCCESS = 0X001;
 
@@ -67,10 +69,12 @@ public class ProjectAllFragment extends BaseFragments implements AdapterView.OnI
     private List<ProjectInfoBean> mFinishDatas = new ArrayList<>();
 
     private LoadingDialog mLoadingDialog;
+    private SwipeRefreshLayout SwipeRefreshLayout;
+
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
     }
 
@@ -85,12 +89,22 @@ public class ProjectAllFragment extends BaseFragments implements AdapterView.OnI
     }
 
     private void initView(View view) {
+        SwipeRefreshLayout = (android.support.v4.widget.SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
+        SwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
+
+        SwipeRefreshLayout.setOnRefreshListener(this);
         flv_project_all = (FlexiListView) view.findViewById(R.id.flv_project_all);
 
     }
 
     private void initData() {
         userType = DefaultShared.getStringValue(mContext, Config.CONFIG_USERTYPE,0+"");
+        if(mLoadingDialog == null) {
+            mLoadingDialog = new LoadingDialog(getActivity());
+            mLoadingDialog.setMessage("加载中...");
+        }
+        mLoadingDialog.show();
         initProject();
         flv_project_all.setOnItemClickListener(this);
     }
@@ -112,16 +126,12 @@ public class ProjectAllFragment extends BaseFragments implements AdapterView.OnI
                     mLoadingDialog.dismiss();
                 }
                 setAdapter();
+                SwipeRefreshLayout.setRefreshing(false);
                 break;
         }
     }
 
     private void initProject() {
-        if(mLoadingDialog == null) {
-            mLoadingDialog = new LoadingDialog(getActivity());
-            mLoadingDialog.setMessage("加载中...");
-        }
-        mLoadingDialog.show();
         QueryMyProjectRequest request = new QueryMyProjectRequest();
         request.setStatus(-1);
         ServiceClient.requestServer(this, "加载中...", request, QueryMyProjectRequest.QueryMyProjectResponse.class,
@@ -131,32 +141,53 @@ public class ProjectAllFragment extends BaseFragments implements AdapterView.OnI
                         if(responseDto.getOperateCode() == 0) {
                             List<ProjectInfoBean> projects = responseDto.getProjects();
                             if(projects.size()>0) {
+                                if(mDatas.size()>0) {
+                                    mDatas.clear();
+                                    mNewDatas.clear();
+                                    mUnderWayDatas.clear();
+                                    mFinishDatas.clear();
+
+                                }
                                 for (int i = 0;i<projects.size();i++){
                                     ProjectInfoBean projectInfoBean = projects.get(i);
                                     mDatas.add(projectInfoBean);
                                     int status = projectInfoBean.getStatus();
                                     if(status == 0) {
                                         mNewDatas.add(projectInfoBean);
-                                        EventBus.getDefault().post(new InitProjectEvent(projectInfoBean,0));
                                     }
                                     if(status == 1) {
                                         mUnderWayDatas.add(projectInfoBean);
-                                        EventBus.getDefault().post(new InitProjectEvent(projectInfoBean,1));
                                     }
                                     if(status == 2|| status == 4) {
                                         mFinishDatas.add(projectInfoBean);
-                                        EventBus.getDefault().post(new InitProjectEvent(projectInfoBean,2));
                                     }
                                 }
+                                EventBus.getDefault().post(new InitProjectEvent(mNewDatas,0));
+                                EventBus.getDefault().post(new InitProjectEvent(mUnderWayDatas,1));
+                                EventBus.getDefault().post(new InitProjectEvent(mFinishDatas,2));
+
                             }
                             Message message = new Message();
                             message.what = QUERY_MY_PROJECT_SUCCESS;
                             sendUiMessage(message);
+                        }else{
+                            if(mLoadingDialog!=null) {
+                                mLoadingDialog.dismiss();
+                            }
+                            SwipeRefreshLayout.setRefreshing(false);
+                            EventBus.getDefault().post(new InitProjectFailureEvent(-1));
+                            ToastUtils.showShortToast(getActivity(),"获取信息失败,请稍后再试!");
                         }
                     }
 
                     @Override
                     public boolean onFailure(String errorMessage) {
+                        if(mLoadingDialog!=null) {
+                            mLoadingDialog.dismiss();
+                        }
+                        SwipeRefreshLayout.setRefreshing(false);
+                        EventBus.getDefault().post(new InitProjectFailureEvent(-1));
+                        ToastUtils.showShortToast(getActivity(),"获取信息失败,请稍后再试!");
                         return false;
                     }
                 });
@@ -220,8 +251,13 @@ public class ProjectAllFragment extends BaseFragments implements AdapterView.OnI
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onRefresh() {
+        initProject();
     }
 }

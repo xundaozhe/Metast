@@ -10,11 +10,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.iuunited.myhome.Helper.ServiceClient;
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
 import com.iuunited.myhome.bean.AnswerBean;
 import com.iuunited.myhome.bean.MessagelvBean;
+import com.iuunited.myhome.bean.QueryQuestionRequest;
+import com.iuunited.myhome.bean.QuestionsBean;
+import com.iuunited.myhome.event.UpdateProjectAnswerEvent;
 import com.iuunited.myhome.event.UploadGeneralEvent;
+import com.iuunited.myhome.event.UploadProjectUrlEvent;
 import com.iuunited.myhome.ui.adapter.DetailsQuestionAdapter;
 import com.iuunited.myhome.ui.adapter.EditProjectGvAdapter;
 import com.iuunited.myhome.ui.adapter.EditQuestionAdapter;
@@ -25,6 +30,7 @@ import com.iuunited.myhome.util.Bimp;
 import com.iuunited.myhome.util.DateUtils;
 import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.util.TextUtils;
+import com.iuunited.myhome.util.ToastUtils;
 import com.iuunited.myhome.view.LoadingDialog;
 import com.iuunited.myhome.view.MyGridView;
 import com.iuunited.myhome.view.MyListView;
@@ -33,8 +39,11 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
+import static android.R.attr.description;
 import static android.R.attr.phoneNumber;
 import static android.R.string.no;
 import static com.iuunited.myhome.R.id.btn_revise_two;
@@ -51,7 +60,7 @@ import static com.iuunited.myhome.R.id.main;
  * Created by xundaozhe on 2016/12/7.
  */
 
-public class ReviseProjectActivity extends BaseFragmentActivity implements EditQuestionAdapter.CallBack {
+public class ReviseProjectActivity extends BaseFragmentActivity implements EditQuestionAdapter.CallBack, ServiceClient.IServerRequestable {
 
     private static final int UPLOAD_DETAILS_SUCCESS = 0X001;
 
@@ -85,6 +94,11 @@ public class ReviseProjectActivity extends BaseFragmentActivity implements EditQ
     private ArrayList<String> imageUrls;
     private long createTime;
     private int itemId;
+    
+    private String updateDescription;
+    private List<String> updateImageUrls;
+    private int questionId;
+    private List<AnswerBean> updateAnswerList;
 
 
     @Override
@@ -108,6 +122,7 @@ public class ReviseProjectActivity extends BaseFragmentActivity implements EditQ
         claz = getIntent().getIntExtra("class",0);
         imageUrls = getIntent().getStringArrayListExtra("imageUrls");
         createTime = getIntent().getLongExtra("createTime",0L);
+        questionId = getIntent().getIntExtra("questionId",0);
         iv_back = (RelativeLayout) findViewById(R.id.iv_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
         iv_share = (ImageView) findViewById(R.id.iv_share);
@@ -133,6 +148,30 @@ public class ReviseProjectActivity extends BaseFragmentActivity implements EditQ
         tv_phone.setText(uploadTelePhone);
         tv_location.setText(uploadAddress);
         tv_zip_code.setText(uploadZipCode);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUploadProjectUrlEvent(UploadProjectUrlEvent event){
+        updateDescription= event.description;
+        updateImageUrls = event.imageUrls;
+        if(!TextUtils.isEmpty(updateDescription)) {
+            tv_description.setText(updateDescription);
+        }
+        if(updateImageUrls.size()>0) {
+            mImageAdapter = new EditProjectGvAdapter(this,updateImageUrls);
+            gv_revise_project.setAdapter(mImageAdapter);
+            mImageAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpdateProjectAnswerEvent(UpdateProjectAnswerEvent event){
+        updateAnswerList = event.mAnswerBeanList;
+        if(updateAnswerList.size()>0) {
+            mQuestionAdapter = new DetailsQuestionAdapter(this,updateAnswerList);
+            lv_project_question.setAdapter(mQuestionAdapter);
+            mQuestionAdapter.notifyDataSetChanged();
+        }
     }
 
     private void initData() {
@@ -278,18 +317,83 @@ public class ReviseProjectActivity extends BaseFragmentActivity implements EditQ
                 IntentUtil.startActivity(this, ReviseEssentialActivity.class,bundle);
                 break;
             case R.id.btn_revise_two:
+                if(mLoadingDialog == null) {
+                    mLoadingDialog = new LoadingDialog(this);
+                    mLoadingDialog.setMessage("加载中...");
+                }
+                mLoadingDialog.show();
+                queryQuestion();
 
-                //项目描述    图片数组  TODO
-                IntentUtil.startActivity(this, ReviseQuestionActivity.class);
                 break;
             case R.id.btn_revise_three:
-                Bundle questionBundle = new Bundle();
-                questionBundle.putInt("itemId", itemId);
-                questionBundle.putString("decription", decription);
-                questionBundle.putStringArrayList("imageUrls",imageUrls);
-                IntentUtil.startActivity(this, RevisePhotoActivity.class);
+                Bundle photoBundle = new Bundle();
+                photoBundle.putInt("itemId", itemId);
+                if(!TextUtils.isEmpty(updateDescription)) {
+                    photoBundle.putString("decription", updateDescription);
+                }else{
+                    photoBundle.putString("decription", decription);
+                }
+                if(updateImageUrls!=null) {
+                    if(updateImageUrls.size()>0) {
+                        photoBundle.putStringArrayList("imageUrls", (ArrayList<String>) updateImageUrls);
+                    }
+                }
+                else{
+                    photoBundle.putStringArrayList("imageUrls",imageUrls);
+                }
+                IntentUtil.startActivity(this, RevisePhotoActivity.class,photoBundle);
                 break;
         }
+    }
+
+    private void queryQuestion() {
+        QueryQuestionRequest request = new QueryQuestionRequest();
+        if(questionId != 0) {
+            request.setId(questionId);
+        }else{
+            ToastUtils.showShortToast(ReviseProjectActivity.this, "获取问题列表失败,请稍后再试!");
+            return;
+        }
+        ServiceClient.requestServer(this, "加载中...", request, QueryQuestionRequest.QueryQuestionResponse.class,
+                new ServiceClient.OnSimpleActionListener<QueryQuestionRequest.QueryQuestionResponse>() {
+                    @Override
+                    public void onSuccess(QueryQuestionRequest.QueryQuestionResponse responseDto) {
+                        if(mLoadingDialog!=null) {
+                            mLoadingDialog.dismiss();
+                        }
+                        if(responseDto.getOperateCode() == 0) {
+                            ArrayList<QuestionsBean> questions = responseDto.getQuestions();
+                            int questionSize = questions.size();
+                            if(questions!=null&&questionSize>0) {
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("question", questions);
+                                bundle.putInt("questionNumber", questionSize);
+                                bundle.putInt("projectId",itemId);
+                                if(updateAnswerList != null) {
+                                    if(updateAnswerList.size()>0) {
+                                        bundle.putSerializable("answerBeans", (Serializable) updateAnswerList);
+                                    }
+                                }else{
+                                    if (mAnswerBeens.size() > 0) {
+                                        bundle.putSerializable("answerBeans",mAnswerBeens);
+                                    }
+                                }
+                                IntentUtil.startActivity(ReviseProjectActivity.this, ReviseQuestionActivity.class,bundle);
+                            }
+                        }else{
+                            ToastUtils.showShortToast(ReviseProjectActivity.this,"获取问题列表失败,请稍后重试!");
+                        }
+                    }
+
+                    @Override
+                    public boolean onFailure(String errorMessage) {
+                        if(mLoadingDialog!=null) {
+                            mLoadingDialog.dismiss();
+                        }
+                        ToastUtils.showShortToast(ReviseProjectActivity.this,"获取问题列表失败,请稍后重试!");
+                        return false;
+                    }
+                });
     }
 
     @Override
@@ -301,5 +405,30 @@ public class ReviseProjectActivity extends BaseFragmentActivity implements EditQ
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void showLoadingDialog(String text) {
+
+    }
+
+    @Override
+    public void dismissLoadingDialog() {
+
+    }
+
+    @Override
+    public void showCustomToast(String text) {
+
+    }
+
+    @Override
+    public boolean getSuccessful() {
+        return false;
+    }
+
+    @Override
+    public void setSuccessful(boolean isSuccessful) {
+
     }
 }

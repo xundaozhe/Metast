@@ -16,11 +16,15 @@ import java.util.List;
  */
 
 public class InitProjectEvent {
-    public ProjectInfoBean mDatas;
+    public List<ProjectInfoBean> mDatas;
 
     public int states;
 
-    public InitProjectEvent(ProjectInfoBean lists,int state){
+//    public InitProjectEvent(ProjectInfoBean lists,int state){
+//        this.mDatas = lists;
+//        this.states = state;
+//    }
+    public InitProjectEvent(List<ProjectInfoBean> lists,int state){
         this.mDatas = lists;
         this.states = state;
     }

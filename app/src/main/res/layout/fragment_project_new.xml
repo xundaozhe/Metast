@@ -3,12 +3,16 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/SwipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <com.iuunited.myhome.view.FlexiListView
         android:id="@+id/flv_project_new"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none"
         android:layout_marginTop="5dp"
         android:divider="@null"
         />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

@@ -107,6 +107,7 @@ public class ProjectThreeActivity extends BaseFragmentActivity implements Servic
 
     private ArrayList<AnswerBean> mAnswerBeen;
     private List<String> imageKeys = new ArrayList<>();
+    private int questionId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -130,6 +131,7 @@ public class ProjectThreeActivity extends BaseFragmentActivity implements Servic
         latitude = getIntent().getDoubleExtra("latitude", 0.0);
         longitude = getIntent().getDoubleExtra("longitude", 0.0);
         mAnswerBeen = (ArrayList<AnswerBean>) getIntent().getSerializableExtra("andwerLists");
+        questionId = getIntent().getIntExtra("questionId",-1);
         gv_publish_image = (GridView) findViewById(R.id.gv_publish_image);
         btn_publish = (Button) findViewById(R.id.btn_publish);
         btn_preview = (Button) findViewById(R.id.btn_preview);
@@ -240,6 +242,9 @@ public class ProjectThreeActivity extends BaseFragmentActivity implements Servic
         }
         if(imageKeys.size()>0) {
             request.setUrls(imageKeys);
+        }
+        if(questionId!=-1) {
+            request.setCategoryId(questionId);
         }
         ServiceClient.requestServer(this, "上传中...", request, CreateProjectRequest.CreateProjectResponse.class,
                 new ServiceClient.OnSimpleActionListener<CreateProjectRequest.CreateProjectResponse>() {
@@ -382,6 +387,11 @@ public class ProjectThreeActivity extends BaseFragmentActivity implements Servic
                                     }
                                 }
                             },null);
+                        }else{
+                            if(mLoadingDialog!=null) {
+                                mLoadingDialog.dismiss();
+                            }
+                            ToastUtils.showShortToast(ProjectThreeActivity.this,"图片上传失败,请稍后再试!");
                         }
                     }
 
