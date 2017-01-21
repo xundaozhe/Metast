@@ -17,6 +17,15 @@ import com.iuunited.myhome.entity.BaseEntity;
 public class LoginRequest extends BaseEntity {
     private String Mobile;
     private String Password;
+    private int UserType;
+
+    public int getUserType() {
+        return UserType;
+    }
+
+    public void setUserType(int userType) {
+        UserType = userType;
+    }
 
     public String getMobile() {
         return Mobile;

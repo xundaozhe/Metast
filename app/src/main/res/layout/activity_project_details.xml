@@ -3,6 +3,8 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:focusable="true"
+              android:focusableInTouchMode="true"
     android:background="#ffffff">
     <include layout="@layout/comment_banner_top"/>
     <com.iuunited.myhome.view.ReboundScrollView
@@ -54,12 +56,14 @@
                     android:background="#ffffff"
                     android:layout_weight="1">
                     <ImageView
+                        android:id="@+id/iv_edit_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/edit_project"
                         android:layout_marginTop="25dp"
                         android:layout_gravity="center"/>
                     <TextView
+                        android:id="@+id/tv_edit_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -85,6 +89,7 @@
                     android:src="@drawable/icon_details"
                     android:layout_marginTop="25dp"/>
                 <TextView
+                    android:id="@+id/iv_details_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -101,12 +106,14 @@
                 android:background="#ffffff"
                 android:layout_weight="1">
                 <ImageView
+                    android:id="@+id/iv_cancel_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:src="@drawable/cancel_project"
                     android:layout_marginTop="25dp"/>
                 <TextView
+                    android:id="@+id/tv_cancel_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

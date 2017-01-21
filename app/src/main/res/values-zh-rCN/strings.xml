@@ -87,4 +87,7 @@
     <string name="umeng_socialize_text_kakao_key">KakaoTalk</string>
     <string name="umeng_socialize_text_googleplus_key">GooglePlus</string>
     <string name="umeng_socialize_text_more_key">更多</string>
+
+    <string name="accessToken">pk.eyJ1IjoieHVuZGFvemhlIiwiYSI6ImNpd3Z1eTRxMjAxY3kyb3BsaGhsN3kzcWYifQ.Zq7ufsQrknvXhTk9ITWd5Q</string>
+
 </resources>

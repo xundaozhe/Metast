@@ -12,6 +12,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.ActivityCollector;
 import com.iuunited.myhome.base.BaseFragmentActivity;
@@ -20,6 +21,7 @@ import com.iuunited.myhome.entity.Config;
 import com.iuunited.myhome.task.ICancelListener;
 import com.iuunited.myhome.ui.login.LoginActivity;
 import com.iuunited.myhome.util.DefaultShared;
+import com.iuunited.myhome.util.GDLocationUtil;
 import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.util.TextUtils;
 import com.iuunited.myhome.util.ToastUtils;
@@ -55,6 +57,10 @@ public class StartActivity extends BaseFragmentActivity {
     private String userType;
 
     private ProjectCancelDialog mCancelDialog;
+    private double lat;
+    private double lon;
+    private boolean isFirst = true;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,6 +91,13 @@ public class StartActivity extends BaseFragmentActivity {
         iv_customer.setOnClickListener(this);
         iv_professional.setOnClickListener(this);
         getVersionName(this);
+        GDLocationUtil.getLocation(new GDLocationUtil.MyLocationListener() {
+            @Override
+            public void result(AMapLocation location) {
+                lat = location.getLatitude();
+                lon = location.getLongitude();
+            }
+        });
 
         userType = DefaultShared.getStringValue(MyApplication.getContext(), Config.CONFIG_USERTYPE, 0 + "");
         userName = DefaultShared.getStringValue(MyApplication.getContext(), Config.CONFIG_USERNAME, "");
@@ -99,13 +112,12 @@ public class StartActivity extends BaseFragmentActivity {
                 MyApplication.userType = 1;
                 if(!(userType.equals("0"))) {
                     if (userType.equals(String.valueOf(MyApplication.userType))) {
-                        if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(userName) || TextUtils.isEmpty(userName)) {
+                        if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(password) || TextUtils.isEmpty(sessionId)) {
                             IntentUtil.startActivity(this, LoginActivity.class);
                         } else {
                             IntentUtil.startActivity(this, MainActivity.class);
                         }
                     } else {
-//                        ToastUtils.showShortToast(this, "请选择合适的身份进行操作!");
                         mCancelDialog = new ProjectCancelDialog(this, new ICancelListener() {
                             @Override
                             public void cancelClick(int id, Context activity) {
@@ -129,16 +141,19 @@ public class StartActivity extends BaseFragmentActivity {
                 break;
             case R.id.iv_professional :
                 MyApplication.userType = 2;
+                Bundle bundle = new Bundle();
+                bundle.putDouble("lat",lat);
+                bundle.putDouble("lon",lon);
                 if (!(userType.equals("0"))) {
                 if(userType.equals(String.valueOf(MyApplication.userType))) {
-                    if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(userName) || TextUtils.isEmpty(userName)) {
-                        IntentUtil.startActivity(this, LoginActivity.class);
+
+                    if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(password) || TextUtils.isEmpty(sessionId)) {
+                        IntentUtil.startActivity(this, LoginActivity.class,bundle);
                     } else {
-                        IntentUtil.startActivity(this, MainActivity.class);
+                        IntentUtil.startActivity(this, MainActivity.class,bundle);
                     }
 
                 }else{
-//                    ToastUtils.showShortToast(this,"请选择合适的身份进行操作!");
                     mCancelDialog = new ProjectCancelDialog(this, new ICancelListener() {
                     @Override
                     public void cancelClick(int id, Context activity) {
@@ -157,8 +172,8 @@ public class StartActivity extends BaseFragmentActivity {
                 },"退出登录","您当前身份是用户,如需切换到装修商,请前往我的页面点击退出。是否前往我的页面?");
                     mCancelDialog.show();
                 }
-                }else{
-                    IntentUtil.startActivity(this, LoginActivity.class);
+                } else{
+                    IntentUtil.startActivity(this, LoginActivity.class,bundle);
                 }
                 break;
         }

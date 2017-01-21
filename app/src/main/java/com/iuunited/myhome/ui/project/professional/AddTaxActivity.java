@@ -70,10 +70,10 @@ public class AddTaxActivity extends BaseFragmentActivity {
     private void setAdapter() {
         AddTaxBean addTaxBean = new AddTaxBean();
         addTaxBean.setTaxName("gst");
-        addTaxBean.setTaxValue("5.00%");
+//        addTaxBean.setTaxValue("5.00%");
         AddTaxBean bean = new AddTaxBean();
         bean.setTaxName("pst");
-        bean.setTaxValue("7.00%");
+//        bean.setTaxValue("7.00%");
         mDatas.add(addTaxBean);
         mDatas.add(bean);
         if(data != null) {

@@ -1,8 +1,10 @@
 package com.iuunited.myhome.ui.project.professional;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -11,9 +13,14 @@ import android.widget.TextView;
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
 import com.iuunited.myhome.bean.AddTaxBean;
+import com.iuunited.myhome.event.AddTaxEvent;
+import com.iuunited.myhome.task.ICancelListener;
 import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.util.TextUtils;
 import com.iuunited.myhome.util.ToastUtils;
+import com.iuunited.myhome.view.ProjectCancelDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * @author xundaozhe
@@ -36,8 +43,14 @@ public class AddNewTaxActivity extends BaseFragmentActivity {
     private String taxName;
     private String taxValue;
 
-    private TextView tv_cancel;
-    private TextView btn_sure;
+    private Button btn_cancel;
+    private Button btn_sure;
+    
+    private int addTax;
+    private String editTaxName;
+    private String editTaxValu;
+    private int taxId;
+    
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,20 +62,34 @@ public class AddNewTaxActivity extends BaseFragmentActivity {
     }
 
     private void initView() {
+        addTax = getIntent().getIntExtra("addTaxType",0);
+        editTaxName = getIntent().getStringExtra("taxName");
+        editTaxValu = getIntent().getStringExtra("taxValue");
+        taxId = getIntent().getIntExtra("taxId",-1);
         iv_back = (RelativeLayout)findViewById(R.id.iv_back);
         tv_title = (TextView)findViewById(R.id.tv_title);
         iv_share = (ImageView)findViewById(R.id.iv_share);
         et_tax_name = (EditText)findViewById(R.id.et_tax_name);
         et_tax_value = (EditText)findViewById(R.id.et_tax_value);
-        tv_cancel = (TextView)findViewById(R.id.tv_cancel);
-        btn_sure = (TextView)findViewById(R.id.btn_sure);
+        btn_cancel = (Button)findViewById(R.id.btn_cancel);
+        btn_sure = (Button)findViewById(R.id.btn_sure);
     }
 
     private void initData() {
+        if(addTax == 1) {
+            btn_cancel.setText("取消");
+        }else if(addTax == 2) {
+            if(!TextUtils.isEmpty(editTaxName)) {
+                et_tax_name.setText(editTaxName);
+            }
+            if(!TextUtils.isEmpty(editTaxValu)) {
+                et_tax_value.setText(editTaxValu);
+            }
+        }
         iv_back.setOnClickListener(this);
         tv_title.setVisibility(View.GONE);
         iv_share.setVisibility(View.GONE);
-        tv_cancel.setOnClickListener(this);
+        btn_cancel.setOnClickListener(this);
         btn_sure.setOnClickListener(this);
     }
 
@@ -70,10 +97,26 @@ public class AddNewTaxActivity extends BaseFragmentActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_back :
-                IntentUtil.startActivityAndFinish(this,AddTaxActivity.class);
+                finish();
                 break;
-            case R.id.tv_cancel:
-                IntentUtil.startActivityAndFinish(this,AddTaxActivity.class);
+            case R.id.btn_cancel:
+                if(addTax == 1) {
+                    finish();
+                }else{
+                    final AddTaxBean addTaxBean = new AddTaxBean();
+                    ProjectCancelDialog cancelDialog = new ProjectCancelDialog(this, new ICancelListener() {
+                        @Override
+                        public void cancelClick(int id, Context context) {
+                            switch (id) {
+                                case R.id.dialog_btn_sure:
+                                    EventBus.getDefault().post(new AddTaxEvent(addTaxBean, 3));
+                                    AddNewTaxActivity.this.finish();
+                                    break;
+                            }
+                        }
+                    }, "删除税务", "您确定删除该条税务吗？");
+                    cancelDialog.show();
+                }
                 break;
             case R.id.btn_sure:
                 taxName = et_tax_name.getText().toString().trim();
@@ -89,10 +132,13 @@ public class AddNewTaxActivity extends BaseFragmentActivity {
                 if (!TextUtils.isEmpty(taxName) && !TextUtils.isEmpty(taxValue)) {
                     AddTaxBean bean = new AddTaxBean();
                     bean.setTaxName(taxName);
-                    bean.setTaxValue(taxValue);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("newTax",bean);
-                    IntentUtil.startActivity(this, AddTaxActivity.class, bundle);
+                    bean.setTaxRate(taxValue);
+                    if(taxId>0) {
+                        bean.setId(taxId);
+                    }else{
+                        bean.setId(0);
+                    }
+                    EventBus.getDefault().post(new AddTaxEvent(bean,addTax));
                     finish();
                 }
                 break;

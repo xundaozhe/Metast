@@ -10,36 +10,36 @@
         android:layout_marginTop="4dp">
         <TextView
             android:id="@+id/tv_tax_name"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="个税"
             android:textColor="@color/myHomeBlue"
             android:textSize="16sp"
             android:background="@drawable/project_two_shape"
-            android:paddingLeft="35dp"
-            android:paddingRight="35dp"/>
+            android:gravity="center"
+            />
         <TextView
             android:id="@+id/tv_tax_value"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:text="5%"
             android:textColor="@color/myHomeBlue"
             android:textSize="16sp"
             android:background="@drawable/project_two_shape"
             android:layout_toRightOf="@id/tv_tax_name"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"/>
+            android:gravity="center"
+            />
         <TextView
             android:id="@+id/tv_tax_edit"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="编辑"
             android:textColor="@color/textWhite"
             android:textSize="16sp"
             android:background="@drawable/project_two_shape_check"
             android:layout_toRightOf="@id/tv_tax_value"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"/>
+            android:gravity="center"
+           />
     </RelativeLayout>
 
 </LinearLayout>

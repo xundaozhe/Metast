@@ -16,21 +16,28 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.iuunited.myhome.Helper.ServiceClient;
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragments;
 import com.iuunited.myhome.base.MyApplication;
 import com.iuunited.myhome.bean.HomeNewlyBean;
+import com.iuunited.myhome.bean.ProProjectSearchRequest;
 import com.iuunited.myhome.bean.ProjectInfoBean;
 import com.iuunited.myhome.bean.QueryMyProjectRequest;
 import com.iuunited.myhome.entity.Config;
 import com.iuunited.myhome.event.AddProjectEvent;
+import com.iuunited.myhome.event.UserAddressEvent;
 import com.iuunited.myhome.mapdemo.OneActivity;
 import com.iuunited.myhome.mapdemo.TwoActivity;
 import com.iuunited.myhome.ui.MainActivity;
 import com.iuunited.myhome.ui.adapter.HomeNewlyAdpter;
 import com.iuunited.myhome.ui.project.ProjectDetailsActivity;
 import com.iuunited.myhome.util.DefaultShared;
+import com.iuunited.myhome.util.GDLocationUtil;
 import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.util.ToastUtils;
 import com.iuunited.myhome.view.FlexiListView;
@@ -46,7 +53,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +74,8 @@ import static com.umeng.facebook.FacebookSdk.getApplicationContext;
  */
 public class HomeFragment extends BaseFragments implements View.OnClickListener, AdapterView.OnItemClickListener, ServiceClient.IServerRequestable, android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
 
-    public static final int QUERY_MY_PROJECT_SUCCESS = 0X001;
+    private static final int QUERY_MY_PROJECT_SUCCESS = 0X001;
+    private static final int SEARCH_PRO_PROJECTS_SUCCESS = 0X002;
 
     private SwipeRefreshLayout SwipeRefreshLayout;
     private MyListView flv_newly_project;
@@ -83,6 +93,8 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
 
     private List<ProjectInfoBean> mDatas = new ArrayList<>();
 
+    private double lat;
+    private double lon;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,20 +108,28 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
         View view = inflater.inflate(R.layout.fragment_home,null);
         mContext = getActivity();
         userType = DefaultShared.getStringValue(MyApplication.getContext(), Config.CONFIG_USERTYPE, "");
+
         initView(view);
         initData();
         return view;
     }
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAddProjectEvent(AddProjectEvent event){
         int state = event.state;
         if(state == 1) {
-            queryMyProject();
+            if(userType.equals("1")) {
+                queryMyProject();
+            }else{
+                proProjectSearch();
+            }
         }
     }
 
     private void initView(View view) {
+        lat = getActivity().getIntent().getDoubleExtra("lat", 0.0);
+        lon = getActivity().getIntent().getDoubleExtra("lon", 0.0);
         SwipeRefreshLayout = (android.support.v4.widget.SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
         SwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
                 android.R.color.holo_orange_light, android.R.color.holo_red_light);
@@ -143,11 +163,71 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
             mLoadingDialog.setMessage("加载中...");
         }
         mLoadingDialog.show();
-        queryMyProject();
+        if(userType.equals("1")) {
+            queryMyProject();
+        }else{
+            proProjectSearch();
+        }
         rl_release_project.setOnClickListener(this);
 
         flv_newly_project.setOnItemClickListener(this);
 
+    }
+
+    /**
+     * 装修商---附近的项目
+     */
+    private void proProjectSearch() {
+        ProProjectSearchRequest request = new ProProjectSearchRequest();
+        if (lon != 0.0&&lat!=0.0) {
+            request.setLongitude(lon);
+            request.setLatitude(lat);
+            request.setRadius(0);
+        }else{
+            if(mLoadingDialog!=null) {
+                mLoadingDialog.dismiss();
+            }
+            ToastUtils.showShortToast(getActivity(),"获取位置信息失败,请开启定位权限后重试!");
+            return;
+        }
+        ServiceClient.requestServer(this, "加载中...", request, ProProjectSearchRequest.ProProjectSearchResponse.class,
+                new ServiceClient.OnSimpleActionListener<ProProjectSearchRequest.ProProjectSearchResponse>() {
+                    @Override
+                    public void onSuccess(ProProjectSearchRequest.ProProjectSearchResponse responseDto) {
+                        if(mLoadingDialog!=null) {
+                            mLoadingDialog.dismiss();
+                        }
+                        if (responseDto.getOperateCode() == 0) {
+                            if(mDatas.size()>0) {
+                                mDatas.clear();
+                            }
+                            List<ProjectInfoBean> projects = responseDto.getProjects();
+                            for (int i = 0;i<projects.size();i++){
+                                ProjectInfoBean projectInfoBean = projects.get(i);
+                                mDatas.add(projectInfoBean);
+                            }
+                            Message message = new Message();
+                            message.what = SEARCH_PRO_PROJECTS_SUCCESS;
+                            sendUiMessage(message);
+                        }else{
+                            if (mLoadingDialog != null) {
+                                mLoadingDialog.dismiss();
+                            }
+                            SwipeRefreshLayout.setRefreshing(false);
+                            ToastUtils.showShortToast(getActivity(),"获取信息失败,请稍后再试!");
+                        }
+                    }
+
+                    @Override
+                    public boolean onFailure(String errorMessage) {
+                        if (mLoadingDialog != null) {
+                            mLoadingDialog.dismiss();
+                        }
+                        SwipeRefreshLayout.setRefreshing(false);
+                        ToastUtils.showShortToast(getActivity(),"获取信息失败,请稍后再试!");
+                        return false;
+                    }
+                });
     }
 
     @Override
@@ -163,9 +243,21 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
                     setAdapter();
                 }
                 break;
+            case SEARCH_PRO_PROJECTS_SUCCESS:
+                if(mLoadingDialog!=null) {
+                    mLoadingDialog.dismiss();
+                }
+                SwipeRefreshLayout.setRefreshing(false);
+                if(mDatas.size()>0) {
+                    setAdapter();
+                }
+                break;
         }
     }
 
+    /**
+     * 客户---我的项目
+     */
     private void queryMyProject() {
         QueryMyProjectRequest request = new QueryMyProjectRequest();
         request.setStatus(0);
@@ -240,31 +332,51 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
         if(mDatas.size()>0) {
             mDatas.clear();
         }
-        queryMyProject();
+        if(userType.equals("1")) {
+            queryMyProject();
+        }else{
+            proProjectSearch();
+        }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ProjectInfoBean projectInfoBean = mDatas.get(position);
+        int itemId = projectInfoBean.getId();
+        Bundle bundle = new Bundle();
+        if(itemId!=0) {
+            bundle.putInt("itemId", itemId);
+        }else{
+            ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
+            return;
+        }
+        long createTime = projectInfoBean.getCreateTime();
+        if(createTime!=0L) {
+            bundle.putLong("itemCreateTime", createTime);
+        }else{
+            ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
+            return;
+        }
         if(userType.equals("1")) {
-            ProjectInfoBean projectInfoBean = mDatas.get(position);
-            int itemId = projectInfoBean.getId();
-            Bundle bundle = new Bundle();
-            if(itemId!=0) {
-                bundle.putInt("itemId", itemId);
-            }else{
-                ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
-                return;
-            }
-            long createTime = projectInfoBean.getCreateTime();
-            if(createTime!=0L) {
-                bundle.putLong("itemCreateTime", createTime);
-            }else{
-                ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
-                return;
-            }
+//            ProjectInfoBean projectInfoBean = mDatas.get(position);
+//            int itemId = projectInfoBean.getId();
+//            Bundle bundle = new Bundle();
+//            if(itemId!=0) {
+//                bundle.putInt("itemId", itemId);
+//            }else{
+//                ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
+//                return;
+//            }
+//            long createTime = projectInfoBean.getCreateTime();
+//            if(createTime!=0L) {
+//                bundle.putLong("itemCreateTime", createTime);
+//            }else{
+//                ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
+//                return;
+//            }
             IntentUtil.startActivity(getActivity(), ProjectDetailsActivity.class,bundle);
         }else if(userType.equals("2")) {
-            IntentUtil.startActivity(getActivity(),ItemProjectDetailsActivity.class);
+            IntentUtil.startActivity(getActivity(),ProjectDetailsActivity.class,bundle);
         }
     }
 

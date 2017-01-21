@@ -5,7 +5,7 @@
               android:layout_height="match_parent"
               android:background="#ffffff">
     <include layout="@layout/comment_banner_top"/>
-    <com.iuunited.myhome.view.FlexiScrollView
+    <com.iuunited.myhome.view.ReboundScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
@@ -111,9 +111,9 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"/>
                         <TextView
+                            android:id="@+id/tv_subTotal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$150.00"
                             android:textSize="16sp"
                             android:textColor="#4d4d4d"
                             android:layout_alignParentRight="true"
@@ -155,9 +155,9 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"/>
                         <TextView
+                            android:id="@+id/tv_tax"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$0.00"
                             android:textSize="16sp"
                             android:textColor="#4d4d4d"
                             android:layout_alignParentRight="true"
@@ -177,6 +177,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"/>
                         <TextView
+                            android:id="@+id/tv_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="$150.00"
@@ -196,6 +197,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edittext_bg_layer">
                 <EditText
+                    android:id="@+id/et_description"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
@@ -209,12 +211,26 @@
                     />
             </RelativeLayout>
             <Button
+                android:id="@+id/btn_submit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginLeft="54dp"
                 android:layout_marginRight="54dp"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="30dp"
+                android:text="提 交"
+                android:background="@drawable/send_idfcode"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="54dp"
+                android:layout_marginRight="54dp"
+                android:layout_marginTop="20dp"
                 android:text="申 请 完 结 工 程"
                 android:background="@drawable/send_idfcode"
                 android:textSize="18sp"
@@ -223,7 +239,7 @@
                 android:paddingBottom="10dp"/>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="30dp"/>
+                android:layout_height="50dp"/>
         </LinearLayout>
-    </com.iuunited.myhome.view.FlexiScrollView>
+    </com.iuunited.myhome.view.ReboundScrollView>
 </LinearLayout>

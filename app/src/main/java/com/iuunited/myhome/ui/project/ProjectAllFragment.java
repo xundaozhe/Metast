@@ -14,6 +14,7 @@ import com.iuunited.myhome.Helper.ServiceClient;
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragments;
 import com.iuunited.myhome.bean.HomeNewlyBean;
+import com.iuunited.myhome.bean.ProProjectSearchRequest;
 import com.iuunited.myhome.bean.ProjectInfoBean;
 import com.iuunited.myhome.bean.QueryMyProjectRequest;
 import com.iuunited.myhome.entity.Config;
@@ -54,6 +55,7 @@ import static com.iuunited.myhome.R.id.query;
 public class ProjectAllFragment extends BaseFragments implements AdapterView.OnItemClickListener, ServiceClient.IServerRequestable, android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
 
     public static final int QUERY_MY_PROJECT_SUCCESS = 0X001;
+    private static final int SEARCH_PRO_PROJECTS_SUCCESS = 0X002;
 
     private FlexiListView flv_project_all;
     //    private ProjectAlllvAdapter mAdapter;
@@ -70,6 +72,9 @@ public class ProjectAllFragment extends BaseFragments implements AdapterView.OnI
 
     private LoadingDialog mLoadingDialog;
     private SwipeRefreshLayout SwipeRefreshLayout;
+
+    private double lat;
+    private double lon;
 
 
     @Override
@@ -89,6 +94,8 @@ public class ProjectAllFragment extends BaseFragments implements AdapterView.OnI
     }
 
     private void initView(View view) {
+        lat = getActivity().getIntent().getDoubleExtra("lat", 0.0);
+        lon = getActivity().getIntent().getDoubleExtra("lon", 0.0);
         SwipeRefreshLayout = (android.support.v4.widget.SwipeRefreshLayout) view.findViewById(R.id.SwipeRefreshLayout);
         SwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
                 android.R.color.holo_orange_light, android.R.color.holo_red_light);
@@ -105,7 +112,11 @@ public class ProjectAllFragment extends BaseFragments implements AdapterView.OnI
             mLoadingDialog.setMessage("加载中...");
         }
         mLoadingDialog.show();
-        initProject();
+        if (userType.equals("1")) {
+            initProject();
+        }else{
+            proProjectSearch();
+        }
         flv_project_all.setOnItemClickListener(this);
     }
 
@@ -113,7 +124,11 @@ public class ProjectAllFragment extends BaseFragments implements AdapterView.OnI
     public void onAddProjectEvent(AddProjectEvent event){
         int state = event.state;
         if(state == 1) {
-            initProject();
+            if(userType.equals("1")) {
+                initProject();
+            }else{
+                proProjectSearch();
+            }
         }
     }
 
@@ -128,9 +143,97 @@ public class ProjectAllFragment extends BaseFragments implements AdapterView.OnI
                 setAdapter();
                 SwipeRefreshLayout.setRefreshing(false);
                 break;
+            case SEARCH_PRO_PROJECTS_SUCCESS:
+                if(mLoadingDialog!=null) {
+                    mLoadingDialog.dismiss();
+                }
+                SwipeRefreshLayout.setRefreshing(false);
+                if(mDatas.size()>0) {
+                    setAdapter();
+                }
+                break;
         }
     }
 
+    /**
+     * 装修商---附近的项目
+     */
+    private void proProjectSearch() {
+        ProProjectSearchRequest request = new ProProjectSearchRequest();
+        if (lon != 0.0&&lat!=0.0) {
+            request.setLongitude(lon);
+            request.setLatitude(lat);
+            request.setRadius(0);
+        }else{
+            if(mLoadingDialog!=null) {
+                mLoadingDialog.dismiss();
+            }
+            ToastUtils.showShortToast(getActivity(),"获取位置信息失败,请开启定位权限后重试!");
+            return;
+        }
+        ServiceClient.requestServer(this, "加载中...", request, ProProjectSearchRequest.ProProjectSearchResponse.class,
+                new ServiceClient.OnSimpleActionListener<ProProjectSearchRequest.ProProjectSearchResponse>() {
+                    @Override
+                    public void onSuccess(ProProjectSearchRequest.ProProjectSearchResponse responseDto) {
+                        if(mLoadingDialog!=null) {
+                            mLoadingDialog.dismiss();
+                        }
+                        if(responseDto.getOperateCode() == 0) {
+                            List<ProjectInfoBean> projects = responseDto.getProjects();
+                            if(projects.size()>0) {
+                                if(mDatas.size()>0) {
+                                    mDatas.clear();
+                                    mNewDatas.clear();
+                                    mUnderWayDatas.clear();
+                                    mFinishDatas.clear();
+
+                                }
+                                for (int i = 0;i<projects.size();i++){
+                                    ProjectInfoBean projectInfoBean = projects.get(i);
+                                    mDatas.add(projectInfoBean);
+                                    int status = projectInfoBean.getStatus();
+                                    if(status == 0) {
+                                        mNewDatas.add(projectInfoBean);
+                                    }
+                                    if(status == 1) {
+                                        mUnderWayDatas.add(projectInfoBean);
+                                    }
+                                    if(status == 2|| status == 4) {
+                                        mFinishDatas.add(projectInfoBean);
+                                    }
+                                }
+                                EventBus.getDefault().post(new InitProjectEvent(mNewDatas,0));
+                                EventBus.getDefault().post(new InitProjectEvent(mUnderWayDatas,1));
+                                EventBus.getDefault().post(new InitProjectEvent(mFinishDatas,2));
+
+                            }
+                            Message message = new Message();
+                            message.what = SEARCH_PRO_PROJECTS_SUCCESS;
+                            sendUiMessage(message);
+                        }else{
+                            if (mLoadingDialog != null) {
+                                mLoadingDialog.dismiss();
+                            }
+                            SwipeRefreshLayout.setRefreshing(false);
+                            ToastUtils.showShortToast(getActivity(),"获取信息失败,请稍后再试!");
+                        }
+                    }
+
+                    @Override
+                    public boolean onFailure(String errorMessage) {
+                        if (mLoadingDialog != null) {
+                            mLoadingDialog.dismiss();
+                        }
+                        SwipeRefreshLayout.setRefreshing(false);
+                        ToastUtils.showShortToast(getActivity(),"获取信息失败,请稍后再试!");
+                        return false;
+                    }
+                });
+    }
+
+    /**
+     * 客户---我的项目
+     */
     private void initProject() {
         QueryMyProjectRequest request = new QueryMyProjectRequest();
         request.setStatus(-1);
@@ -200,28 +303,29 @@ public class ProjectAllFragment extends BaseFragments implements AdapterView.OnI
         }
         mAdapter.notifyDataSetChanged();
     }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if(userType.equals("1")) {
-            ProjectInfoBean projectInfoBean = mDatas.get(position);
-            int itemId = projectInfoBean.getId();
-            Bundle bundle = new Bundle();
-            if(itemId != 0) {
-                bundle.putInt("itemId", itemId);
-            }else{
-                ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
-                return;
-            }
-            long createTime = projectInfoBean.getCreateTime();
-            if(createTime != 0L) {
-                bundle.putLong("itemCreateTime",createTime);
-            }else{
-                ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
-                return;
-            }
-            IntentUtil.startActivity(getActivity(),ProjectDetailsActivity.class,bundle);
-        }else if(userType.equals("2")) {
-            IntentUtil.startActivity(getActivity(), ItemProjectDetailsActivity.class);
+        ProjectInfoBean projectInfoBean = mDatas.get(position);
+        int itemId = projectInfoBean.getId();
+        Bundle bundle = new Bundle();
+        if(itemId != 0) {
+            bundle.putInt("itemId", itemId);
+        }else{
+            ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
+            return;
+        }
+        long createTime = projectInfoBean.getCreateTime();
+        if(createTime != 0L) {
+            bundle.putLong("itemCreateTime",createTime);
+        }else{
+            ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
+            return;
+        }
+        if (userType.equals("1")) {
+            IntentUtil.startActivity(getActivity(), ProjectDetailsActivity.class, bundle);
+        } else if (userType.equals("2")) {
+            IntentUtil.startActivity(getActivity(), ProjectDetailsActivity.class, bundle);
         }
     }
 
@@ -258,6 +362,10 @@ public class ProjectAllFragment extends BaseFragments implements AdapterView.OnI
 
     @Override
     public void onRefresh() {
-        initProject();
+        if(userType.equals("1")) {
+            initProject();
+        }else{
+            proProjectSearch();
+        }
     }
 }

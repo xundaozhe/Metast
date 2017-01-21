@@ -7,10 +7,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.bean.HomeNewlyBean;
 import com.iuunited.myhome.bean.ProjectInfoBean;
+import com.iuunited.myhome.util.GlideUtils;
 import com.iuunited.myhome.util.TextUtils;
+import com.iuunited.myhome.view.RoundedImageView;
 
 import java.util.List;
 
@@ -62,7 +65,7 @@ public class HomeNewlyAdpter extends BaseAdapter {
             viewHolder = new ViewHolder();
             viewHolder.tv_project_name = (TextView) convertView.findViewById(R.id.tv_project_name);
             viewHolder.tv_describe = (TextView) convertView.findViewById(R.id.tv_describe);
-
+            viewHolder.iv_project_img = (RoundedImageView) convertView.findViewById(R.id.iv_project_img);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
@@ -75,12 +78,20 @@ public class HomeNewlyAdpter extends BaseAdapter {
         if(!TextUtils.isEmpty(description)) {
             viewHolder.tv_describe.setText(description);
         }
+        List<String> urls = bean.getUrls();
+        if(urls!=null) {
+            if(urls.size()>0) {
+                String imageUrl = urls.get(0);
+//                Glide.with(mContext).load(imageUrl).into(viewHolder.iv_project_img);
+                GlideUtils.setImage(mContext,imageUrl,R.drawable.damen,R.drawable.damen,viewHolder.iv_project_img);
+            }
+        }
         return convertView;
     }
 
     static class ViewHolder{
         public TextView tv_project_name;
         public TextView tv_describe;
-
+        public RoundedImageView iv_project_img;
     }
 }

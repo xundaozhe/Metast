@@ -47,7 +47,8 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
     private String userType;
 
     private boolean isChecked = true;
-
+    private double lat;
+    private double lon;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +61,8 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
     }
 
     private void initView() {
+        lat = getIntent().getDoubleExtra("lat", 0.0);
+        lon = getIntent().getDoubleExtra("lon", 0.0);
         tv_register = (TextView) findViewById(R.id.tv_register);
         login_btn = (Button)findViewById(R.id.login_btn);
         et_username = (EditText)findViewById(R.id.et_username);
@@ -123,6 +126,9 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
         if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(passWord)) {
             request.setMobile(userName);
             request.setPassword(passWord);
+            if(MyApplication.userType!=0) {
+                request.setUserType(MyApplication.userType);
+            }
             ServiceClient.requestServer(this,"登陆中",request, LoginRequest.LoginResponse.class,
                     new ServiceClient.OnSimpleActionListener<LoginRequest.LoginResponse>() {
                         @Override
@@ -132,16 +138,19 @@ public class LoginActivity extends BaseFragmentActivity implements ServiceClient
                             }
                             if (responseDto.getOperateCode() == 0) {
                                 if(responseDto.getIsSuccessful()) {
-//                                    userType = responseDto.getUserType()+"";
-                                    userType = MyApplication.userType+"";
+                                    userType = responseDto.getUserType()+"";
+//                                    userType = MyApplication.userType+"";
                                     DefaultShared.putStringValue(MyApplication.getContext(), Config.CONFIG_USERNAME,userName);
                                     DefaultShared.putStringValue(MyApplication.getContext(), Config.CONFIG_PASSWORD, passWord);
                                     DefaultShared.putStringValue(MyApplication.getContext(), Config.CONFIG_USERTYPE, userType);
                                     DefaultShared.putStringValue(MyApplication.getContext(),Config.CONFIG_SESSIONID,responseDto.getSessionId());
                                     MyApplication.sessionId = responseDto.getSessionId();
                                     MyApplication.userId = responseDto.getUserID();
-                                    DefaultShared.putIntValue(MyApplication.getContext(),Config.CONFIG_USERID,responseDto.getUserID());
-                                    IntentUtil.startActivity(LoginActivity.this,MainActivity.class);
+                                    DefaultShared.putIntValue(MyApplication.getContext(), Config.CONFIG_USERID, responseDto.getUserID());
+                                    Bundle bundle = new Bundle();
+                                    bundle.putDouble("lat",lat);
+                                    bundle.putDouble("lon",lon);
+                                    IntentUtil.startActivity(LoginActivity.this,MainActivity.class,bundle);
                                 }else{
                                     ToastUtils.showShortToast(LoginActivity.this,"登录失败,请稍后重试!");
                                     isChecked = true;

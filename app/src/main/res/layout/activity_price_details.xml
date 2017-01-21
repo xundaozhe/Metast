@@ -5,7 +5,7 @@
               android:layout_height="match_parent"
     android:background="@color/textWhite">
     <include layout="@layout/comment_banner_top"/>
-    <com.iuunited.myhome.view.FlexiScrollView
+    <com.iuunited.myhome.view.ReboundScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:scrollbars="none"
                 android:divider="@null"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -55,9 +56,9 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"/>
                         <TextView
+                            android:id="@+id/tv_subTotal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$150.00"
                             android:textSize="16sp"
                             android:textColor="#4d4d4d"
                             android:layout_alignParentRight="true"
@@ -99,9 +100,9 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"/>
                         <TextView
+                            android:id="@+id/tv_tax"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$0.00"
                             android:textSize="16sp"
                             android:textColor="#4d4d4d"
                             android:layout_alignParentRight="true"
@@ -121,6 +122,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"/>
                         <TextView
+                            android:id="@+id/tv_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="$150.00"
@@ -133,15 +135,16 @@
                 </LinearLayout>
             </LinearLayout>
             <TextView
+                android:id="@+id/tv_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="备注"
+                android:text="备注:无"
                 android:textColor="#4D4D4D"
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="22dp"
                 android:textSize="16sp"/>
             <Button
-                android:id="@+id/btn_"
+                android:id="@+id/btn_accept_quote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="35dp"
@@ -154,5 +157,5 @@
                 android:paddingBottom="8dp"
                 android:layout_marginTop="150dp"/>
         </LinearLayout>
-    </com.iuunited.myhome.view.FlexiScrollView>
+    </com.iuunited.myhome.view.ReboundScrollView>
 </LinearLayout>

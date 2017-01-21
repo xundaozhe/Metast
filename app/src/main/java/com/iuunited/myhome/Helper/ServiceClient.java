@@ -121,8 +121,9 @@ public class ServiceClient
 		RequestParams params = getRequestParams(dtoInfo, fieldsName, requestDto, dtoClass, putNullableField);
 
 		HttpClient.addHeader(AsyncHttpClient.HEADER_CONTENT_TYPE, "application/json;charset=utf-8");
-		if(!com.iuunited.myhome.util.TextUtils.isEmpty(MyApplication.sessionId)) {
-			HttpClient.addHeader(AsyncHttpClient.HEADER_SESSION_ID, MyApplication.sessionId);
+		String sessionId = DefaultShared.getStringValue(MyApplication.getContext(), Config.CONFIG_SESSIONID, "");
+		if(!com.iuunited.myhome.util.TextUtils.isEmpty(sessionId)) {
+			HttpClient.addHeader(AsyncHttpClient.HEADER_SESSION_ID, sessionId);
 		}
         int userId = DefaultShared.getIntValue(MyApplication.getContext(), Config.CONFIG_USERID, 0);
         if(userId!=0) {

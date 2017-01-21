@@ -41,6 +41,17 @@ public class DateUtils {
         return sf.format(date);
     }
 
+    /**
+     * 将时间戳转换为精确到秒的时间
+     * @param time
+     * @return
+     */
+    public static String getDateToStringSec(long time){
+        Date date = new Date(time*1000L);
+        sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return sf.format(date);
+    }
+
     public static long getStringToDate(String time){
         sf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();

@@ -15,7 +15,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/damen"
+            android:src="@drawable/damen"
             app:riv_corner_radius="10dip"
             app:riv_mutate_background="true"
             app:riv_oval="false"

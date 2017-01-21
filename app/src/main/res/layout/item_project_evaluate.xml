@@ -13,19 +13,53 @@
             android:id="@+id/tv_pro_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Patrick Metast"
             android:textColor="#333333"
             android:textSize="16sp"
             android:layout_alignParentLeft="true"
             />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="没有信用等级"
-            android:textColor="#bbbbbb"
-            android:textSize="16sp"
+        <ImageView
+            android:id="@+id/iv_star_one"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/icon_star_no"
             android:layout_below="@id/tv_pro_name"
             android:layout_marginTop="8dp"/>
+        <ImageView
+            android:id="@+id/iv_star_two"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/icon_star_no"
+            android:layout_below="@id/tv_pro_name"
+            android:layout_toRightOf="@id/iv_star_one"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="3dp"/>
+        <ImageView
+            android:id="@+id/iv_star_three"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/icon_star_no"
+            android:layout_below="@id/tv_pro_name"
+            android:layout_toRightOf="@id/iv_star_two"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="3dp"/>
+        <ImageView
+            android:id="@+id/iv_star_four"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/icon_star_no"
+            android:layout_below="@id/tv_pro_name"
+            android:layout_toRightOf="@id/iv_star_three"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="3dp"/>
+        <ImageView
+            android:id="@+id/iv_star_five"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/icon_star_no"
+            android:layout_below="@id/tv_pro_name"
+            android:layout_toRightOf="@id/iv_star_four"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="3dp"/>
         <ImageView
             android:id="@+id/iv_into"
             android:layout_width="wrap_content"

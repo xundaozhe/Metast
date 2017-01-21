@@ -5,10 +5,10 @@
               android:layout_height="match_parent"
     android:background="#ffffff">
     <include layout="@layout/comment_banner_top"/>
-    <com.iuunited.myhome.view.FlexiScrollView
+    <com.iuunited.myhome.view.ReboundScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none">
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -44,7 +44,7 @@
                 android:textColor="#4D4D4D"
                 android:textSize="17sp"/>
             <com.iuunited.myhome.view.MyListView
-                android:id="@+id/lv_details_item"
+                android:id="@+id/lv_quote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -111,10 +111,11 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"/>
                         <TextView
+                            android:id="@+id/et_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$150.00"
                             android:textSize="16sp"
+                            android:text="$0.00"
                             android:textColor="#4d4d4d"
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="15dp"
@@ -155,10 +156,11 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"/>
                         <TextView
+                            android:id="@+id/tv_tax"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$0.00"
                             android:textSize="16sp"
+                            android:text="$0.00"
                             android:textColor="#4d4d4d"
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="15dp"
@@ -177,9 +179,10 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"/>
                         <TextView
+                            android:id="@+id/tv_add_tax_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="$150.00"
+                            android:text="$0.00"
                             android:textSize="16sp"
                             android:textColor="#4d4d4d"
                             android:layout_alignParentRight="true"
@@ -196,6 +199,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edittext_bg_layer">
                 <EditText
+                    android:id="@+id/et_description"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
@@ -209,6 +213,7 @@
                     />
             </RelativeLayout>
             <Button
+                android:id="@+id/btn_submit_quote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -221,6 +226,9 @@
                 android:textColor="#ffffff"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30dp"/>
         </LinearLayout>
-    </com.iuunited.myhome.view.FlexiScrollView>
+    </com.iuunited.myhome.view.ReboundScrollView>
 </LinearLayout>

@@ -108,11 +108,11 @@ public class ItemProjectDetailsActivity extends BaseFragmentActivity implements 
     }
 
     private void setEvaluateAdapter() {
-        if(mEvaluateAdapter == null) {
-            mEvaluateAdapter = new ProjectEvaluateAdapter(this);
-            lv_evaluate.setAdapter(mEvaluateAdapter);
-        }
-        mEvaluateAdapter.notifyDataSetChanged();
+//        if(mEvaluateAdapter == null) {
+//            mEvaluateAdapter = new ProjectEvaluateAdapter(this);
+//            lv_evaluate.setAdapter(mEvaluateAdapter);
+//        }
+//        mEvaluateAdapter.notifyDataSetChanged();
     }
 
     private void setAdapter() {

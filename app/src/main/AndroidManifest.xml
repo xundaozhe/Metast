@@ -137,7 +137,8 @@
         <activity android:name=".ui.home.ItemProjectDetailsActivity"
                   android:launchMode="singleTask"/>
         <activity android:name=".ui.home.ProjectAssessActivity"
-                  android:launchMode="singleTask"/>
+                  android:launchMode="singleTask"
+                  android:windowSoftInputMode="adjustResize|stateHidden|stateUnchanged"/>
         <activity android:name=".ui.project.professional.ProUnderWayDetailsActivity"
                   android:launchMode="singleTask"/>
         <activity android:name=".ui.project.professional.EditNewProjectActivity"
@@ -188,6 +189,8 @@
         <activity android:name=".ui.home.ProjectTwoActivity"
                   android:launchMode="singleTask"/>
         <activity android:name=".ui.home.ProjectThreeActivity"
+                  android:launchMode="singleTask"/>
+        <activity android:name=".ui.project.professional.ProMapActivity"
                   android:launchMode="singleTask"/>
 
 

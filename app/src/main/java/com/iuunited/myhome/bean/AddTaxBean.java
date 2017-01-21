@@ -14,8 +14,18 @@ import java.io.Serializable;
  */
 
 public class AddTaxBean implements Serializable{
+    private int Id;
     private String taxName;
-    private String taxValue;
+    private String taxRate;
+
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
 
     public String getTaxName() {
         return taxName;
@@ -25,11 +35,11 @@ public class AddTaxBean implements Serializable{
         this.taxName = taxName;
     }
 
-    public String getTaxValue() {
-        return taxValue;
+    public String getTaxRate() {
+        return taxRate;
     }
 
-    public void setTaxValue(String taxValue) {
-        this.taxValue = taxValue;
+    public void setTaxRate(String taxRate) {
+        this.taxRate = taxRate;
     }
 }

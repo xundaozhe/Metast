@@ -54,6 +54,7 @@ import static com.iuunited.myhome.R.id.flv_project_all;
 public class ProjectUnderWayFragment extends BaseFragments implements AdapterView.OnItemClickListener, ServiceClient.IServerRequestable, android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
 
     public static final int QUERY_MY_PROJECT_SUCCESS = 0X001;
+    public static final int QUERY_PRO_PROJECT_FAILURE = 0X002;
     private LoadingDialog mLoadingDialog;
 
     private FlexiListView flv_project_underWay;
@@ -92,6 +93,7 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onInitEvent(InitProjectEvent event){
         int states = event.states;
+        if(userType.equals("1")) {
             if(states == 1) {
                 mDatas = event.mDatas;
                 if(mDatas.size()>0) {
@@ -101,6 +103,7 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
                 }
                 SwipeRefreshLayout.setRefreshing(false);
             }
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -112,17 +115,19 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
     }
 
     private void initData() {
-//        initProject();
         userType = DefaultShared.getStringValue(mContext, Config.CONFIG_USERTYPE, 0 + "");
+        if(userType.equals("2")) {
+            if (mLoadingDialog == null) {
+                mLoadingDialog = new LoadingDialog(getActivity());
+                mLoadingDialog.setMessage("加载中...");
+            }
+            mLoadingDialog.show();
+            initProject();
+        }
         flv_project_underWay.setOnItemClickListener(this);
     }
 
     private void initProject() {
-        if (mLoadingDialog == null) {
-            mLoadingDialog = new LoadingDialog(getActivity());
-            mLoadingDialog.setMessage("加载中...");
-        }
-        mLoadingDialog.show();
         QueryMyProjectRequest request = new QueryMyProjectRequest();
         request.setStatus(1);
         ServiceClient.requestServer(this, "加载中...", request, QueryMyProjectRequest.QueryMyProjectResponse.class,
@@ -130,6 +135,11 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
                     @Override
                     public void onSuccess(QueryMyProjectRequest.QueryMyProjectResponse responseDto) {
                         if (responseDto.getOperateCode() == 0) {
+                            if(mDatas!=null) {
+                                if(mDatas.size()>0) {
+                                    mDatas.clear();
+                                }
+                            }
                             List<ProjectInfoBean> projects = responseDto.getProjects();
                             if (projects.size() > 0) {
                                 for (int i = 0; i < projects.size(); i++) {
@@ -140,11 +150,18 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
                             Message message = new Message();
                             message.what = QUERY_MY_PROJECT_SUCCESS;
                             sendUiMessage(message);
+                        }else{
+                            Message message = new Message();
+                            message.what = QUERY_PRO_PROJECT_FAILURE;
+                            sendUiMessage(message);
                         }
                     }
 
                     @Override
                     public boolean onFailure(String errorMessage) {
+                        Message message = new Message();
+                        message.what = QUERY_PRO_PROJECT_FAILURE;
+                        sendUiMessage(message);
                         return false;
                     }
                 });
@@ -159,29 +176,50 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
                     mLoadingDialog.dismiss();
                 }
                 setAdapter();
+                SwipeRefreshLayout.setRefreshing(false);
+                break;
+            case QUERY_PRO_PROJECT_FAILURE:
+                if(mLoadingDialog!=null) {
+                    mLoadingDialog.dismiss();
+                }
+                SwipeRefreshLayout.setRefreshing(false);
+                ToastUtils.showShortToast(getActivity(),"获取失败,下拉刷新试试。");
                 break;
         }
     }
 
     private void setAdapter() {
-            mAdapter = new HomeNewlyAdpter(mContext, mDatas);
-            flv_project_underWay.setAdapter(mAdapter);
+
+        mAdapter = new HomeNewlyAdpter(mContext, mDatas);
+        flv_project_underWay.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ProjectInfoBean projectInfoBean = mDatas.get(position);
+        int itemId = projectInfoBean.getId();
+        Bundle bundle = new Bundle();
+        if(itemId!=0) {
+            bundle.putInt("itemId",itemId);
+        }else{
+            ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
+            return;
+        }
+        long createTime = projectInfoBean.getCreateTime();
+        if(createTime != 0L) {
+            bundle.putLong("itemCreateTime",createTime);
+        }else{
+            ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
+            return;
+        }
         if (userType.equals("2")) {
-            Intent intent = new Intent();
-            intent.putExtra("underWay", "underWay");
-            intent.setClass(getActivity(), ItemProjectDetailsActivity.class);
-            startActivity(intent);
+            bundle.putString("underWay", "underWay");
+            IntentUtil.startActivity(getActivity(), ProjectDetailsActivity.class,bundle);
         } else if (userType.equals("1")) {
-            Intent intent = new Intent();
-            intent.putExtra("underWay", "underWay");
-            intent.setClass(getActivity(), ProjectDetailsActivity.class);
-            startActivity(intent);
-//            IntentUtil.startActivity(getActivity(),ProjectDetailsActivity.class);
+            bundle.putString("underWay", "underWay");
+            bundle.putInt("status",1);
+            IntentUtil.startActivity(getActivity(),ProjectDetailsActivity.class,bundle);
         }
     }
 
@@ -213,7 +251,6 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
     @Override
     public void onStop() {
         super.onStop();
-//        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -224,6 +261,10 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
 
     @Override
     public void onRefresh() {
-        EventBus.getDefault().post(new AddProjectEvent(1));
+        if(userType.equals("1")) {
+            EventBus.getDefault().post(new AddProjectEvent(1));
+        }else{
+            initProject();
+        }
     }
 }

@@ -30,6 +30,16 @@ public class QueryMyProjectRequest extends BaseEntity {
     public static class QueryMyProjectResponse extends BaseEntity{
         private List<ProjectInfoBean> Projects;
 
+        private boolean isFirst;
+
+        public boolean getIsFirst() {
+            return isFirst;
+        }
+
+        public void setIsFirst(boolean first) {
+            isFirst = first;
+        }
+
         public List<ProjectInfoBean> getProjects() {
             return Projects;
         }

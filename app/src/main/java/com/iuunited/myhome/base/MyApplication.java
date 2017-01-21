@@ -6,6 +6,8 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import com.iuunited.myhome.Helper.ServiceClient;
+import com.iuunited.myhome.ui.home.GaoDeMapActivity;
+import com.iuunited.myhome.util.GDLocationUtil;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
@@ -65,6 +67,7 @@ public class MyApplication extends MultiDexApplication {
 
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+        GDLocationUtil.init(this);
     }
 
     @Override

@@ -96,6 +96,7 @@ public class ProjectNewFragment extends BaseFragments implements View.OnClickLis
                     setAdapter();
                 }else{
                     flv_project_new.setVisibility(View.GONE);
+                    SwipeRefreshLayout.setRefreshing(false);
                 }
                 SwipeRefreshLayout.setRefreshing(false);
             }
@@ -173,25 +174,26 @@ public class ProjectNewFragment extends BaseFragments implements View.OnClickLis
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ProjectInfoBean projectInfoBean = mDatas.get(position);
+        int itemId = projectInfoBean.getId();
+        Bundle bundle = new Bundle();
+        if(itemId!=0) {
+            bundle.putInt("itemId",itemId);
+        }else{
+            ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
+            return;
+        }
+        long createTime = projectInfoBean.getCreateTime();
+        if(createTime != 0L) {
+            bundle.putLong("itemCreateTime",createTime);
+        }else{
+            ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
+            return;
+        }
         if(userType.equals("2")) {
-            IntentUtil.startActivity(getActivity(), ItemProjectDetailsActivity.class);
+            IntentUtil.startActivity(getActivity(), ProjectDetailsActivity.class,bundle);
         }else if(userType.equals("1")) {
-            ProjectInfoBean projectInfoBean = mDatas.get(position);
-            int itemId = projectInfoBean.getId();
-            Bundle bundle = new Bundle();
-            if(itemId!=0) {
-                bundle.putInt("itemId",itemId);
-            }else{
-                ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
-                return;
-            }
-            long createTime = projectInfoBean.getCreateTime();
-            if(createTime != 0L) {
-                bundle.putLong("itemCreateTime",createTime);
-            }else{
-                ToastUtils.showShortToast(getActivity(), "获取项目详情失败,请稍后重试!");
-                return;
-            }
+
             IntentUtil.startActivity(getActivity(), ProjectDetailsActivity.class,bundle);
         }
     }

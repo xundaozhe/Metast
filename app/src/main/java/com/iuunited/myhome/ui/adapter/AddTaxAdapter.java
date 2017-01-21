@@ -64,7 +64,7 @@ public class AddTaxAdapter extends BaseAdapter {
         }
         AddTaxBean addTaxBean = mDatas.get(position);
         holder.tv_tax_name.setText(addTaxBean.getTaxName()+"-");
-        holder.tv_tax_value.setText(addTaxBean.getTaxValue());
+//        holder.tv_tax_value.setText(addTaxBean.getTaxValue());
         return convertView;
     }
 
