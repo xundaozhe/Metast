@@ -30,6 +30,7 @@ import com.iuunited.myhome.entity.Config;
 import com.iuunited.myhome.event.AcceptQuoteEvent;
 import com.iuunited.myhome.event.AddProjectEvent;
 import com.iuunited.myhome.event.AddQuoteSuccessEvent;
+import com.iuunited.myhome.event.ChangeQuoteEvent;
 import com.iuunited.myhome.event.UpdateProjectAnswerEvent;
 import com.iuunited.myhome.event.UploadGeneralEvent;
 import com.iuunited.myhome.event.UploadProjectUrlEvent;
@@ -273,6 +274,12 @@ public class ProjectDetailsActivity extends BaseFragmentActivity implements Adap
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onChangeQuoteEvent(ChangeQuoteEvent event){
+        itemId = event.projectId;
+        initProjectQuoteList();
+    }
+
     /**
      * 获取估价列表
      */
@@ -291,6 +298,9 @@ public class ProjectDetailsActivity extends BaseFragmentActivity implements Adap
                         public void onSuccess(GetProjectQuoteRequest.GetProjectQuoteResponse responseDto) {
                             Message message = new Message();
                             if (responseDto.getOperateCode() == 0) {
+                                if(mEvluateDatas.size()>0) {
+                                    mEvluateDatas.clear();
+                                }
                                 isQuote = responseDto.getIAmQuoted();
                                 if (isQuote) {
                                     tv_cancel_text.setText("重新估价");
@@ -551,7 +561,9 @@ public class ProjectDetailsActivity extends BaseFragmentActivity implements Adap
                 break;
             case R.id.ll_check_details:
                 if (userType.equals("1")) {
-                    IntentUtil.startActivity(this,LoocUpDetailsActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("projectId",itemId);
+                    IntentUtil.startActivity(this,LoocUpDetailsActivity.class,bundle);
                 }else{
                     if(mEvluateDatas!=null) {
                         if(mEvluateDatas.size()>0) {

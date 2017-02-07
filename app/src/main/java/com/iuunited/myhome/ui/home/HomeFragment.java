@@ -250,6 +250,8 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
                 SwipeRefreshLayout.setRefreshing(false);
                 if(mDatas.size()>0) {
                     setAdapter();
+                }else{
+                    ToastUtils.showShortToast(getActivity(),"抱歉,周边暂无工程。");
                 }
                 break;
         }

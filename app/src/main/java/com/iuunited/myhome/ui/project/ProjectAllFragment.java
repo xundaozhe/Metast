@@ -112,11 +112,11 @@ public class ProjectAllFragment extends BaseFragments implements AdapterView.OnI
             mLoadingDialog.setMessage("加载中...");
         }
         mLoadingDialog.show();
-        if (userType.equals("1")) {
+//        if (userType.equals("1")) {
             initProject();
-        }else{
-            proProjectSearch();
-        }
+//        }else{
+//            proProjectSearch();
+//        }
         flv_project_all.setOnItemClickListener(this);
     }
 
@@ -124,11 +124,11 @@ public class ProjectAllFragment extends BaseFragments implements AdapterView.OnI
     public void onAddProjectEvent(AddProjectEvent event){
         int state = event.state;
         if(state == 1) {
-            if(userType.equals("1")) {
+//            if(userType.equals("1")) {
                 initProject();
-            }else{
-                proProjectSearch();
-            }
+//            }else{
+//                proProjectSearch();
+//            }
         }
     }
 
@@ -362,10 +362,10 @@ public class ProjectAllFragment extends BaseFragments implements AdapterView.OnI
 
     @Override
     public void onRefresh() {
-        if(userType.equals("1")) {
+//        if(userType.equals("1")) {
             initProject();
-        }else{
-            proProjectSearch();
-        }
+//        }else{
+//            proProjectSearch();
+//        }
     }
 }

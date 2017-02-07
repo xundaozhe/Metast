@@ -111,6 +111,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"/>
                 <TextView
+                    android:id="@+id/tv_subTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="$150.00"
@@ -155,6 +156,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"/>
                 <TextView
+                    android:id="@+id/tv_taxTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="$0.00"
@@ -177,6 +179,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"/>
                 <TextView
+                    android:id="@+id/tv_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="$150.00"
@@ -196,6 +199,14 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="22dp"
         android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#4D4D4D"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="22dp"/>
         </LinearLayout>
     </com.iuunited.myhome.view.FlexiScrollView>
 </LinearLayout>

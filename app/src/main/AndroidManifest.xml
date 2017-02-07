@@ -192,6 +192,8 @@
                   android:launchMode="singleTask"/>
         <activity android:name=".ui.project.professional.ProMapActivity"
                   android:launchMode="singleTask"/>
+        <activity android:name=".ui.project.customer.QuoteDetailsActivity"
+                  android:launchMode="singleTask"/>
 
 
         <!-- ***************友盟第三方分享************* -->

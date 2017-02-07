@@ -20,6 +20,7 @@ import com.iuunited.myhome.bean.GetQuoteDetailsRequest;
 import com.iuunited.myhome.bean.GetQuoteItemBean;
 import com.iuunited.myhome.bean.QuoteItemBean;
 import com.iuunited.myhome.event.AddQuoteEvent;
+import com.iuunited.myhome.event.ChangeQuoteEvent;
 import com.iuunited.myhome.ui.adapter.AddCostAdapter;
 import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.util.TextUtils;
@@ -330,8 +331,10 @@ public class AddCostActivity extends BaseFragmentActivity implements AdapterView
                             mLoadingDialog.dismiss();
                         }
                         if (responseDto.getIsSuccessful()) {
-                            ToastUtils.showShortToast(AddCostActivity.this, "修改成功!");
+                            EventBus.getDefault().post(new ChangeQuoteEvent(projectId));
                             AddCostActivity.this.finish();
+                        }else{
+                            ToastUtils.showShortToast(AddCostActivity.this,"修改失败,请稍后再试!");
                         }
                     }
 
@@ -340,7 +343,7 @@ public class AddCostActivity extends BaseFragmentActivity implements AdapterView
                         if(mLoadingDialog!=null) {
                             mLoadingDialog.dismiss();
                         }
-                        ToastUtils.showShortToast(AddCostActivity.this, "修改成功!");
+                        ToastUtils.showShortToast(AddCostActivity.this, "修改失败,请稍后再试!");
                         return false;
                     }
                 });

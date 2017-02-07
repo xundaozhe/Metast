@@ -93,7 +93,7 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onInitEvent(InitProjectEvent event){
         int states = event.states;
-        if(userType.equals("1")) {
+//        if(userType.equals("1")) {
             if(states == 1) {
                 mDatas = event.mDatas;
                 if(mDatas.size()>0) {
@@ -103,7 +103,7 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
                 }
                 SwipeRefreshLayout.setRefreshing(false);
             }
-        }
+//        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -116,14 +116,14 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
 
     private void initData() {
         userType = DefaultShared.getStringValue(mContext, Config.CONFIG_USERTYPE, 0 + "");
-        if(userType.equals("2")) {
-            if (mLoadingDialog == null) {
-                mLoadingDialog = new LoadingDialog(getActivity());
-                mLoadingDialog.setMessage("加载中...");
-            }
-            mLoadingDialog.show();
-            initProject();
-        }
+//        if(userType.equals("2")) {
+//            if (mLoadingDialog == null) {
+//                mLoadingDialog = new LoadingDialog(getActivity());
+//                mLoadingDialog.setMessage("加载中...");
+//            }
+//            mLoadingDialog.show();
+//            initProject();
+//        }
         flv_project_underWay.setOnItemClickListener(this);
     }
 
@@ -261,10 +261,10 @@ public class ProjectUnderWayFragment extends BaseFragments implements AdapterVie
 
     @Override
     public void onRefresh() {
-        if(userType.equals("1")) {
+//        if(userType.equals("1")) {
             EventBus.getDefault().post(new AddProjectEvent(1));
-        }else{
-            initProject();
-        }
+//        }else{
+//            initProject();
+//        }
     }
 }
