@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="oval" >               //选择形状  圆形
+    <corners android:radius="8dp"/>        //圆点的半径
+    <solid android:color="#D3D3D3"/>     //圆点的颜色  这里是灰色
+</shape>

@@ -74,7 +74,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBRKxq5CtuJ-rbE8g_cF5XpdP346xAegTc"/>
 
-        <activity android:name=".ui.StartActivity"
+        <activity android:name=".ui.GuideActivity"
                     android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -83,6 +83,8 @@
         </activity>
         <activity android:name=".ui.login.LoginActivity"
             android:launchMode="singleTask"/>
+        <activity android:name=".ui.StartActivity"
+                  android:launchMode="singleTask"/>
         <activity android:name=".ui.login.RegisterActivity"
                   android:launchMode="singleTask"/>
         <activity android:name=".ui.login.RegisterEmailActivity"

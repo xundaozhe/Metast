@@ -19,4 +19,5 @@ public class Config {
     public static String CONFIG_USERTYPE = "userType";
 
     public static String CONFIG_ADDRESS = "address";
+    public static String ISFIRST = "isFirst";
 }
