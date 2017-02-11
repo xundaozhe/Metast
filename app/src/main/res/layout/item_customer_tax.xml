@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    android:background="@color/textWhite">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tax_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="搁谁"
+            android:textColor="@color/myHomeBlue"
+            android:textSize="16sp"
+            android:background="@drawable/progect_one_shape"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/tax_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="搁谁"
+            android:textColor="@color/myHomeBlue"
+            android:textSize="16sp"
+            android:background="@drawable/project_four_shape"
+            android:gravity="center"/>
+    </LinearLayout>
+</LinearLayout>

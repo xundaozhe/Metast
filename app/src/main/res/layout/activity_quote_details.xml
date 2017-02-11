@@ -7,7 +7,7 @@
     <include layout="@layout/comment_banner_top"/>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:background="#0086E6">
         <TextView
             android:id="@+id/tv_one"
@@ -17,7 +17,7 @@
             android:textColor="#ffffff"
             android:textSize="18sp"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
+            android:layout_marginTop="15dp"
             android:layout_marginLeft="20dp"/>
         <TextView
             android:id="@+id/tv_quote_name"
@@ -26,158 +26,186 @@
             android:textColor="@color/textWhite"
             android:layout_toRightOf="@id/tv_one"
             android:layout_marginLeft="5dp"
-            android:layout_centerVertical="true"
+            android:layout_marginTop="15dp"
             android:textSize="18sp"
             />
-    </RelativeLayout>
-    <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="20dp"
-    android:layout_marginTop="10dp">
-    <TextView
-        android:id="@+id/tv_two"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:text="描述:"
-        android:textColor="@color/textBlack"/>
-    <TextView
-        android:id="@+id/tv_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/tv_two"
-        android:textColor="#666666"
-        android:layout_marginLeft="20dp"/>
-</RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="30dp">
         <TextView
-            android:id="@+id/tv_three"
+            android:id="@+id/tv_two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="单价"
-            android:textColor="@color/textBlack"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/tv_three"
+            android:layout_below="@id/tv_one"
+            android:text="描述:"
             android:layout_marginLeft="20dp"
-            android:orientation="vertical">
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:textColor="#ffffff"/>
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_two"
+            android:layout_below="@id/tv_one"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="单价"
+                android:textSize="15sp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/textBlack"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/quote_details_et_bg">
             <TextView
                 android:id="@+id/tv_subTotal"
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="#666666"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#808080"/>
-            </LinearLayout>
-    </RelativeLayout>
+                android:text="$"
+                android:textSize="15sp"
+               android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:paddingLeft="5dp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/myHomeBlue"/>
+        </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="15dp">
-        <TextView
-            android:id="@+id/tv_four"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="数量"
-            android:textColor="@color/textBlack"/>
-        <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_weight="0.1"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="数量"
+                android:textSize="15sp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/textBlack"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/tv_four"
-            android:layout_marginLeft="20dp"
-            android:orientation="vertical">
+            android:layout_weight="0.8"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/quote_details_et_bg">
             <TextView
                 android:id="@+id/tv_quantity"
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="#666666"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#808080"/>
-        </LinearLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
+                android:textSize="15sp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:paddingLeft="5dp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/myHomeBlue"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_tax"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="15dp">
-        <TextView
-            android:id="@+id/tv_five"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="税务"
-            android:textColor="@color/textBlack"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/tv_five"
-            android:layout_marginLeft="20dp"
-            android:orientation="vertical">
+            android:layout_weight="0.1"
+            >
             <TextView
-                android:id="@+id/tv_taxTotal"
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="#666666"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#808080"/>
-        </LinearLayout>
-    </RelativeLayout>
+                android:text="加税"
+                android:textSize="15sp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/textBlack"/>
+        </RelativeLayout>
+        <ListView
+            android:id="@+id/lv_tax"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:layout_marginLeft="10dp"
+            android:scrollbars="none"
+            android:dividerHeight="6dp"
+            android:divider="@color/textWhite"/>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="30dp">
-        <TextView
-            android:id="@+id/tv_six"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="总价"
-            android:textSize="16sp"
-            android:textColor="@color/textBlack"/>
-        <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_weight="0.1"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="总价"
+                android:textSize="16sp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/textBlack"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/tv_six"
-            android:layout_marginLeft="20dp"
-            android:orientation="vertical">
+            android:layout_weight="0.8"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/quote_details_et_bg">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:paddingLeft="5dp"
+                android:text="$"
+                android:layout_centerVertical="true"
+                android:textColor="@color/myHomeBlue"/>
             <TextView
                 android:id="@+id/tv_total"
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="#666666"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#808080"
-                android:layout_marginTop="5dp"/>
-        </LinearLayout>
-    </RelativeLayout>
+                android:layout_centerInParent="true"
+                android:text="3521"
+                android:textSize="16sp"
+                android:textColor="@color/myHomeBlue"/>
+        </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

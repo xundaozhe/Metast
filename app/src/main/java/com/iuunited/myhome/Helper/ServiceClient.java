@@ -45,8 +45,9 @@ public class ServiceClient
 //	http://www.iuunited.com:9000/
 	private static final String BASE_HOST = "http://" + HOST_IP;
 
-	private static final String BASE_USER_URL    = BASE_HOST+":"+HOST_PORT;
-	
+//	private static final String BASE_USER_URL    = BASE_HOST+":"+HOST_PORT;
+	private static final String BASE_USER_URL    = "https://www.iuunited.com/myhome/";
+
 	//用户昵称
 	private static String UserNickName = "";
 

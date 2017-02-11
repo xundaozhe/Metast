@@ -1,10 +1,12 @@
 package com.iuunited.myhome.ui.project.customer;
 
+import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -13,10 +15,13 @@ import android.widget.TextView;
 import com.iuunited.myhome.Helper.ServiceClient;
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragmentActivity;
+import com.iuunited.myhome.bean.AcceptChangeProjectQuoteItemRequest;
 import com.iuunited.myhome.bean.EvaluateItenBean;
 import com.iuunited.myhome.bean.GetProjectQuoteRequest;
 import com.iuunited.myhome.bean.GetQuoteDetailsRequest;
 import com.iuunited.myhome.bean.QuoteItemBean;
+import com.iuunited.myhome.bean.RejectProjectQuoteItemsRequest;
+import com.iuunited.myhome.task.ICancelListener;
 import com.iuunited.myhome.ui.adapter.DetailsItemAdapter;
 import com.iuunited.myhome.ui.project.professional.AddCostActivity;
 import com.iuunited.myhome.util.IntentUtil;
@@ -24,6 +29,7 @@ import com.iuunited.myhome.util.TextUtils;
 import com.iuunited.myhome.util.ToastUtils;
 import com.iuunited.myhome.view.LoadingDialog;
 import com.iuunited.myhome.view.MyListView;
+import com.iuunited.myhome.view.ProjectCancelDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +59,8 @@ public class LoocUpDetailsActivity extends BaseFragmentActivity implements Servi
     private TextView tv_description;
     private MyListView lv_details_item;
     private DetailsItemAdapter mAdapter;
+    private Button btn_accept;
+    private Button btn_refuse;
 
     private int projectId;
     private int quoteId;
@@ -61,7 +69,9 @@ public class LoocUpDetailsActivity extends BaseFragmentActivity implements Servi
     private double taxTotal;
     private double subTotal;
     private String description;
-
+    private ProjectCancelDialog mCancelDialog;
+    private List<Integer> acceptItemIds = new ArrayList<>();
+    private List<Integer> rejectItemIds = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,7 +79,7 @@ public class LoocUpDetailsActivity extends BaseFragmentActivity implements Servi
         setContentView(R.layout.activity_lookup_details);
         initView();
         initData();
-        initEndDialog();
+//        initEndDialog();
     }
 
     /**
@@ -90,6 +100,8 @@ public class LoocUpDetailsActivity extends BaseFragmentActivity implements Servi
         tv_taxTotal = (TextView) findViewById(R.id.tv_taxTotal);
         tv_total = (TextView) findViewById(R.id.tv_total);
         tv_description = (TextView) findViewById(R.id.tv_description);
+        btn_accept = (Button) findViewById(R.id.btn_accept);
+        btn_refuse = (Button) findViewById(R.id.btn_refuse);
     }
 
     private void initData() {
@@ -109,6 +121,8 @@ public class LoocUpDetailsActivity extends BaseFragmentActivity implements Servi
         }
 //        setAdapter();
         lv_details_item.setOnItemClickListener(this);
+        btn_accept.setOnClickListener(this);
+        btn_refuse.setOnClickListener(this);
     }
 
     private void getQuoteList(int projectId) {
@@ -158,6 +172,15 @@ public class LoocUpDetailsActivity extends BaseFragmentActivity implements Servi
                             if(beanItems.size()>0) {
                                 for (int i = 0;i<beanItems.size();i++) {
                                     QuoteItemBean quoteItemBean = beanItems.get(i);
+                                    int status = quoteItemBean.getStatus();
+                                    if(status == 1) {
+                                        btn_accept.setBackgroundDrawable(getResources().getDrawable(R.drawable.register_text_border_on));
+                                        btn_accept.setPadding(0,12,0,12);
+                                        btn_refuse.setBackgroundDrawable(getResources().getDrawable(R.drawable.register_text_border_on));
+                                        btn_refuse.setPadding(0,12,0,12);
+                                        btn_accept.setClickable(false);
+                                        btn_refuse.setClickable(false);
+                                    }
                                     if (items == null) {
                                         items = new ArrayList<QuoteItemBean>();
                                     }
@@ -210,6 +233,131 @@ public class LoocUpDetailsActivity extends BaseFragmentActivity implements Servi
         switch (v.getId()) {
             case R.id.iv_back :
                 finish();
+                break;
+            case R.id.btn_accept:
+                mCancelDialog = new ProjectCancelDialog(this, new ICancelListener() {
+                    @Override
+                    public void cancelClick(int id, Context context) {
+                        switch (id) {
+                            case R.id.dialog_btn_sure:
+                                if(mLoadingDialog == null) {
+                                    mLoadingDialog = new LoadingDialog(LoocUpDetailsActivity.this);
+                                    mLoadingDialog.setMessage("请求中...");
+                                }
+                                mLoadingDialog.show();
+                                AcceptChangeProjectQuoteItemRequest request = new AcceptChangeProjectQuoteItemRequest();
+                                request.setProjectId(projectId);
+                                for (int i = 0;i<items.size();i++){
+                                    QuoteItemBean itemBean = items.get(i);
+                                    int status = itemBean.getStatus();
+                                    if(status == 0) {
+                                        int itemBeanId = itemBean.getId();
+                                        acceptItemIds.add(itemBeanId);
+                                    }
+                                }
+                                if(acceptItemIds.size()>0) {
+                                    request.setItemIds(acceptItemIds);
+                                }
+                                ServiceClient.requestServer(LoocUpDetailsActivity.this, "请求中...", request, AcceptChangeProjectQuoteItemRequest.AcceptChangeProjectQuoteItemResponse.class,
+                                        new ServiceClient.OnSimpleActionListener<AcceptChangeProjectQuoteItemRequest.AcceptChangeProjectQuoteItemResponse>() {
+                                            @Override
+                                            public void onSuccess(AcceptChangeProjectQuoteItemRequest.AcceptChangeProjectQuoteItemResponse responseDto) {
+                                                if(mLoadingDialog!=null) {
+                                                    mLoadingDialog.dismiss();
+                                                }
+                                                if(responseDto.getIsSuccessful()) {
+                                                    if(items.size()>0) {
+                                                        items.clear();
+                                                    }
+                                                    initQuoteDetails(quoteId);
+                                                    btn_accept.setBackgroundDrawable(getResources().getDrawable(R.drawable.register_text_border_on));
+                                                    btn_accept.setPadding(0,12,0,12);
+                                                    btn_refuse.setBackgroundDrawable(getResources().getDrawable(R.drawable.register_text_border_on));
+                                                    btn_refuse.setPadding(0,12,0,12);
+                                                    btn_accept.setClickable(false);
+                                                    btn_refuse.setClickable(false);
+                                                    ToastUtils.showShortToast(LoocUpDetailsActivity.this,"接受估价项成功!");
+                                                }else{
+                                                    ToastUtils.showShortToast(LoocUpDetailsActivity.this,"接受估价项失败,请稍后再试!");
+                                                }
+                                            }
+
+                                            @Override
+                                            public boolean onFailure(String errorMessage) {
+                                                if (mLoadingDialog != null) {
+                                                    mLoadingDialog.dismiss();
+                                                }
+                                                ToastUtils.showShortToast(LoocUpDetailsActivity.this,"接受估价项失败,请稍后再试!");
+                                                return false;
+                                            }
+                                        });
+                                break;
+                        }
+                    }
+                }, "接受估价项修改", "您是否接受估价项修改?");
+                mCancelDialog.show();
+                break;
+            case R.id.btn_refuse:
+                mCancelDialog = new ProjectCancelDialog(this, new ICancelListener() {
+                    @Override
+                    public void cancelClick(int id, Context context) {
+                        switch (id) {
+                            case R.id.dialog_btn_sure :
+                                if(mLoadingDialog == null) {
+                                    mLoadingDialog = new LoadingDialog(LoocUpDetailsActivity.this);
+                                    mLoadingDialog.setMessage("请求中...");
+                                }
+                                RejectProjectQuoteItemsRequest request = new RejectProjectQuoteItemsRequest();
+                                request.setProjectId(projectId);
+                                for (int i = 0;i<items.size();i++){
+                                    QuoteItemBean itemBean = items.get(i);
+                                    int status = itemBean.getStatus();
+                                    if(status == 0) {
+                                        int itemBeanId = itemBean.getId();
+                                        rejectItemIds.add(itemBeanId);
+                                    }
+                                }
+                                if(rejectItemIds.size()>0) {
+                                    request.setItemIds(rejectItemIds);
+                                }
+                                ServiceClient.requestServer(LoocUpDetailsActivity.this, "请求中...", request, RejectProjectQuoteItemsRequest.RejectProjectQuoteItemsResponse.class,
+                                        new ServiceClient.OnSimpleActionListener<RejectProjectQuoteItemsRequest.RejectProjectQuoteItemsResponse>() {
+                                            @Override
+                                            public void onSuccess(RejectProjectQuoteItemsRequest.RejectProjectQuoteItemsResponse responseDto) {
+                                                if(mLoadingDialog!=null) {
+                                                    mLoadingDialog.dismiss();
+                                                }
+                                                if (responseDto.getIsSuccessful()) {
+                                                    if(items.size()>0) {
+                                                        items.clear();
+                                                    }
+                                                    initQuoteDetails(quoteId);
+                                                    btn_accept.setBackgroundDrawable(getResources().getDrawable(R.drawable.register_text_border_on));
+                                                    btn_accept.setPadding(0,12,0,12);
+                                                    btn_refuse.setBackgroundDrawable(getResources().getDrawable(R.drawable.register_text_border_on));
+                                                    btn_refuse.setPadding(0,12,0,12);
+                                                    btn_accept.setClickable(false);
+                                                    btn_refuse.setClickable(false);
+                                                    ToastUtils.showShortToast(LoocUpDetailsActivity.this, "拒绝估价项成功!");
+                                                } else {
+                                                    ToastUtils.showShortToast(LoocUpDetailsActivity.this, "拒绝估价项失败,请稍后再试!");
+                                                }
+                                            }
+
+                                            @Override
+                                            public boolean onFailure(String errorMessage) {
+                                                if(mLoadingDialog!=null) {
+                                                    mLoadingDialog.dismiss();
+                                                }
+                                                ToastUtils.showShortToast(LoocUpDetailsActivity.this, "拒绝估价项失败,请稍后再试!");
+                                                return false;
+                                            }
+                                        });
+                                break;
+                        }
+                    }
+                },"拒绝股价项修改","您是否拒绝股价项修改?");
+                mCancelDialog.show();
                 break;
         }
     }

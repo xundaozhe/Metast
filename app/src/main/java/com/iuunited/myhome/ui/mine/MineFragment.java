@@ -1,6 +1,7 @@
 package com.iuunited.myhome.ui.mine;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import com.iuunited.myhome.R;
 import com.iuunited.myhome.base.BaseFragments;
 import com.iuunited.myhome.base.MyApplication;
 import com.iuunited.myhome.entity.Config;
+import com.iuunited.myhome.task.ICancelListener;
 import com.iuunited.myhome.ui.StartActivity;
 import com.iuunited.myhome.util.DefaultShared;
 import com.iuunited.myhome.util.IntentUtil;
@@ -44,8 +46,6 @@ public class MineFragment extends BaseFragments implements View.OnClickListener 
     private String userType;
 
     private String typeMessage;
-
-    private ProjectCancelDialog mCancelDialog;
 
     @Nullable
     @Override
@@ -136,22 +136,32 @@ public class MineFragment extends BaseFragments implements View.OnClickListener 
 //                }
                 break;
             case R.id.rl_dropout_app:
-                AlertDialog dialog = new AlertDialog.Builder(getActivity()).setTitle("退出登录")
-                        .setMessage("确定退出当前登录?").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+//                AlertDialog dialog = new AlertDialog.Builder(getActivity()).setTitle("退出登录")
+//                        .setMessage("确定退出当前登录?").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                DefaultShared.clear(MyApplication.getContext());
+//                                IntentUtil.startActivityAndFinish(getActivity(), StartActivity.class);
+//                            }
+//                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        }).create();
+//                dialog.show();
+                ProjectCancelDialog cancelDialog = new ProjectCancelDialog(getActivity(), new ICancelListener() {
+                    @Override
+                    public void cancelClick(int id, Context context) {
+                        switch (id) {
+                            case R.id.dialog_btn_sure :
                                 DefaultShared.clear(MyApplication.getContext());
                                 IntentUtil.startActivityAndFinish(getActivity(), StartActivity.class);
-                            }
-                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).create();
-                dialog.show();
-
-
+                                break;
+                        }
+                    }
+                },"退出登录","确定要退出当前登录吗?");
+                cancelDialog.show();
                 break;
         }
     }

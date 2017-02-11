@@ -72,6 +72,20 @@ public class DetailsItemAdapter extends BaseAdapter {
         if(subTotal!=0.0) {
             holder.tv_price.setText("$"+subTotal);
         }
+        int status = bean.getStatus();
+       switch (status) {
+           case 0 :
+               holder.tv_states.setText("(待接受)");
+               break;
+           case 1:
+               holder.tv_states.setText("");
+               break;
+           case 2:
+               int my_location_ring = R.color.light_black;
+               holder.tv_states.setTextColor(my_location_ring);
+               holder.tv_states.setText("(已拒绝)");
+               break;
+       }
         return convertView;
     }
 

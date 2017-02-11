@@ -5,7 +5,7 @@
               android:layout_height="match_parent"
     android:background="#ffffff">
     <include layout="@layout/comment_banner_top"/>
-    <com.iuunited.myhome.view.FlexiScrollView
+    <com.iuunited.myhome.view.ReboundScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
@@ -58,7 +58,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="8dp">
         <Button
-            android:id="@+id/btn_"
+            android:id="@+id/btn_accept"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -71,7 +71,7 @@
             android:paddingTop="6dp"
             android:paddingBottom="6dp"/>
         <Button
-            android:id="@+id/btn_next_one"
+            android:id="@+id/btn_refuse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -207,6 +207,9 @@
                 android:textSize="16sp"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="22dp"/>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"/>
         </LinearLayout>
-    </com.iuunited.myhome.view.FlexiScrollView>
+    </com.iuunited.myhome.view.ReboundScrollView>
 </LinearLayout>
