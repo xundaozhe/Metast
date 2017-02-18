@@ -1,5 +1,8 @@
 package com.iuunited.myhome.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author xundaozhe
  * @version $Rev$

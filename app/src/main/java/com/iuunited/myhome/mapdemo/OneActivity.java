@@ -19,17 +19,26 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.iuunited.myhome.Manifest;
 import com.iuunited.myhome.R;
 import com.iuunited.myhome.adapter.MapListAdapter;
 import com.iuunited.myhome.base.BaseFragmentActivity;
 import com.iuunited.myhome.bean.MapPoiBean;
+import com.iuunited.myhome.entity.Config;
+import com.iuunited.myhome.event.UserMarkerAddressEvent;
+import com.iuunited.myhome.ui.home.ProListActivity;
+import com.iuunited.myhome.util.DefaultShared;
+import com.iuunited.myhome.util.IntentUtil;
 import com.iuunited.myhome.util.PermissionUtils;
+import com.iuunited.myhome.util.TextUtils;
 import com.iuunited.myhome.util.ToastUtils;
 import com.mapbox.mapboxsdk.annotations.Icon;
 import com.mapbox.mapboxsdk.annotations.IconFactory;
@@ -53,6 +62,8 @@ import com.mapbox.services.geocoding.v5.MapboxGeocoding;
 import com.mapbox.services.geocoding.v5.models.CarmenFeature;
 import com.mapbox.services.geocoding.v5.models.GeocodingResponse;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +71,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OneActivity extends BaseFragmentActivity implements OnMapReadyCallback, GeocoderAutoCompleteView.OnFeatureListener, View.OnTouchListener, MapboxMap.OnCameraChangeListener{
+public class OneActivity extends BaseFragmentActivity implements OnMapReadyCallback, GeocoderAutoCompleteView.OnFeatureListener, View.OnTouchListener, MapboxMap.OnCameraChangeListener, AdapterView.OnItemClickListener {
     private MapView mapView;
     private LocationManager locationMannger;
 
@@ -88,6 +99,9 @@ public class OneActivity extends BaseFragmentActivity implements OnMapReadyCallb
     private ListView mapListview;
     private List<MapPoiBean> mDatas = new ArrayList<>();
     private MapListAdapter mAdapter;
+    private RelativeLayout iv_back;
+    private TextView tv_list;
+    private String userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,8 +136,20 @@ public class OneActivity extends BaseFragmentActivity implements OnMapReadyCallb
         hoveringMarker.setLayoutParams(params);
         mapView.addView(hoveringMarker);
 
+        userType = DefaultShared.getStringValue(this, Config.CONFIG_USERTYPE,"");
+
         selectLocationButton = (Button) findViewById(R.id.select_location_button);
         mapListview = (ListView) findViewById(R.id.map_lv);
+        iv_back = (RelativeLayout) findViewById(R.id.iv_back);
+        iv_back.setOnClickListener(this);
+        tv_list = (TextView) findViewById(R.id.tv_list);
+        if(!TextUtils.isEmpty(userType)) {
+            if(userType.equals("1")) {
+                tv_list.setVisibility(View.GONE);
+            }
+        }
+        tv_list.setOnClickListener(this);
+        mapListview.setOnItemClickListener(this);
     }
 
 
@@ -308,11 +334,11 @@ public class OneActivity extends BaseFragmentActivity implements OnMapReadyCallb
 
     private void toggleGps(boolean enableGps) {
         if(enableGps) {
-            if(locationServices.areLocationPermissionsGranted()) {
+            if (locationServices.areLocationPermissionsGranted()) {
                 ActivityCompat.requestPermissions(this, new String[]{
                         android.Manifest.permission.ACCESS_COARSE_LOCATION,
                         android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_LOCATION);
-            }else{
+            } else {
                 enableLocation(true);
             }
         }
@@ -384,15 +410,22 @@ public class OneActivity extends BaseFragmentActivity implements OnMapReadyCallb
                 toggleGps(true);
                 mapListview.setVisibility(View.INVISIBLE);
                 break;
+            case R.id.iv_back:
+                finish();
+                break;
+            case R.id.tv_list:
+                Bundle bundle = new Bundle();
+                bundle.putDouble("lat", lat);
+                bundle.putDouble("lon", lon);
+                IntentUtil.startActivity(this,ProListActivity.class,bundle);
+                break;
         }
     }
 
     private void cleanDropMarker(){
         if(touchAction == 1) {
             if(droppedMarker!=null) {
-
                 map.removeMarker(droppedMarker);
-
                 // Switch the button apperance back to select a location.
                 selectLocationButton.setBackgroundColor(
                         ContextCompat.getColor(OneActivity.this, R.color.colorPrimary));
@@ -487,4 +520,16 @@ public class OneActivity extends BaseFragmentActivity implements OnMapReadyCallb
     }
 
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if(!TextUtils.isEmpty(userType)) {
+            if(userType.equals("1")) {
+                MapPoiBean mapPoiBean = mDatas.get(position);
+                String address = mapPoiBean.getAddress();
+                String placeName = mapPoiBean.getPlaceName();
+                EventBus.getDefault().post(new UserMarkerAddressEvent(address+"("+placeName+")"));
+                OneActivity.this.finish();
+            }
+        }
+    }
 }

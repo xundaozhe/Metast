@@ -218,7 +218,8 @@ public class ProjectOneActivity extends BaseFragmentActivity implements TextWatc
 //                EventBus.getDefault().post(new ChangeProjectFmEvent(1));
                 break;
             case R.id.btn_select_map:
-                IntentUtil.startActivity(this,MapActivity.class);
+//                IntentUtil.startActivity(this,MapActivity.class);
+                IntentUtil.startActivity(this,OneActivity.class);
                 break;
             case R.id.tv_project_name:
                 IntentUtil.startActivity(this,SearchQuestionActivity.class);

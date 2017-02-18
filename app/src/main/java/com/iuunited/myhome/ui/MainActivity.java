@@ -99,7 +99,7 @@ public class MainActivity extends BaseFragmentActivity {
             @Override
             public void onClick(View v) {
                 HeaderFragment headerFragment = new HeaderFragment();
-                headerFragment.show(getSupportFragmentManager(),"fragmentDialog");
+                headerFragment.show(getSupportFragmentManager(), "fragmentDialog");
             }
         });
 //        onclick();

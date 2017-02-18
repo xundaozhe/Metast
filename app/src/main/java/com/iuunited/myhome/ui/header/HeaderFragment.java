@@ -75,7 +75,6 @@ public class HeaderFragment extends DialogFragment {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
         return dialog;
     }
 
@@ -98,6 +97,8 @@ public class HeaderFragment extends DialogFragment {
                 getActivity().getWindow().setAttributes(params);
             }
         });
+
+
     }
 
     private void initView(View view) {

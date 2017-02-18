@@ -1,8 +1,6 @@
 package com.iuunited.myhome.ui.mine;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -84,7 +82,7 @@ public class MineFragment extends BaseFragments implements View.OnClickListener 
 
     private void onclick() {
         if(!TextUtils.isEmpty(typeMessage)) {
-            if(typeMessage.equals("message")) {
+            if (typeMessage.equals("message")) {
 
             }
         }
@@ -156,6 +154,7 @@ public class MineFragment extends BaseFragments implements View.OnClickListener 
                         switch (id) {
                             case R.id.dialog_btn_sure :
                                 DefaultShared.clear(MyApplication.getContext());
+                                DefaultShared.putBooleanValue(getActivity(),Config.ISFIRST,true);
                                 IntentUtil.startActivityAndFinish(getActivity(), StartActivity.class);
                                 break;
                         }

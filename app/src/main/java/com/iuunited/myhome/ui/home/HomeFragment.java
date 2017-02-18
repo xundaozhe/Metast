@@ -148,6 +148,7 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
 
     private void initData() {
         iv_back.setVisibility(View.GONE);
+        iv_share.setVisibility(View.VISIBLE);
         iv_share.setOnClickListener(this);
         if(userType.equals("1")) {
             iv_release_project.setImageResource(R.drawable.release_project);
@@ -318,12 +319,19 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
 //                    IntentUtil.startActivity(getActivity(),ReleaseProjectActivity.class);
                     IntentUtil.startActivity(getActivity(),ProjectOneActivity.class);
                 }else if(userType.equals("2")) {
-                    IntentUtil.startActivity(getActivity(),MapActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putDouble("lat", lat);
+                    bundle.putDouble("lon", lon);
+                    IntentUtil.startActivity(getActivity(),OneActivity.class,bundle);
+//                    IntentUtil.startActivity(getActivity(),MapActivity.class);
                 }
                 break;
             case R.id.iv_share:
 //                IntentUtil.startActivity(getActivity(),GaoDeMapActivity.class);
-                IntentUtil.startActivity(getActivity(),OneActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putDouble("lat", lat);
+                bundle.putDouble("lon", lon);
+                IntentUtil.startActivity(getActivity(),OneActivity.class,bundle);
                 break;
         }
     }
