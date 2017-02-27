@@ -55,7 +55,6 @@ import java.util.Date;
 import java.util.List;
 
 import static com.iuunited.myhome.R.id.view;
-import static com.umeng.socialize.utils.BitmapUtils.init;
 
 /**
  * @author xundaozhe

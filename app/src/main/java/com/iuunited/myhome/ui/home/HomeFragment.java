@@ -43,11 +43,6 @@ import com.iuunited.myhome.util.ToastUtils;
 import com.iuunited.myhome.view.FlexiListView;
 import com.iuunited.myhome.view.LoadingDialog;
 import com.iuunited.myhome.view.MyListView;
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.UMAuthListener;
-import com.umeng.socialize.UMShareAPI;
-import com.umeng.socialize.UMShareListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -59,8 +54,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+
 import static com.iuunited.myhome.base.MyApplication.userType;
-import static com.umeng.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * @author xundaozhe
@@ -100,6 +97,7 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        ShareSDK.initSDK(getActivity());
     }
 
     @Nullable
@@ -328,12 +326,38 @@ public class HomeFragment extends BaseFragments implements View.OnClickListener,
                 break;
             case R.id.iv_share:
 //                IntentUtil.startActivity(getActivity(),GaoDeMapActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putDouble("lat", lat);
-                bundle.putDouble("lon", lon);
-                IntentUtil.startActivity(getActivity(),OneActivity.class,bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putDouble("lat", lat);
+//                bundle.putDouble("lon", lon);
+//                IntentUtil.startActivity(getActivity(),OneActivity.class,bundle);
+                showShare();
                 break;
         }
+    }
+
+    private void showShare() {
+        OnekeyShare oks = new OnekeyShare();
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+        oks.setTitle("标题");
+        // titleUrl是标题的网络链接，QQ和QQ空间等使用
+        oks.setTitleUrl("http://sharesdk.cn");
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText("我是分享文本");
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        oks.setImageUrl("https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png");//确保SDcard下面存在此张图片
+
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl("http://sharesdk.cn");
+        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+        oks.setComment("我是测试评论文本");
+        // site是分享此内容的网站名称，仅在QQ空间使用
+        oks.setSite(getString(R.string.app_name));
+        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+        oks.setSiteUrl("http://sharesdk.cn");
+
+        // 启动分享GUI
+        oks.show(getActivity());
     }
 
     @Override

@@ -8,9 +8,6 @@ import android.support.multidex.MultiDexApplication;
 import com.iuunited.myhome.Helper.ServiceClient;
 import com.iuunited.myhome.ui.home.GaoDeMapActivity;
 import com.iuunited.myhome.util.GDLocationUtil;
-import com.umeng.socialize.Config;
-import com.umeng.socialize.PlatformConfig;
-import com.umeng.socialize.UMShareAPI;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -57,13 +54,6 @@ public class MyApplication extends MultiDexApplication {
         /******* 主线程的id *********/
         mMainThreadId = android.os.Process.myTid();
         ServiceClient.initialize(mContext);
-
-        PlatformConfig.setSinaWeibo("2822873045","3c16108de15d2b91d92fef19452163c5");//友盟分享新浪微博的key
-        /********初始化友盟SDK********/
-        UMShareAPI.get(this);
-        /*******新浪微博的后台回调地址*********/
-        Config.REDIRECT_URL = "http://www.sina.com";
-        Config.DEBUG = true;
 
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);

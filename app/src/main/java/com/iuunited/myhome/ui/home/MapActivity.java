@@ -60,7 +60,6 @@ import java.util.Locale;
 import static android.R.attr.key;
 import static com.iuunited.myhome.R.id.juli;
 import static com.iuunited.myhome.base.BaseFragmentActivity.setColor;
-import static com.umeng.qq.tencent.m.m;
 
 /**
  * @author xundaozhe

@@ -65,36 +65,37 @@ dependencies {
     compile 'com.github.ksoichiro:android-observablescrollview:1.6.0'
     compile 'com.squareup.okhttp3:okhttp:3.4.2'
     compile 'com.qiniu:qiniu-android-sdk:7.2.+'
-    compile files('libs/SocialSDK_facebook.jar')
-    compile files('libs/SocialSDK_QQ_Simplify.jar')
-    compile files('libs/SocialSDK_Sina_Simplify.jar')
-    compile files('libs/SocialSDK_twitter.jar')
-    compile files('libs/SocialSDK_WeChat_Simplify.jar')
-    compile files('libs/umeng_social_api.jar')
-    compile files('libs/umeng_social_net.jar')
-    compile files('libs/umeng_social_shareview.jar')
-    compile files('libs/umeng_shareboard_widget.jar')
     compile 'cn.jiguang:jpush:2.2.0'
     //极光推送需要的依赖
     //compile 'com.google.android.gms:play-services:9.8.0'//集成Google需要添加的依赖
     compile 'com.android.support:multidex:1.0.0'
     //MapBox需要添加的依赖
-//        compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:4.0.0-beta.2@aar'){
+    //        compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:4.0.0-beta.2@aar'){
     compile('com.mapbox.mapboxsdk:mapbox-android-sdk:4.2.0@aar') {
-            transitive=true
-            exclude group: 'com.iuunited.myhome', module: 'mapbox-java-services'
-        }
-        compile ('com.mapbox.mapboxsdk:mapbox-android-services:1.3.1@aar'){
-            transitive=true
-        }
-//    compile('com.mapbox.mapboxsdk:mapbox-android-sdk:4.2.0@aar') {
-//        transitive = true
-//        exclude group: 'com.iuunited.myhome', module: 'mapbox-java-services'
-//    }
-//    compile('com.mapbox.mapboxsdk:mapbox-android-services:2.0.0-SNAPSHOT@aar') {
-//        transitive = true
-//    }
+        transitive = true
+        exclude group: 'com.iuunited.myhome', module: 'mapbox-java-services'
+    }
+    compile('com.mapbox.mapboxsdk:mapbox-android-services:1.3.1@aar') {
+        transitive = true
+    }
+    //    compile('com.mapbox.mapboxsdk:mapbox-android-sdk:4.2.0@aar') {
+    //        transitive = true
+    //        exclude group: 'com.iuunited.myhome', module: 'mapbox-java-services'
+    //    }
+    //    compile('com.mapbox.mapboxsdk:mapbox-android-services:2.0.0-SNAPSHOT@aar') {
+    //        transitive = true
+    //    }
     compile files('libs/badgeview.jar')
     compile 'com.anton46:stepsview:0.0.2'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    compile files('libs/MobCommons-2017.0216.1054.jar')
+    compile files('libs/MobTools-2017.0216.1054.jar')
+    compile files('libs/ShareSDK-Core-2.8.1.jar')
+    compile files('libs/ShareSDK-QQ-2.8.1.jar')
+    compile files('libs/ShareSDK-QZone-2.8.1.jar')
+    compile files('libs/ShareSDK-SinaWeibo-2.8.1.jar')
+    compile files('libs/ShareSDK-Wechat-2.8.1.jar')
+    compile files('libs/ShareSDK-Wechat-Core-2.8.1.jar')
+    compile files('libs/ShareSDK-Wechat-Favorite-2.8.1.jar')
+    compile files('libs/ShareSDK-Wechat-Moments-2.8.1.jar')
 }
