@@ -30,6 +30,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.iuunited.myhome.util.UIUtils.getResources;
+
 /**
  * @author xundaozhe
  * @version $Rev$
